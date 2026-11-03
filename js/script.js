@@ -234,13 +234,12 @@ function barra(x, y, w, h, val, color) {
 const CROPS = [
   { emoji: "🍓", name: "Frutilla", time: 0.35, yield: 1, type: "fruit" },
   { emoji: "🍌", name: "Banana", time: 1.3, yield: 4, type: "fruit" },
-  { emoji: "🍊", name: "Naranja", time: 1.6, yield: 4, type: "fruit" },
+  { emoji: "🍉", name: "Sandía", time: 1.6, yield: 4, type: "fruit" },
   { emoji: "🍎", name: "Manzana", time: 2.0, yield: 5, type: "fruit" },
   { emoji: "🥕", name: "Zanahoria", time: 0.65, yield: 2, type: "veggie" },
   { emoji: "🫑", name: "Pimiento", time: 0.6, yield: 2, type: "veggie" },
-  { emoji: "🧅", name: "Cebolla", time: 0.7, yield: 2, type: "veggie" },
-  { emoji: "🎃", name: "Calabaza", time: 0.9, yield: 3, type: "veggie" },
-  { emoji: "🌽", name: "Maíz", time: 1.0, yield: 3, type: "cereal" },
+  { emoji: "🫜", name: "Remolacha", time: 0.7, yield: 2, type: "veggie" },
+  { emoji: "🍠", name: "Batata", time: 0.9, yield: 3, type: "veggie" },  { emoji: "🌽", name: "Maíz", time: 1.0, yield: 3, type: "cereal" },
   { emoji: "🌾", name: "Trigo", time: 0.8, yield: 3, type: "cereal" },
   { emoji: "🌿", name: "Hierbas", time: 0.4, yield: 2, type: "forraje" },
 ];
@@ -248,13 +247,13 @@ const SEED_PRICES = {
   Frutilla: 10,
   Zanahoria: 15,
   Pimiento: 15,
-  Cebolla: 14,
-  Calabaza: 18,
+  Remolacha: 14,
+  Batata: 18,
   Maíz: 22,
   Trigo: 20,
   Hierbas: 12,
   Banana: 30,
-  Naranja: 38,
+  Sandia: 38,
   Manzana: 50,
 };
 
@@ -292,11 +291,11 @@ const state = {
     Zanahoria: 3,
     Maíz: 2,
     Banana: 1,
-    Naranja: 1,
+    Sandia: 1,
     Manzana: 0,
     Pimiento: 2,
-    Cebolla: 2,
-    Calabaza: 1,
+    Remolacha: 2,
+    Batata: 1,
     Trigo: 2,
     Hierbas: 2,
   },
@@ -412,8 +411,8 @@ const state = {
 };
 
 const SLOT_OFFSETS = [-100, 0, 100];
-const FRUIT_SLOTS = ["🍓", "🍊", "🍎"];
-const VEGGIE_SLOTS = ["🥕", "🫑", "🎃"];
+const FRUIT_SLOTS = ["🍓", "🍉", "🍎"];
+const VEGGIE_SLOTS = ["🥕", "🫜", "🍠"];
 const MATERIAL_SLOTS = ["📦", "🧴", "🫙"];
 
 const BASURA = [
