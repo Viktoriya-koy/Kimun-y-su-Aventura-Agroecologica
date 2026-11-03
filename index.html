@@ -1,0 +1,491 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#1e1e2e" />
+    <meta
+      name="description"
+      content="Juego educativo sobre agroecología, reciclaje y circuitos productivos."
+    />
+    <link rel="icon" href="data:," />
+    <title>Granja Viva - Juana Koslay</title>
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body class="light-theme">
+    <div id="toast-container"></div>
+
+    <!-- PANTALLA DE INICIO -->
+    <div id="start-screen">
+      <h1>🌻 ¡Te damos la bienvenida!</h1>
+      <div class="start-tabs">
+        <button class="start-tab active" onclick="switchStartTab(0)">
+          🌻 La Granja Viva
+        </button>
+        <button class="start-tab" onclick="switchStartTab(1)">
+          🏭 Circuito Productivo
+        </button>
+      </div>
+      <div class="start-content active" id="start-tab-0">
+        <p>
+          ¡Bienvenidos a la granja educativa! Acá vas a aprender cómo funciona
+          un ecosistema real: cuidando animales, cultivando alimentos,
+          reciclando y protegiendo a los insectos benéficos.
+        </p>
+        <div class="sectors-grid">
+          <div class="sector-card">
+            <h3>🐴 Corral</h3>
+            <p>
+              Cuidá a los animales dándoles comida, agua y cepillándolos. ¡No te
+              olvides de juntar el estiércol para el compost!
+            </p>
+          </div>
+          <div class="sector-card">
+            <h3>🥕 Huerta</h3>
+            <p>
+              Cosechá <b>frutas</b> 🍎, <b>verduras</b> 🥕 y <b>cereales</b> 🌾.
+              Cada uno tiene su uso: mermeladas, conservas, harina y alimento
+              para el corral.
+            </p>
+          </div>
+          <div class="sector-card">
+            <h3>♻️ Reciclaje</h3>
+            <p>
+              Separá los residuos correctamente. ¡Ojo con las pilas y celulares
+              viejos, son residuos tecnológicos!
+            </p>
+          </div>
+          <div class="sector-card">
+            <h3>🪲 Polinizadores y Lombrices</h3>
+            <p>
+              Ayudá a los insectos a polinizar las flores. Y alimentá a las
+              lombrices con restos orgánicos para conseguir humus.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="start-content" id="start-tab-1">
+        <p>
+          En el <b>Circuito Productivo</b> transformás lo que juntás en la
+          granja y lo vendés en el mercado. ¡Sin apuro! Los clientes esperan a
+          que estés listo.
+        </p>
+        <div class="sectors-grid">
+          <div class="sector-card">
+            <h3>🧶 Telar</h3>
+            <p>
+              Hacé click en la rueda para hilar la lana. Con 5 clicks hacés un
+              hilo, con 2 hilos tejés un abrigo.
+            </p>
+          </div>
+          <div class="sector-card">
+            <h3>🍯 Procesados</h3>
+            <p>
+              Cortá frutas 🍎 para hacer <b>mermeladas</b>, verduras 🥕 para
+              <b>conservas</b> y cereales 🌾 para moler <b>harina</b>.
+            </p>
+          </div>
+          <div class="sector-card">
+            <h3>🎨 Reciclaje Creativo</h3>
+            <p>
+              Usá 3 materiales reciclados con clicks para crear una manualidad
+              única.
+            </p>
+          </div>
+          <div class="sector-card">
+            <h3>🏪 Mercado</h3>
+            <p>
+              Los clientes vienen solos a comprar lo que producís. Servilos
+              cuando quieras y ganá monedas para comprar más semillas.
+            </p>
+          </div>
+        </div>
+      </div>
+      <button class="btn-start" onclick="startGame()">
+        ¡Empezar a Jugar! 🚀
+      </button>
+    </div>
+
+    <!-- MODAL ACERCA DE -->
+    <div
+      id="about-modal"
+      class="modal-overlay"
+      onclick="if (event.target === this) this.style.display = 'none';"
+    >
+      <div class="modal-content">
+        <button
+          class="btn-close"
+          onclick="document.getElementById('about-modal').style.display = 'none'"
+        >
+          Cerrar ✖
+        </button>
+        <div class="tabs-container">
+          <button class="tab-btn active" onclick="switchAboutTab(0)">
+            📚 Para Docentes
+          </button>
+          <button class="tab-btn" onclick="switchAboutTab(1)">
+            🌱 La Granja Real
+          </button>
+          <button class="tab-btn" onclick="switchAboutTab(2)">
+            🏭 Circuito Productivo
+          </button>
+        </div>
+
+        <!-- TAB 1: PARA DOCENTES -->
+        <div id="tab-content-0" class="tab-content active">
+          <h2>📚 Acerca de Granja Viva (para docentes)</h2>
+          <p>
+            <b>Granja Viva</b> es un simulador educativo digital, accesible
+            desde el navegador, diseñado para niños y niñas de 6 a 12 años e
+            inspirado en la granja agroecológica de Av. Pringles S/N°, Ciudad de
+            Juana Koslay, San Luis. Su propósito es complementar la visita
+            física al predio con una experiencia lúdica que refuerza los
+            contenidos del recorrido: a través de cinco espacios interconectados
+            —el corral, la huerta, el reciclaje, la polinización y el circuito
+            productivo—, los chicos y chicas cuidan animales, cultivan
+            alimentos, clasifican residuos, producen abono con lombrices
+            y transforman lo producido en nuevos productos, aprendiendo
+            que cada acción tiene consecuencias dentro del ecosistema.
+          </p>
+
+          <h3>Objetivos de Aprendizaje</h3>
+          <p>
+            Al finalizar la experiencia, se espera que los chicos y chicas
+            puedan:
+          </p>
+          <ul>
+            <li>
+              <b>Comprender el ciclo de nutrientes:</b> explicar cómo el
+              estiércol de los animales y los residuos orgánicos se transforman
+              en compost, y cómo las lombices en la lombricompostera producen humus, ambos abonos que
+              alimentan la huerta y cierran el ciclo de la materia.
+            </li>
+            <li>
+              <b>Reconocer el bienestar animal y los recursos renovables:</b>
+              identificar las necesidades de los animales del corral (alimento,
+              agua, higiene) y entender que la lana puede obtenerse
+              periódicamente sin dañarlos.
+            </li>
+            <li>
+              <b>Valorar la soberanía alimentaria:</b> fundamentar por qué es
+              importante guardar semillas de la propia cosecha para las próximas
+              siembras.
+            </li>
+            <li>
+              <b>Gestionar los residuos en origen:</b> clasificar residuos en
+              orgánico, plástico, papel, vidrio y tecnología, y explicar por qué
+              pilas y celulares requieren un tratamiento especial.
+            </li>
+            <li>
+              <b>Comprender el rol de las lombrices y la lombricompostera:</b> identificar
+               a las lombrices como descomponedoras que transforman los restos
+               en humus, y explicar por qué ese humus es un abono fértil
+               que devuelve nutrientes a la huerta, cerrando el ciclo de la materia.
+            </li>
+            <li>
+              <b>Comprender el circuito productivo y el valor agregado:</b>
+              explicar cómo una materia prima (lana, frutas, verduras, cereales,
+              materiales reciclables) se transforma en un producto elaborado,
+              reconociendo que cada eslabón agrega valor.
+            </li>
+            <li>
+              <b>Planificar y tomar decisiones estratégicas:</b> elegir qué
+              cultivar según el tiempo de crecimiento y el rendimiento, decidir
+              qué transformar o vender, y reinvertir las monedas obtenidas en
+              nuevas semillas.
+            </li>
+          </ul>
+
+          <h3>Consejos para el Aula</h3>
+          <p>
+            Recomendamos jugar en parejas o tríos para fomentar el diálogo y la
+            argumentación. El mercado avanza sin apuro —los clientes llegan
+            solos—, lo que permite jugar sin presión de tiempo y acompañar
+            distintos ritmos de aprendizaje. Preguntas guía:
+            <i
+              >¿Qué pasa si no limpiamos el corral? ¿De dónde sale el compost
+              que usa la huerta? ¿Qué diferencia hay entre el compost y el humus
+              de la lombricompostera? ¿Por qué las manzanas tardan más que las
+              frutillas? ¿Dónde va una pila usada y por qué?
+              ¿Qué pasa con la lana si no la tejemos? ¿Conviene vender la fruta
+              fresca o hacer mermelada? ¿En qué conviene gastar las monedas que
+              ganamos?</i
+            >
+          </p>
+        </div>
+
+        <!-- TAB 2: LA GRANJA REAL -->
+        <div id="tab-content-1" class="tab-content">
+          <h2>🌱 La granja real: Juana Koslay, San Luis</h2>
+          <p>
+            <b>Granja Viva</b> se inspira en una granja educativa real de 3
+            hectáreas, ubicada en Av. Pringles S/N°, Ciudad de Juana Koslay, San
+            Luis, diseñada bajo un enfoque sostenible y agroecológico. Su
+            objetivo es promover el aprendizaje práctico, la soberanía
+            alimentaria, el trabajo en equipo y la conciencia ambiental a través
+            de visitas guiadas y de la articulación con instituciones
+            educativas.
+          </p>
+
+          <h3>Sectores y actividades del predio</h3>
+          <ul>
+            <li>
+              <b>Huerta agroecológica:</b> espacios de cultivo, cosecha de
+              vegetales y prácticas de siembra directa.
+            </li>
+            <li>
+              <b>Compostaje y lombricompostaje:</b> módulos demostrativos para
+              la elaboración de abonos orgánicos y humus.
+            </li>
+            <li>
+              <b>Producción animal:</b> caballos, ovejas, cabras, aves (como
+              crías de gansos) y una llama incorporada recientemente a los
+              recorridos educativos.
+            </li>
+            <li>
+              <b>Producción vegetal:</b> sectores de plantas aromáticas, cultivo
+              de rosas y sistemas de riego eficiente.
+            </li>
+            <li>
+              <b>Visitas guiadas:</b> recorridos gratuitos orientados a
+              escuelas, centros de día y organizaciones comunitarias.
+            </li>
+          </ul>
+
+          <h3>Del predio a la pantalla</h3>
+          <p>
+            El juego retoma algunos de estos sectores y los traduce en
+            mecánicas: el corral, la huerta, el reciclaje, la lombricompostera y la
+            polinización. El circuito productivo es un espacio propio del juego:
+            muestra qué ocurre con lo producido y cómo se reinvierte lo
+            obtenido. La visita a la granja sigue siendo la experiencia directa,
+            y el juego funciona como antesala o como cierre de esa visita.
+          </p>
+        </div>
+
+        <!-- TAB 3: CIRCUITO PRODUCTIVO -->
+        <div id="tab-content-2" class="tab-content">
+          <h2>🏭 El Circuito Productivo</h2>
+          <p>
+            El Circuito Productivo es el espacio donde lo que se produce en la
+            granja se transforma y se pone en valor. La lana se convierte en
+            hilo y luego en tejido; las frutas, verduras y cereales se procesan
+            en mermeladas, conservas y harina; los materiales reciclables se
+            transforman en manualidades; y lo producido se ofrece en el mercado
+            local. A lo largo del recorrido, los chicos y chicas deciden qué
+            transformar, qué vender y cuánto reinvertir, y descubren que cada
+            eslabón agrega valor y que lo obtenido puede volver a la granja como
+            nuevas semillas.
+          </p>
+
+          <p>
+            El mercado avanza sin apuro —los clientes llegan solos—, lo que
+            permite jugar sin presión de tiempo y acompañar distintos ritmos de
+            aprendizaje. El circuito también propone metas de largo plazo que
+            invitan a planificar y a sostener decisiones en el tiempo.
+          </p>
+
+          <h3>
+            Al recorrer el circuito, se espera que los chicos y chicas puedan:
+          </h3>
+          <ul>
+            <li>
+              <b>Reconocer el valor agregado:</b> explicar cómo una materia
+              prima se transforma en un producto elaborado y por qué eso le da
+              más valor.
+            </li>
+            <li>
+              <b>Planificar y reinvertir:</b> decidir qué transformar, qué
+              vender y en qué gastar las monedas, entendiendo que la reinversión
+              en semillas permite seguir produciendo.
+            </li>
+            <li>
+              <b>Cerrar el ciclo:</b> relacionar el circuito con la huerta y el
+              reciclaje, reconociendo que los materiales pueden volver al
+              sistema como nuevos productos o insumos.
+            </li>
+            <li>
+              <b>Sostener metas a largo plazo:</b> organizar sus decisiones en
+              función de objetivos que se alcanzan con el tiempo, y no solo de
+              resultados inmediatos.
+            </li>
+          </ul>
+
+          <h3>Consejos para el Aula</h3>
+          <p>
+            El circuito funciona bien como cierre de la experiencia, después de
+            haber producido lana, frutas y verduras. Preguntas guía:
+            <i
+              >¿Qué pasa con la lana si no la tejemos? ¿Conviene vender la fruta
+              fresca o hacer mermelada? ¿Qué materiales usamos para la
+              manualidad y de dónde salieron? ¿En qué conviene gastar las
+              monedas? ¿Qué te gustaría lograr más adelante y qué decisiones
+              tomarías para conseguirlo?</i
+            >
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL DE ACCESIBILIDAD Y AJUSTES -->
+    <div
+      id="access-modal"
+      class="modal-overlay"
+      onclick="if (event.target === this) this.style.display = 'none';"
+    >
+      <div class="modal-content" style="max-width: 620px">
+        <button
+          class="btn-close"
+          onclick="document.getElementById('access-modal').style.display = 'none'"
+        >
+          Cerrar ✖
+        </button>
+        <h2>⚙️ Ajustes</h2>
+        <p>Personalizá el juego a tu medida.</p>
+        <div class="acc-grid">
+          <button class="acc-btn" onclick="toggleTheme()" id="btn-theme">
+            <span>☀️</span> Tema Claro
+          </button>
+          <button class="acc-btn" onclick="toggleSound()" id="btn-sound">
+            <span>🔊</span> Sonido ON
+          </button>
+          <div class="acc-divider">Accesibilidad</div>
+          <button class="acc-btn" onclick="changeFontSize(1)">
+            <span>🔍</span> Texto más grande (A+)
+          </button>
+          <button class="acc-btn" onclick="changeFontSize(-1)">
+            <span>🔍</span> Texto más chico (A-)
+          </button>
+          <button
+            class="acc-btn"
+            onclick="toggleGrayscale()"
+            id="btn-grayscale"
+          >
+            <span>🎨</span> Escala de Grises
+          </button>
+          <button
+            class="acc-btn"
+            onclick="toggleHighlight()"
+            id="btn-highlight"
+          >
+            <span>✨</span> Resaltar Zonas
+          </button>
+          <button class="acc-btn" onclick="toggleCursor()" id="btn-cursor">
+            <span>🖱️</span> Cursor Grande
+          </button>
+          <button class="acc-btn reset" onclick="resetAccessibility()">
+            <span>🔄</span> Restablecer Ajustes
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL TIENDA DE SEMILLAS -->
+    <div
+      id="shop-modal"
+      class="modal-overlay"
+      onclick="if (event.target === this) this.style.display = 'none';"
+    >
+      <div class="modal-content">
+        <button
+          class="btn-close"
+          onclick="document.getElementById('shop-modal').style.display = 'none'"
+        >
+          Cerrar ✖
+        </button>
+        <h2>🛒 Tienda de Semillas</h2>
+        <p>Comprá semillas con las monedas que ganás en el mercado.</p>
+        <div class="shop-coins">🪙 <span id="shop-coins">0</span></div>
+        <div id="shop-grid"></div>
+      </div>
+    </div>
+
+    <button
+      class="floating-gear"
+      onclick="document.getElementById('access-modal').style.display = 'flex'"
+      title="Ajustes"
+      aria-label="Abrir ajustes"
+    >
+      ⚙️
+    </button>
+
+    <div class="view-tabs">
+      <button
+        class="view-tab active"
+        data-view="farm"
+        onclick="switchView('farm')"
+      >
+        🌾 Granja
+      </button>
+      <button
+        class="view-tab"
+        data-view="workshop"
+        onclick="switchView('workshop')"
+      >
+        🏭 Circuito Productivo
+      </button>
+    </div>
+
+    <div class="top-bar">
+      <div class="stats">
+        <span
+          >🍎 Frutas:
+          <b id="s-frutas" style="color: var(--stat-frutas)">0</b></span
+        >
+        <span
+          >🥕 Verduras:
+          <b id="s-verduras" style="color: var(--stat-verduras)">0</b></span
+        >
+        <span
+          >🌾 Cereales:
+          <b id="s-cereales" style="color: var(--stat-frutas)">0</b></span
+        >
+        <span
+          >🥖 Harina: <b id="s-harina" style="color: var(--accent)">0</b></span
+        >
+        <span
+          >♻️ Compost:
+          <b id="s-compost" style="color: var(--stat-compost)">3</b></span
+        >
+        <span
+          >🪱 Humus:
+          <b id="s-humus" style="color: var(--stat-humus)">0</b></span
+        >
+        <span
+          >🧶 Lana: <b id="s-lana" style="color: var(--stat-lana)">0</b></span
+        >
+        <span
+          >📦 Material:
+          <b id="s-material" style="color: var(--stat-material)">0</b></span
+        >
+        <span
+          >🪙 Monedas:
+          <b id="s-monedas" style="color: var(--stat-monedas)">0</b></span
+        >
+        <span
+          >⭐ Puntos:
+          <b id="s-puntos" style="color: var(--stat-puntos)">0</b></span
+        >
+      </div>
+      <button class="btn-ui" id="btn-shop" onclick="openShop()">
+        🛒 Tienda
+      </button>
+      <button
+        class="btn-ui"
+        onclick="document.getElementById('about-modal').style.display = 'flex'"
+      >
+        📚 Acerca de
+      </button>
+    </div>
+
+    <div class="game-container">
+      <div class="side-panel"></div>
+      <div class="canvas-wrapper">
+        <canvas id="game" width="1000" height="680"></canvas>
+      </div>
+      <div class="side-panel"></div>
+    </div>
+
+    <script src="js/script.js"></script>
+  </body>
+</html>
