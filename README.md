@@ -1,4 +1,4 @@
-# 🌻 Granja Viva
+# 🌻 Kimün y su Aventura Agroecológica
 
 Simulador educativo digital sobre **agroecología, reciclaje y circuitos productivos**, inspirado en una granja agroecológica de Juana Koslay, San Luis.
 
