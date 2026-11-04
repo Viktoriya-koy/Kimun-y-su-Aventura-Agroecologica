@@ -292,7 +292,7 @@ canvas {
   padding: 12px;
   background: transparent;
   border: none;
-  margin-top: 60px;
+  margin-top: 40px;
   margin-bottom: 20px;
 }
 #start-screen {
@@ -551,8 +551,8 @@ canvas {
 }
 .floating-gear {
   position: fixed;
-  bottom: 24px;
-  right: 24px;
+  bottom: 50px;
+  left: 160px;
   width: 58px;
   height: 58px;
   border-radius: 50%;
@@ -569,6 +569,38 @@ canvas {
   transition: 0.25s;
   padding: 0;
 }
+.floating-kimun {
+  position: fixed;
+  bottom: 20%; /* 👈 Lo sube a un tercio de la pantalla */
+  left: 8%;   /* 👈 Lo lleva al espacio entre el panel y el canvas */
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: #e8b923;
+  border: 4px solid #b8951a;
+  font-size: 38px;
+  cursor: pointer;
+  z-index: 300;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.25s;
+  padding: 0;
+  animation: float 3s ease-in-out infinite;
+}
+
+.floating-kimun:hover {
+  background: #f0c534;
+  animation-play-state: paused;
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+  100% { transform: translateY(0px); }
+}
+
 .floating-gear:hover {
   transform: scale(1.08) rotate(45deg);
   border-color: #4caf50;
