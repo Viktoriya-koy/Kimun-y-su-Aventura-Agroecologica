@@ -9,7 +9,7 @@
       content="Juego educativo sobre agroecología, reciclaje y circuitos productivos."
     />
     <link rel="icon" href="data:," />
-<title>Kimun 🦉 - Aventura Agroecológica</title>
+<title>Kimün 🦉 - Aventura Agroecológica</title>
     <link rel="stylesheet" href="css/styles.css" />
   </head>
   <body class="light-theme">
@@ -17,6 +17,7 @@
 
     <!-- PANTALLA DE INICIO -->
     <div id="start-screen">
+      <img src="logo-ministerio-azul.png" alt="Logo Oficial" class="logo-oficial">
       <h1>🌻 ¡Te damos la bienvenida!</h1>
       <div class="start-tabs">
         <button class="start-tab active" onclick="switchStartTab(0)">
@@ -34,7 +35,7 @@
         </p>
         <div class="sectors-grid">
           <div class="sector-card">
-            <h3>🐴 Corral</h3>
+            <h3>🐑Corral</h3>
             <p>
               Cuidá a los animales dándoles comida, agua y cepillándolos. ¡No te
               olvides de juntar el estiércol para el compost!
@@ -134,7 +135,7 @@
         <div id="tab-content-0" class="tab-content active">
           <h2>📚 Acerca del juego (para docentes)</h2>
           <p>
-            <b>Kimun 🦉 - Aventura Agroecológica</b> es un simulador educativo digital, accesible
+            <b>Kimün 🦉 - Aventura Agroecológica</b> es un simulador educativo digital, accesible
             desde el navegador, diseñado para niños y niñas de 6 a 12 años e
             inspirado en la granja agroecológica de Av. Pringles S/N°, Ciudad de
             Juana Koslay, San Luis. Su propósito es complementar la visita
@@ -217,7 +218,7 @@
         <div id="tab-content-1" class="tab-content">
           <h2>🌱 La granja real: Juana Koslay, San Luis</h2>
           <p>
-            <b>Kimun 🦉 - Aventura Agroecológica</b> se inspira en una granja educativa real de 3
+            <b>Kimün 🦉 - Aventura Agroecológica</b> se inspira en una granja educativa real de 3
             hectáreas, ubicada en Av. Pringles S/N°, Ciudad de Juana Koslay, San
             Luis, diseñada bajo un enfoque sostenible y agroecológico. Su
             objetivo es promover el aprendizaje práctico, la soberanía
@@ -378,7 +379,36 @@
         </div>
       </div>
     </div>
+  <!-- MODAL DE KIMÜN -->
+    <div
+      id="kimun-modal"
+      class="modal-overlay"
+      onclick="if (event.target === this) this.style.display = 'none';"
+    >
+      <div class="modal-content" style="max-width: 500px; text-align: center; border-color: #e8b923;">
+        <button
+          class="btn-close"
+          onclick="document.getElementById('kimun-modal').style.display = 'none'"
+        >
+          Cerrar ✖
+        </button>
 
+        <div style="font-size: 70px; margin-bottom: 10px;">🦉</div>
+
+        <h2 style="color: var(--accent); margin-top: 0;">Kimün, la lechuza sabia</h2>
+
+        <div style="background: var(--bg-body); padding: 20px; border-radius: 16px; border: 2px solid var(--panel-border); position: relative; margin-top: 20px;">
+          <p style="font-size: 18px; color: var(--text-main); font-weight: 700; margin: 0;">
+            "¡Mari mari! (¡Hola!) Soy Kimün 🦉, la lechuza sabia. Juntos vamos a aprender a cuidar la naturaleza, proteger a los animales y vivir una gran Aventura Agroecológica."
+          </p>
+        </div>
+
+        <button class="btn-start" style="margin-top: 25px; font-size: 18px; padding: 10px 30px;" onclick="document.getElementById('kimun-modal').style.display = 'none'">
+          ¡Vamos a jugar! 🚀
+        </button>
+      </div>
+    </div>
+    
     <!-- MODAL TIENDA DE SEMILLAS -->
     <div
       id="shop-modal"
@@ -407,7 +437,18 @@
     >
       ⚙️
     </button>
-
+    
+    <!-- Botón de Kimün (Lechuza) -->
+    <button
+      id="btn-kimun"
+      class="floating-kimun"
+      onclick="document.getElementById('kimun-modal').style.display = 'flex'"
+      title="Hablar con Kimun"
+      aria-label="Hablar con Kimun"
+    >
+      🦉
+    </button>
+<img src="logo-ministerio-azul.png" alt="Logo Oficial" class="logo-flotante">
     <div class="view-tabs">
       <button
         class="view-tab active"
@@ -465,6 +506,10 @@
           >⭐ Puntos:
           <b id="s-puntos" style="color: var(--stat-puntos)">0</b></span
         >
+         <span
+          >🥚 Huevos:
+          <b id="s-huevos" style="color: var(--stat-humus)">0</b></span
+        >
       </div>
       <button class="btn-ui" id="btn-shop" onclick="openShop()">
         🛒 Tienda
@@ -475,6 +520,7 @@
       >
         📚 Acerca de
       </button>
+      
     </div>
 
     <div class="game-container">
