@@ -312,9 +312,16 @@ canvas {
   transition: opacity 0.5s;
   overflow-y: auto;
 }
+.logo-oficial {
+  max-height: 180px; /* Ajusta la altura para que no se coma la pantalla */
+  max-width: 80%;
+  object-fit: contain;
+  margin-bottom: 2px; /* Un poquito de aire con el título de abajo */
+  flex-shrink: 0;
+}
 #start-screen h1 {
   font-size: 42px;
-  margin: auto 0 16px 0;
+  margin: 10px 0 16px 0;
   color: var(--highlight);
   text-shadow: 0 4px 10px var(--canvas-shadow);
   flex-shrink: 0;
@@ -551,8 +558,8 @@ canvas {
 }
 .floating-gear {
   position: fixed;
-  bottom: 50px;
-  left: 160px;
+  bottom: 25px;
+  right: 160px;
   width: 58px;
   height: 58px;
   border-radius: 50%;
@@ -593,6 +600,18 @@ canvas {
 .floating-kimun:hover {
   background: #f0c534;
   animation-play-state: paused;
+}
+.logo-flotante {
+  position: fixed;
+  bottom: 40px; 
+  left: 2px;   
+  height: 110px; /* 👈 Cambiá este número (70, 90, 110, 130...) */
+  width: auto;   /* 👈 IMPORTANTE: esto hace que el ancho crezca solo sin deformarse */
+  max-width: 400px; /* 👈 Subí este límite para que no lo frene */
+  object-fit: contain;
+  z-index: 300;
+  pointer-events: none;
+  opacity: 0.95; 
 }
 
 @keyframes float {
@@ -761,3 +780,4 @@ body.light-theme .shop-buy:disabled {
     right: 14px;
   }
 }
+
