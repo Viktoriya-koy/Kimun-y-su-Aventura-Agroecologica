@@ -233,28 +233,29 @@ function barra(x, y, w, h, val, color) {
 
 const CROPS = [
   { emoji: "🍓", name: "Frutilla", time: 0.35, yield: 1, type: "fruit" },
-  { emoji: "🍌", name: "Banana", time: 1.3, yield: 4, type: "fruit" },
+  { emoji: "🍇", name: "Uvas", time: 1.3, yield: 4, type: "fruit" },
   { emoji: "🍉", name: "Sandía", time: 1.6, yield: 4, type: "fruit" },
   { emoji: "🍎", name: "Manzana", time: 2.0, yield: 5, type: "fruit" },
   { emoji: "🥕", name: "Zanahoria", time: 0.65, yield: 2, type: "veggie" },
   { emoji: "🫑", name: "Pimiento", time: 0.6, yield: 2, type: "veggie" },
-  { emoji: "🫜", name: "Remolacha", time: 0.7, yield: 2, type: "veggie" },
-  { emoji: "🍠", name: "Batata", time: 0.9, yield: 3, type: "veggie" },  { emoji: "🌽", name: "Maíz", time: 1.0, yield: 3, type: "cereal" },
+  { emoji: "🥦", name: "Brócoli", time: 0.7, yield: 2, type: "veggie" },
+  { emoji: "🍠", name: "Batata", time: 0.9, yield: 3, type: "veggie" },  
+  { emoji: "🌽", name: "Maíz", time: 1.0, yield: 3, type: "cereal" },
   { emoji: "🌾", name: "Trigo", time: 0.8, yield: 3, type: "cereal" },
   { emoji: "🌿", name: "Hierbas", time: 0.4, yield: 2, type: "forraje" },
 ];
 const SEED_PRICES = {
   Frutilla: 10,
+  Uvas: 30,
+  Sandía: 38,
+  Manzana: 50,
   Zanahoria: 15,
   Pimiento: 15,
-  Remolacha: 14,
+  Brócoli: 14,
   Batata: 18,
   Maíz: 22,
   Trigo: 20,
   Hierbas: 12,
-  Banana: 30,
-  Sandia: 38,
-  Manzana: 50,
 };
 
 const ACHIEVEMENTS = {
@@ -290,73 +291,73 @@ const state = {
     Frutilla: 3,
     Zanahoria: 3,
     Maíz: 2,
-    Banana: 1,
+    Uva: 1,
     Sandia: 1,
     Manzana: 0,
     Pimiento: 2,
-    Remolacha: 2,
+    Brocoli: 2,
     Batata: 1,
     Trigo: 2,
     Hierbas: 2,
   },
   animals: [
-    {
-      type: "caballo",
-      emoji: "🐴",
-      nombre: "Caballo",
-      food: 60,
-      water: 60,
-      clean: 60,
-      hasPoop: false,
-      poopTimer: 0,
-      wool: false,
-      woolTimer: 0,
-      shake: 0,
-      bobOffset: 0,
-    },
-    {
-      type: "llama",
-      emoji: "🦙",
-      nombre: "Llama",
-      food: 60,
-      water: 60,
-      clean: 60,
-      hasPoop: false,
-      poopTimer: 0,
-      wool: true,
-      woolTimer: 0,
-      shake: 0,
-      bobOffset: 1,
-    },
-    {
-      type: "oveja",
-      emoji: "🐑",
-      nombre: "Oveja",
-      food: 60,
-      water: 60,
-      clean: 60,
-      hasPoop: false,
-      poopTimer: 0,
-      wool: true,
-      woolTimer: 0,
-      shake: 0,
-      bobOffset: 2,
-    },
-    {
-      type: "conejo",
-      emoji: "🐰",
-      nombre: "Conejo",
-      food: 60,
-      water: 60,
-      clean: 60,
-      hasPoop: false,
-      poopTimer: 0,
-      wool: false,
-      woolTimer: 0,
-      shake: 0,
-      bobOffset: 3,
-    },
-  ],
+          {
+            type: "gallina",
+            emoji: "🐔",
+            nombre: "Gallina",
+            food: 60,
+            water: 60,
+            clean: 60,
+            hasPoop: false,
+            poopTimer: 0,
+            wool: true,
+            woolTimer: 0,
+            shake: 0,
+            bobOffset: 0,
+          },
+          {
+            type: "llama",
+            emoji: "🦙",
+            nombre: "Llama",
+            food: 60,
+            water: 60,
+            clean: 60,
+            hasPoop: false,
+            poopTimer: 0,
+            wool: true,
+            woolTimer: 0,
+            shake: 0,
+            bobOffset: 1,
+          },
+          {
+            type: "oveja",
+            emoji: "🐑",
+            nombre: "Oveja",
+            food: 60,
+            water: 60,
+            clean: 60,
+            hasPoop: false,
+            poopTimer: 0,
+            wool: true,
+            woolTimer: 0,
+            shake: 0,
+            bobOffset: 2,
+          },
+          {
+            type: "conejo",
+            emoji: "🐰",
+            nombre: "Conejo",
+            food: 60,
+            water: 60,
+            clean: 60,
+            hasPoop: false,
+            poopTimer: 0,
+            wool: false,
+            woolTimer: 0,
+            shake: 0,
+            bobOffset: 3,
+          },
+        ],
   plots: Array.from({ length: 12 }, () => ({
     estado: "vacio",
     agua: 1,
@@ -412,7 +413,7 @@ const state = {
 
 const SLOT_OFFSETS = [-100, 0, 100];
 const FRUIT_SLOTS = ["🍓", "🍉", "🍎"];
-const VEGGIE_SLOTS = ["🥕", "🫜", "🍠"];
+const VEGGIE_SLOTS = ["🥕", "🥦", "🍠"];
 const MATERIAL_SLOTS = ["📦", "🧴", "🫙"];
 
 const BASURA = [
@@ -570,6 +571,7 @@ const STAT_FIELDS = [
   ["lana", "s-lana"],
   ["materialReciclado", "s-material"],
   ["monedas", "s-monedas"],
+  ["huevos", "s-huevos"],
   ["puntos", "s-puntos"],
 ].map(([key, id]) => [key, document.getElementById(id)]);
 
@@ -820,6 +822,7 @@ const CUSTOMER_EMOJIS = [
 ];
 const PRODUCT_INFO = {
   tejido: { emoji: "🧣", basePrice: 30, label: "Tejido" },
+  huevo: { emoji: "🥚", basePrice: 20, label: "Huevos" },
   mermelada: { emoji: "🍯", basePrice: 25, label: "Mermelada" },
   conserva: { emoji: "🥫", basePrice: 25, label: "Conserva" },
   harina: { emoji: "🥖", basePrice: 40, label: "Harina" },
@@ -828,6 +831,7 @@ const PRODUCT_INFO = {
 };
 const MARKET_ITEMS = [
   { key: "tejido", emoji: "🧣", label: "Tejidos" },
+  { key: "huevo", emoji: "🥚", label: "Huevos" },
   { key: "mermelada", emoji: "🍯", label: "Mermeladas" },
   { key: "conserva", emoji: "🥫", label: "Conservas" },
   { key: "harina", emoji: "🥖", label: "Harina" },
@@ -957,8 +961,8 @@ function serveCustomer(customer) {
 }
 
 const farmPanelLeft = `
-  <div class="info-card"><h3>🐴 El Corral (Arriba)</h3><p>Los animales grandes comen <span class="highlight">cereales y forraje</span> (maíz, trigo, hierbas). Los conejos comen <span class="highlight">verduras</span>. Si no les das, se ponen tristes.</p><p>También juntá su <span class="highlight">estiércol 💩</span> para el compost y esquilá ovejas/llamas para <span class="highlight">lana 🧶</span>.</p></div>
-  <div class="info-card"><h3>♻️ Reciclaje (Abajo)</h3><p>Separar la basura <span class="highlight">ahorra energía y protege el agua</span>.</p><p>Los materiales no-orgánicos van al <span class="highlight">taller creativo</span>.</p></div>
+  <div class="info-card"><h3>🐑 El Corral</h3><p>Los animales grandes comen <span class="highlight">cereales y forraje</span> (maíz, trigo, hierbas). Los conejos comen <span class="highlight">verduras</span>. Si no les das, se ponen tristes.</p><p>También juntá su <span class="highlight">estiércol 💩</span> para el compost y esquilá ovejas/llamas para <span class="highlight">lana 🧶</span>.</p></div>
+  <div class="info-card"><h3>♻️ Reciclaje</h3><p>Separar la basura <span class="highlight">ahorra energía y protege el agua</span>.</p><p>Los materiales no-orgánicos van al <span class="highlight">taller creativo</span>.</p></div>
 `;
 const farmPanelRight = `
   <div class="info-card"><h3>🌱 La Huerta Dividida</h3><p>Arriba: 🍎 Frutas y 🥕 Verduras (para conservas y conejos).<br>Abajo: 🌾 Cereales y Forraje (para animales y harina).</p><div class="seed-box"><h4>🌱 Tus semillas guardadas:</h4><div id="seed-inventory"></div></div></div>
@@ -1072,12 +1076,23 @@ function renderTelar() {
   ctx.fill();
   texto("🎡 Hacé click en la rueda para hilar", centerX, P.y + 66, 13, "#2b2b3d", "center", "900");
 
-  const wheelY = P.y + 130;
-  ctx.save();
-  ctx.translate(centerX, wheelY);
-  ctx.rotate(s.wheelAngle);
-  emoji("🎡", 0, 0, 66);
-  ctx.restore();
+    const wheelY = P.y + 130;
+        
+        // Cajita blanca redonda
+        ctx.fillStyle = "rgba(255, 255, 255, 0.95)";
+        ctx.beginPath();
+        ctx.arc(centerX, wheelY, 45, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.strokeStyle = "rgba(0,0,0,0.15)";
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        // Emoji adentro
+        ctx.save();
+        ctx.translate(centerX, wheelY); // 👈 Acá lo centramos en la cajita
+        ctx.rotate(s.wheelAngle);
+        emoji("🎡", 0, 0, 55); // Un poquito más chiquito para que no se salga
+        ctx.restore();
 
   if (s.spin > 0) {
     ctx.beginPath();
@@ -1151,8 +1166,14 @@ function renderConservas() {
       ctx.globalAlpha = 1;
       emoji("✓", fx + 12, fy + 10, 15);
     } else {
+        ctx.fillStyle = "rgba(255, 255, 255, 0.95)";
+            rrect(fx - 22, fy - 22, 44, 44, 8);
+            ctx.fill();
+            ctx.strokeStyle = "rgba(0,0,0,0.15)";
+            ctx.lineWidth = 2;
+            ctx.stroke();
       emoji(fe, fx, fy, 28);
-      addClickable({ x: fx - 22, y: fy - 18, w: 44, h: 36 }, () => {
+     addClickable({ x: fx - 22, y: fy - 22, w: 44, h: 44 }, () => {
         if (state.frutas <= 0) {
           showHint(fx, fy, "Te faltan frutas 🍎");
           return;
@@ -1186,8 +1207,14 @@ function renderConservas() {
       ctx.globalAlpha = 1;
       emoji("✓", vx + 12, vy + 10, 15);
     } else {
+       ctx.fillStyle = "rgba(255, 255, 255, 0.95)";
+            rrect(vx - 22, vy - 22, 44, 44, 8);
+            ctx.fill();
+            ctx.strokeStyle = "rgba(0,0,0,0.15)";
+            ctx.lineWidth = 2;
+            ctx.stroke();
       emoji(ve, vx, vy, 28);
-      addClickable({ x: vx - 22, y: vy - 18, w: 44, h: 36 }, () => {
+      addClickable({ x: vx - 22, y: vy - 22, w: 44, h: 44 }, () => {
         if (state.verduras <= 0) {
           showHint(vx, vy, "Te faltan verduras 🥕");
           return;
@@ -1223,8 +1250,14 @@ function renderConservas() {
       ctx.globalAlpha = 1;
       emoji("✓", hx + 12, hy + 10, 15);
     } else {
+      ctx.fillStyle = "rgba(255, 255, 255, 0.95)";
+            rrect(hx - 22, hy - 22, 44, 44, 8);
+            ctx.fill();
+            ctx.strokeStyle = "rgba(0,0,0,0.15)";
+            ctx.lineWidth = 2;
+            ctx.stroke();
       emoji(he, hx, hy, 28);
-      addClickable({ x: hx - 22, y: hy - 18, w: 44, h: 36 }, () => {
+      addClickable({ x: hx - 22, y: hy - 22, w: 44, h: 44 }, () => {
         if (state.cereales <= 0) {
           showHint(hx, hy, "Te faltan cereales 🌾");
           return;
@@ -1275,35 +1308,50 @@ function renderCreativo() {
       emoji(me, mx, slotY, 50);
       ctx.globalAlpha = 1;
       emoji("✓", mx + 22, slotY + 22, 22);
-    } else {
-      const bob = prefersReducedMotion ? 0 : Math.sin(state.time * 3 + i) * 3;
-      const rot = prefersReducedMotion ? 0 : Math.sin(state.time + i) * 0.08;
-      ctx.save();
-      ctx.translate(mx, slotY + bob);
-      ctx.rotate(rot);
-      emoji(me, 0, 0, 50);
-      ctx.restore();
-      addClickable({ x: mx - 30, y: slotY - 30, w: 60, h: 60 }, () => {
-        if (state.materialReciclado <= 0) {
-          showHint(mx, slotY, "Te falta material 📦 — reciclá en la granja");
-          return;
-        }
-        state.materialReciclado--;
-        s.used++;
-        playSound("chop");
-        spawnParticles(mx, slotY, 6, ["⚡", "✨", "⭐"]);
-        if (s.used >= 3) {
-          s.used = 0;
-          s.manualidad++;
-          unlockAchievement("first_manualidad");
-          playSound("success");
-          decir("🎨 ¡Manualidad creada!", "#f0e68c");
-        }
-        stats();
-      });
-    }
-  });
+         } else {
+          // 1. Dibujamos la cajita blanca (quieta)
+          ctx.fillStyle = "rgba(255, 255, 255, 0.95)";
+          rrect(mx - 40, slotY - 40, 80, 80, 12);
+          ctx.fill();
+          ctx.strokeStyle = "rgba(0,0,0,0.15)";
+          ctx.lineWidth = 2;
+          ctx.stroke();
 
+          // 2. Calculamos la animación
+          const bob = prefersReducedMotion ? 0 : Math.sin(state.time * 3 + i) * 3;
+          const rot = prefersReducedMotion ? 0 : Math.sin(state.time + i) * 0.08;
+          
+          // 3. Dibujamos el emoji ADENTRO de la cajita, con su animación
+          ctx.save();
+          ctx.translate(mx, slotY + bob); // El emoji va al centro de la cajita (mx, slotY)
+          ctx.rotate(rot);
+          emoji(me, 0, 0, 45); // Un poquito más chiquito (45) para que no se salga
+          ctx.restore();
+
+          // 4. El área clickeable
+          addClickable(
+            { x: mx - 40, y: slotY - 40, w: 80, h: 80 },
+            () => {
+              if (state.materialReciclado <= 0) {
+                showHint(mx, slotY, "Te falta material 📦 — reciclá en la granja");
+                return;
+              }
+              state.materialReciclado--;
+              s.used++;
+              playSound("chop");
+              spawnParticles(mx, slotY, 6, ["⚡", "✨", "⭐"]);
+              if (s.used >= 3) {
+                s.used = 0;
+                s.manualidad++;
+                unlockAchievement("first_manualidad");
+                playSound("success");
+                decir("🎨 ¡Manualidad creada!", "#f0e68c");
+              }
+              stats();
+           }
+          );
+        }
+ });
   ctx.fillStyle = "#fff";
   rrect(centerX - 135, P.y + P.h - 44, 270, 28, 8);
   ctx.fill();
@@ -1316,7 +1364,36 @@ function renderCreativo() {
 function renderMercado() {
   const P = W4, m = state.mercado;
   drawPanel(P, "Mercado", "🏪");
+     // DINERO AL LADO DEL TÍTULO
+    ctx.fillStyle = "#f0e68c"; 
+    rrect(P.x + 170, P.y - 15, 80, 34, 17); 
+    ctx.fill();
+    ctx.strokeStyle = "rgba(0,0,0,0.1)";
+    ctx.lineWidth = 2;
+    ctx.stroke();
+    texto(`🪙 ${state.monedas}`, P.x + 210, P.y + 9, 16, "#2b1e00", "center", "900");
 
+    // 👇 CARTEL DE MEJORAR AL LADO DE LA MONEDA 👇
+    if (!m.upgraded && state.monedas >= 50) {
+      // Dibujamos un cartel verde al lado
+      ctx.fillStyle = "#4caf50"; 
+      rrect(P.x + 260, P.y - 15, 100, 34, 17); 
+      ctx.fill();
+      texto("⭐ ¡Mejorar!", P.x + 310, P.y + 9, 15, "#fff", "center", "900");
+      
+      // Hacemos que se pueda clickear
+      addClickable(
+        { x: P.x + 260, y: P.y - 15, w: 100, h: 34 },
+        () => {
+          state.monedas -= 50;
+          m.upgraded = true;
+          decir("¡Mercado mejorado! Precios x2.", "#f0e68c");
+          playSound("success");
+          stats();
+        }
+      );
+    }
+    // 👆 FIN DEL CARTEL 👆
   const rank = getRank();
   ctx.fillStyle = "#fff";
   rrect(P.x + P.w - 140, P.y + 46, 120, 42, 8);
@@ -1324,43 +1401,30 @@ function renderMercado() {
   texto(`${rank.icon} ${rank.name}`, P.x + P.w - 80, P.y + 64, 14, "#2b2b3d", "center", "700");
   texto(`${m.totalSold} ventas`, P.x + P.w - 80, P.y + 80, 12, "#2b2b3d", "center", "700");
 
-  ctx.fillStyle = "#fff";
-  rrect(P.x + 20, P.y + 46, 115, 22, 8);
-  ctx.fill();
-  texto("📦 Inventario", P.x + 77, P.y + 62, 14, "#2b2b3d", "center", "700");
+         // 1. Título del inventario (Más ancho y con más espacio)
+        ctx.fillStyle = "#fff";
+        rrect(P.x + 20, P.y + 46, 140, 26, 8); 
+        ctx.fill();
+        texto("📦 Inventario", P.x + 90, P.y + 64, 16, "#2b2b3d", "center", "800"); // Fuente más grande (16)
 
-  let iy = P.y + 84;
-  MARKET_ITEMS.forEach((item) => {
-    const count = getInventory(item.key);
-    ctx.fillStyle = "rgba(255,255,255,0.95)";
-    rrect(P.x + 20, iy - 11, 160, 22, 6);
-    ctx.fill();
-    emoji(item.emoji, P.x + 35, iy, 16);
-    texto(item.label, P.x + 50, iy + 4, 13, "#2b2b3d", "left", "700");
-    texto(`x${count}`, P.x + 165, iy + 4, 13, count > 0 ? "#2e7d32" : "#888", "right", "700");
-    iy += 24;
-  });
+        // 2. Los ítems de adentro
+        let iy = P.y + 88;
+        MARKET_ITEMS.forEach((item) => {
+          const count = getInventory(item.key);
+          ctx.fillStyle = "rgba(255,255,255,0.95)";
+          // Hacemos la cajita más ancha (190) y más alta (26)
+          rrect(P.x + 20, iy - 13, 190, 26, 8); 
+          ctx.fill();
+          
+          emoji(item.emoji, P.x + 38, iy, 20); // Emoji un poquito más grande
+          // Texto más grande (15px) y un poquito más a la derecha
+          texto(item.label, P.x + 55, iy + 5, 15, "#2b2b3d", "left", "700"); 
+          // La "x" también un poquito más grande
+          texto(`x${count}`, P.x + 195, iy + 5, 15, count > 0 ? "#2e7d32" : "#888", "right", "700"); 
+          
+          iy += 28; // Más espacio entre filas (antes era 24)
+        });
 
-  if (!m.upgraded) {
-    stationButton(
-      P.x + 25, P.y + P.h - 48, 150, 28,
-      "⭐ 50🪙 Mejorar",
-      state.monedas >= 50,
-      () => {
-        state.monedas -= 50;
-        m.upgraded = true;
-        decir("¡Mercado mejorado! Precios x2.", "#f0e68c");
-        playSound("success");
-        stats();
-      },
-      "Necesitás 50 monedas 🪙",
-    );
-  } else {
-    ctx.fillStyle = "#fff";
-    rrect(P.x + 25, P.y + P.h - 48, 150, 28, 8);
-    ctx.fill();
-    texto("⭐ Mejorado (x2)", P.x + 100, P.y + P.h - 30, 13, "#2b2b3d", "center", "700");
-  }
 
   const allEmpty = MARKET_ITEMS.every((item) => getInventory(item.key) === 0);
   if (m.customers.length === 0) {
@@ -1488,7 +1552,7 @@ function grass() {
 }
 
 function renderCorral() {
-  drawPanel(P1, "Corral", "🐴");
+  drawPanel(P1, "Corral", "🐑");
   state.animals.forEach((a, i) => {
     const r = animalRect(i);
     const shakeX =
@@ -1498,7 +1562,7 @@ function renderCorral() {
     const bob = prefersReducedMotion
       ? 0
       : Math.sin(state.time * 2 + a.bobOffset) * 2;
-    ctx.fillStyle = "#fff";
+    ctx.fillStyle = "#f5ebd6";
     rrect(r.x, r.y, r.w, r.h, 12);
     ctx.fill();
     ctx.strokeStyle = "rgba(0,0,0,.08)";
@@ -1522,17 +1586,19 @@ function renderCorral() {
     emoji("🧼", bx, r.y + 87, 16);
     barra(bx + 20, r.y + 81, 105, 11, a.clean / 100, moodColor(a.clean));
 
-    let action = a.hasPoop
-      ? "💩"
-      : a.food < 40
-        ? a.type === "conejo" ? "🥕" : "🌾"
-        : a.water < 40
-          ? "💧"
-          : a.clean < 40
-            ? "🧼"
-            : a.wool && lowest >= 90
-              ? "✂️"
-              : "❤️";
+   let action = a.hasPoop
+            ? "💩"
+            : a.food < 40
+              ? a.type === "conejo"
+                ? "🥕"
+                : "🌾"
+              : a.water < 40
+                ? "💧"
+                : a.clean < 40
+                  ? "🧼"
+                  : a.wool && lowest >= 90
+                    ? (a.type === "gallina" ? "🥚" : "✂️")
+                    : "❤️";
     if (action === "💩") {
       const pb = prefersReducedMotion ? 0 : Math.sin(state.time * 8) * 3;
       emoji("💩", r.x + r.w - 30, r.y + r.h - 30 + pb, 24);
@@ -1550,14 +1616,8 @@ function renderHuerta() {
 
   texto("🍎 Frutas y Verduras", P2.x + 16, P2.y + 62, 15, "#2b2b3d", "left", "900");
 
-  ctx.strokeStyle = isLightTheme ? "rgba(0,0,0,0.2)" : "rgba(255,255,255,0.35)";
-  ctx.lineWidth = 2;
-  ctx.beginPath();
-  ctx.moveTo(P2.x + 15, P2.y + 270);
-  ctx.lineTo(P2.x + P2.w - 15, P2.y + 270);
-  ctx.stroke();
 
-  texto("🌾 Cereales y Forraje", P2.x + 16, P2.y + 285, 15, "#2b2b3d", "left", "900");
+  texto("🌾 Cereales y Forraje", P2.x + 16, P2.y + 270, 15, "#2b2b3d", "left", "900");
 
   state.plots.forEach((p, i) => {
     const r = plotRect(i);
@@ -1998,6 +2058,7 @@ canvas.addEventListener("click", (e) => {
       if (lv < 90) {
         if (ls === "food") {
           const isRabbit = a.type === "conejo";
+          const isHen = a.type === "gallina";
           const foodKey = isRabbit ? "verduras" : "cereales";
           const foodName = isRabbit ? "verduras 🥕" : "cereales 🌾";
           const foodEmoji = isRabbit ? "🥕" : "🌾";
@@ -2023,25 +2084,33 @@ canvas.addEventListener("click", (e) => {
         } else if (ls === "clean") {
           a.clean = 100;
           spawnParticles(r.x + 45, r.y + 50, 4, ["🧼", "✨"]);
-          decir(`¡Cepillaste a ${a.nombre}!`);
+                      decir(`¡Cepillaste a ${a.nombre}!`);
+            playSound("pop");
+          }
+        } else if (a.wool) {
+          a.wool = false;
+          if (a.type === "gallina") {
+            state.huevos = (state.huevos || 0) + 1;
+            state.puntos += 15;
+            a.woolTimer = 30;
+            spawnParticles(r.x + 45, r.y + 50, 8, ["🥚", "✨", "🌟"]);
+            decir(`¡Juntaste un huevo fresco! +1 Huevo 🥚`);
+          } else {
+            state.lana += 1;
+            state.puntos += 15;
+            a.woolTimer = 45;
+            spawnParticles(r.x + 45, r.y + 50, 8, ["🧶", "✨", "🌟"]);
+            decir(`¡Esquilaste a ${a.nombre}! +1 Lana 🧶`);
+          }
+          playSound("success");
+          stats();
+        } else {
+          state.puntos += 1;
+          decir(`Acaricias a ${a.nombre}.`);
+          spawnParticles(r.x + 45, r.y + 50, 3, ["❤️"]);
           playSound("pop");
         }
-      } else if (a.wool) {
-        a.wool = false;
-        state.lana += 1;
-        state.puntos += 15;
-        a.woolTimer = 45;
-        spawnParticles(r.x + 45, r.y + 50, 8, ["🧶", "✨", "🌟"]);
-        decir(`¡Esquilaste a ${a.nombre}! +1 Lana 🧶`);
-        playSound("success");
-        stats();
-      } else {
-        state.puntos += 1;
-        decir(`Acaricias a ${a.nombre}.`);
-        spawnParticles(r.x + 45, r.y + 50, 3, ["❤️"]);
-        playSound("pop");
       }
-    }
   });
 
   state.plots.forEach((p, i) => {
