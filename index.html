@@ -15,6 +15,19 @@
   <body class="light-theme">
     <div id="toast-container"></div>
 
+    <!-- AVISO DE GIRAR PANTALLA EN DISPOSITIVOS VERTICALES -->
+    <div id="rotate-notice" aria-live="polite">
+      <div class="rotate-card">
+        <div class="rotate-owl">🦉</div>
+        <div class="rotate-phone">📱</div>
+        <h2>¡Girá tu pantalla!</h2>
+        <p>
+          Kimün te espera: poné tu celular o tablet en <b>horizontal</b> para
+          jugar cómodamente a la Aventura Agroecológica. 🌱
+        </p>
+      </div>
+    </div>
+
     <!-- PANTALLA DE INICIO -->
     <div id="start-screen">
       <img src="logo-ministerio-azul.png" alt="Logo Oficial" class="logo-oficial">
@@ -393,12 +406,12 @@
           Cerrar ✖
         </button>
 
-        <div style="font-size: 70px; margin-bottom: 10px;">🦉</div>
+        <div style="font-size: clamp(48px, 8vh, 70px); margin-bottom: 10px; clear: both;">🦉</div>
 
         <h2 style="color: var(--accent); margin-top: 0;">Kimün, la lechuza sabia</h2>
 
-        <div style="background: var(--bg-body); padding: 20px; border-radius: 16px; border: 2px solid var(--panel-border); position: relative; margin-top: 20px;">
-          <p style="font-size: 18px; color: var(--text-main); font-weight: 700; margin: 0;">
+        <div style="background: var(--bg-body); padding: 16px; border-radius: 16px; border: 2px solid var(--panel-border); position: relative; margin-top: 16px;">
+          <p style="font-size: clamp(15px, 2.2vh, 18px); color: var(--text-main); font-weight: 700; margin: 0;">
             "¡Mari mari! (¡Hola!) Soy Kimün 🦉, la lechuza sabia. Juntos vamos a aprender a cuidar la naturaleza, proteger a los animales y vivir una gran Aventura Agroecológica."
           </p>
         </div>
@@ -429,26 +442,27 @@
       </div>
     </div>
 
-    <button
-      class="floating-gear"
-      onclick="document.getElementById('access-modal').style.display = 'flex'"
-      title="Ajustes"
-      aria-label="Abrir ajustes"
+    <!-- MODAL INVENTARIO DE SEMILLAS (PANTALLAS CHICAS) -->
+    <div
+      id="seeds-modal"
+      class="modal-overlay"
+      onclick="if (event.target === this) this.style.display = 'none';"
     >
-      ⚙️
-    </button>
-    
-    <!-- Botón de Kimün (Lechuza) -->
-    <button
-      id="btn-kimun"
-      class="floating-kimun"
-      onclick="document.getElementById('kimun-modal').style.display = 'flex'"
-      title="Hablar con Kimun"
-      aria-label="Hablar con Kimun"
-    >
-      🦉
-    </button>
-<img src="logo-ministerio-azul.png" alt="Logo Oficial" class="logo-flotante">
+      <div class="modal-content" style="max-width: 440px;">
+        <button
+          class="btn-close"
+          onclick="document.getElementById('seeds-modal').style.display = 'none'"
+        >
+          Cerrar ✖
+        </button>
+        <h2>🌱 Tus semillas guardadas</h2>
+        <p>Estas son las semillas que tenés listas para plantar en la huerta:</p>
+        <div class="seed-box" style="margin-top: 12px;">
+          <div id="seed-inventory-modal"></div>
+        </div>
+      </div>
+    </div>
+
     <div class="view-tabs">
       <button
         class="view-tab active"
@@ -495,9 +509,15 @@
           >🧶 Lana: <b id="s-lana" style="color: var(--stat-lana)">0</b></span
         >
         <span
+          >🥚 Huevos:
+          <b id="s-huevos" style="color: var(--stat-humus)">0</b></span
+        >
+        <span
           >📦 Material:
           <b id="s-material" style="color: var(--stat-material)">0</b></span
         >
+      </div>
+      <div class="stats">
         <span
           >🪙 Monedas:
           <b id="s-monedas" style="color: var(--stat-monedas)">0</b></span
@@ -505,10 +525,6 @@
         <span
           >⭐ Puntos:
           <b id="s-puntos" style="color: var(--stat-puntos)">0</b></span
-        >
-         <span
-          >🥚 Huevos:
-          <b id="s-huevos" style="color: var(--stat-humus)">0</b></span
         >
       </div>
       <button class="btn-ui" id="btn-shop" onclick="openShop()">
@@ -520,15 +536,52 @@
       >
         📚 Acerca de
       </button>
-      
     </div>
 
     <div class="game-container">
-      <div class="side-panel"></div>
+      <div class="side-panel" id="panel-left">
+        <div class="panel-top-left">
+          <button
+            id="btn-kimun"
+            class="floating-kimun"
+            onclick="document.getElementById('kimun-modal').style.display = 'flex'"
+            title="Hablar con Kimün"
+            aria-label="Hablar con Kimün"
+          >
+            🦉
+          </button>
+        </div>
+        <div class="side-panel-cards" id="cards-left"></div>
+        <div class="panel-bottom-left">
+          <img src="logo-ministerio-azul.png" alt="Logo Oficial" class="logo-flotante">
+        </div>
+        <p id="msg" aria-live="polite"></p>
+      </div>
       <div class="canvas-wrapper">
         <canvas id="game" width="1000" height="680"></canvas>
       </div>
-      <div class="side-panel"></div>
+      <div class="side-panel" id="panel-right">
+        <div class="panel-top-right">
+          <button
+            class="floating-gear"
+            onclick="document.getElementById('access-modal').style.display = 'flex'"
+            title="Ajustes"
+            aria-label="Abrir ajustes"
+          >
+            ⚙️
+          </button>
+          <button
+            id="btn-seeds"
+            class="floating-seeds"
+            onclick="openSeedsModal()"
+            title="Mis Semillas"
+            aria-label="Ver inventario de semillas"
+          >
+            🌱
+          </button>
+        </div>
+        <div class="side-panel-cards" id="cards-right"></div>
+      </div>
     </div>
 
     <script src="js/script.js"></script>
