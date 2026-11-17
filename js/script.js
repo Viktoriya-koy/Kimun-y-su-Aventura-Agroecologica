@@ -21,7 +21,7 @@ function resizeCanvas() {
   canvasScale = canvas.width / W;
 }
 const EMOJI_FONT =
-  '"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji",sans-serif';
+  '"Noto Color Emoji","Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol",sans-serif';
 
 const prefersReducedMotion = window.matchMedia(
   "(prefers-reduced-motion: reduce)",
@@ -208,7 +208,7 @@ function rrect(x, y, w, h, r) {
 }
 function texto(t, x, y, size, color, align = "left", weight = "800") {
   let safeWeight = weight === "900" || weight === "800" ? "700" : weight;
-  ctx.font = `${safeWeight} ${size}px "Outfit", "Segoe UI", Arial, sans-serif`;
+  ctx.font = `${safeWeight} ${size}px "Outfit", "Noto Color Emoji", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI", Arial, sans-serif`;
   ctx.fillStyle = color;
   ctx.textAlign = align;
   ctx.textBaseline = "alphabetic";
@@ -217,7 +217,7 @@ function texto(t, x, y, size, color, align = "left", weight = "800") {
 function emoji(ch, x, y, size) {
   ctx.save();
   ctx.fillStyle = "#000";
-  ctx.font = `${size}px "Outfit", "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", sans-serif`;
+  ctx.font = `${size}px "Noto Color Emoji", "Apple Color Emoji", "Segoe UI Emoji", sans-serif`;
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
   ctx.fillText(ch, Math.round(x), Math.round(y));
@@ -513,7 +513,7 @@ function getRank() {
 function showHint(x, y, message) {
   playSound("error");
   ctx.save();
-  ctx.font = '700 14px "Outfit", Arial, sans-serif';
+  ctx.font = '700 14px "Outfit", "Noto Color Emoji", "Apple Color Emoji", "Segoe UI Emoji", Arial, sans-serif';
   const textW = ctx.measureText(message).width;
   ctx.restore();
   const w = Math.min(W - 40, textW + 36);
@@ -554,7 +554,7 @@ function drawHints() {
     ctx.strokeStyle = "#d1d1e0";
     ctx.lineWidth = 2;
     ctx.stroke();
-    ctx.font = '700 14px "Outfit", Arial, sans-serif';
+    ctx.font = '700 14px "Outfit", "Noto Color Emoji", "Apple Color Emoji", "Segoe UI Emoji", Arial, sans-serif';
     ctx.fillStyle = "#2b2b3d";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
