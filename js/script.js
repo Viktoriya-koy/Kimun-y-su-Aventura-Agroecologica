@@ -623,6 +623,13 @@ function startGame() {
   isPlaying = true;
   initAudio();
   if (!isMuted) playSound("success");
+  if (
+    (window.innerHeight <= 600 || window.innerWidth <= 1024) &&
+    document.documentElement.requestFullscreen &&
+    !document.fullscreenElement
+  ) {
+    document.documentElement.requestFullscreen().catch(() => {});
+  }
   const s = document.getElementById("start-screen");
   s.style.opacity = "0";
   setTimeout(() => {
