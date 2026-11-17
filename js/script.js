@@ -1,8 +1,8 @@
 "use strict";
 const canvas = document.getElementById("game");
 const ctx = canvas.getContext("2d", { alpha: false });
-const W = canvas.width,
-  H = canvas.height;
+const W = 1000,
+  H = 680;
 let canvasScale = 1;
 
 function resizeCanvas() {
@@ -11,14 +11,14 @@ function resizeCanvas() {
 
   const dpr = Math.min(window.devicePixelRatio || 1, 2);
   const displayW = Math.round(rect.width * dpr);
-  const displayH = Math.round(rect.height * dpr);
+  const displayH = Math.round(displayW * (H / W));
 
   if (canvas.width !== displayW || canvas.height !== displayH) {
     canvas.width = displayW;
     canvas.height = displayH;
   }
 
-  canvasScale = canvas.width / 1000;
+  canvasScale = canvas.width / W;
 }
 const EMOJI_FONT =
   '"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji",sans-serif';
@@ -59,6 +59,7 @@ function changeFontSize(dir) {
   document.body.classList.remove("large-text", "xlarge-text");
   if (fontLevel === 1) document.body.classList.add("large-text");
   if (fontLevel === 2) document.body.classList.add("xlarge-text");
+  requestAnimationFrame(resizeCanvas);
 }
 function toggleGrayscale() {
   document.body.classList.toggle("grayscale");
@@ -85,6 +86,7 @@ function resetAccessibility() {
     .querySelectorAll(".acc-btn")
     .forEach((b) => b.classList.remove("active"));
   if (isLightTheme) toggleTheme();
+  requestAnimationFrame(resizeCanvas);
 }
 function switchAboutTab(index) {
   document
@@ -281,6 +283,7 @@ const state = {
   compost: 3,
   humus: 0,
   lana: 0,
+  huevos: 0,
   monedas: 0,
   puntos: 0,
   materialReciclado: 0,
@@ -577,13 +580,15 @@ const STAT_FIELDS = [
 
 function stats() {
   for (const [key, element] of STAT_FIELDS)
-    if (element) element.textContent = state[key];
+    if (element) element.textContent = state[key] ?? 0;
+  const seedsHTML = CROPS.map(
+    (c) =>
+      `<div class="seed-item"><span>${c.emoji} ${c.name}</span><span>x${state.seeds[c.name] || 0}</span></div>`,
+  ).join("");
   const invEl = document.getElementById("seed-inventory");
-  if (invEl)
-    invEl.innerHTML = CROPS.map(
-      (c) =>
-        `<div class="seed-item"><span>${c.emoji} ${c.name}</span><span>x${state.seeds[c.name] || 0}</span></div>`,
-    ).join("");
+  if (invEl) invEl.innerHTML = seedsHTML;
+  const invModalEl = document.getElementById("seed-inventory-modal");
+  if (invModalEl) invModalEl.innerHTML = seedsHTML;
 }
 function nuevoResiduo() {
   state.trash = BASURA[Math.floor(Math.random() * BASURA.length)];
@@ -965,7 +970,7 @@ const farmPanelLeft = `
   <div class="info-card"><h3>♻️ Reciclaje</h3><p>Separar la basura <span class="highlight">ahorra energía y protege el agua</span>.</p><p>Los materiales no-orgánicos van al <span class="highlight">taller creativo</span>.</p></div>
 `;
 const farmPanelRight = `
-  <div class="info-card"><h3>🌱 La Huerta Dividida</h3><p>Arriba: 🍎 Frutas y 🥕 Verduras (para conservas y conejos).<br>Abajo: 🌾 Cereales y Forraje (para animales y harina).</p><div class="seed-box"><h4>🌱 Tus semillas guardadas:</h4><div id="seed-inventory"></div></div></div>
+  <div class="info-card"><h3>🌱 La Huerta Dividida</h3><p>Arriba: 🍎 Frutas y 🥕 Verduras (para conservas y conejos).<br>Abajo: 🌾 Cereales y Forraje (para animales y harina).</p><div class="seed-box seed-inventory-box"><h4>🌱 Tus semillas guardadas:</h4><div id="seed-inventory"></div></div></div>
   <div class="info-card"><h3>🪱 Lombrices</h3><p> Y alimentá a las lombrices con orgánicos para conseguir <span class="highlight">Humus</span>, que se vende en el mercado.</p></div>
 `;
 const workshopPanelLeft = `
@@ -985,26 +990,33 @@ function switchView(view) {
   document
     .querySelectorAll(".view-tab")
     .forEach((t) => t.classList.toggle("active", t.dataset.view === view));
-  const panels = document.querySelectorAll(".side-panel");
-  const msgHTML = `<p id="msg"></p>`;
+  const leftCards = document.getElementById("cards-left");
+  const rightCards = document.getElementById("cards-right");
 
   if (view === "workshop") {
-    panels[0].innerHTML = workshopPanelLeft + msgHTML;
-    panels[1].innerHTML = workshopPanelRight;
+    if (leftCards) leftCards.innerHTML = workshopPanelLeft;
+    if (rightCards) rightCards.innerHTML = workshopPanelRight;
     state.mercado.customers = [];
     state.mercado.spawnTimer = 2;
     decir("¡Bienvenido al taller! Producí y vendé.", "#7ef0d0");
   } else {
-    panels[0].innerHTML = farmPanelLeft + msgHTML;
-    panels[1].innerHTML = farmPanelRight;
+    if (leftCards) leftCards.innerHTML = farmPanelLeft;
+    if (rightCards) rightCards.innerHTML = farmPanelRight;
     state.mercado.customers = [];
     stats();
+    decir("🌱 ¡A cuidar la granja agroecológica!");
   }
+  requestAnimationFrame(resizeCanvas);
 }
 
 function openShop() {
   renderShop();
   document.getElementById("shop-modal").style.display = "flex";
+}
+function openSeedsModal() {
+  stats();
+  const modal = document.getElementById("seeds-modal");
+  if (modal) modal.style.display = "flex";
 }
 function renderShop() {
   document.getElementById("shop-coins").textContent = state.monedas;
@@ -1836,13 +1848,13 @@ function renderSeedMenu() {
     isBottomRow
       ? "¿Qué cereal o forraje querés plantar?"
       : "¿Qué fruta o verdura querés plantar?",
-    W / 2, menuY + 42, 22, getTextColor(), "center", "900",
+    W / 2, menuY + 42, W < 600 ? 19 : 22, getTextColor(), "center", "900",
   );
   texto(
     isBottomRow
       ? "🌾 Para alimentar animales del corral y moler harina"
       : "🍎 Para hacer mermeladas, conservas y alimentar conejos",
-    W / 2, menuY + 68, 13,
+    W / 2, menuY + 68, W < 600 ? 12 : 13,
     isLightTheme ? "#4a4a5a" : "#ccc", "center", "700",
   );
 
@@ -1852,7 +1864,10 @@ function renderSeedMenu() {
   });
 
   const cols = semillasFiltradas.length <= 3 ? semillasFiltradas.length : 4;
-  const btnW = 122, btnH = 104, gapX = 14, gapY = 16;
+  const btnW = W < 600 ? 105 : 122,
+    btnH = W < 600 ? 100 : 104,
+    gapX = W < 600 ? 10 : 14,
+    gapY = W < 600 ? 14 : 16;
   const totalGridW = cols * btnW + (cols - 1) * gapX;
   const startX = menuX + (menuW - totalGridW) / 2;
   const startY = semillasFiltradas.length <= 3 ? menuY + 135 : menuY + 95;
@@ -1950,6 +1965,9 @@ document.addEventListener("visibilitychange", () => {
   }
 });
 window.addEventListener("resize", resizeCanvas);
+if (typeof ResizeObserver !== "undefined") {
+  new ResizeObserver(() => resizeCanvas()).observe(canvas);
+}
 function posicion(e) {
   const r = canvas.getBoundingClientRect();
   return {
