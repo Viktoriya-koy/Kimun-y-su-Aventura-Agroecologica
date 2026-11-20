@@ -1103,21 +1103,23 @@ body.light-theme .shop-buy:disabled {
 
 /* Celulares en horizontal (<= 560px de alto): Sin barra superior para que el tablero ocupe el 100% del alto.
    Izquierda: Pestañas, Kimün, Logo, Cartel (#msg) y abajo Engranaje + Semillas.
-   Derecha: Columna independiente (.top-bar) con Tienda y Acerca de arriba, y Recursos/Monedas/Puntos abajo. */
+   Centro y Derecha posicionados con position: absolute dentro de sus columnas para NUNCA estirar las filas del grid. */
 @media (max-height: 560px) and (orientation: landscape) {
   body {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-height: 100%;
+    min-height: 0;
     display: grid;
-    grid-template-columns: 116px auto 124px;
+    grid-template-columns: 116px 1fr 124px;
     grid-template-rows: auto auto auto minmax(0, 1fr) auto;
     align-items: start;
     justify-items: center;
-    justify-content: center;
-    padding: 3px 6px;
+    justify-content: stretch;
+    padding: 4px 6px;
     gap: 2px 6px;
-    height: 100vh;
-    height: 100dvh;
-    max-height: 100dvh;
-    min-height: 0;
     overflow: hidden;
     -webkit-text-size-adjust: 100%;
     text-size-adjust: 100%;
@@ -1126,7 +1128,7 @@ body.light-theme .shop-buy:disabled {
   .side-panel {
     display: contents;
   }
-  /* Columna Izquierda (única que usa las 5 filas individuales):
+  /* Columna Izquierda (única en flujo dentro de las 5 filas):
      Fila 1: Pestañas (Naturaleza / Granja / Circuito Productivo)
      Fila 2: Kimün 🦉
      Fila 3: Logo Ministerial
@@ -1168,9 +1170,9 @@ body.light-theme .shop-buy:disabled {
   }
   .logo-flotante {
     display: block;
-    width: 104px;
+    width: 102px;
     height: auto;
-    max-height: 34px;
+    max-height: 32px;
   }
   #msg {
     grid-column: 1;
@@ -1179,8 +1181,8 @@ body.light-theme .shop-buy:disabled {
     width: 100%;
     max-height: 100%;
     overflow: hidden;
-    font-size: 9px;
-    line-height: 1.15;
+    font-size: 8.8px;
+    line-height: 1.14;
     min-height: 0;
     margin: 0;
     padding: 1px 2px;
@@ -1198,55 +1200,59 @@ body.light-theme .shop-buy:disabled {
     padding: 0;
     width: 100%;
   }
-  /* Columna Central: height: 0 + min-height: 100% evita que el canvas infle las filas auto de la columna 1 */
+  /* Columna Central: position: absolute en columna 2 para NO afectar jamás la altura de las 5 filas.
+     Usamos 100% del contenedor fixed (y NO 100vh) para que la barra de direcciones de Chrome Android no desborde. */
   .canvas-wrapper {
+    position: absolute;
+    inset: 3px 0;
     grid-column: 2;
     grid-row: 1 / 6;
-    height: 0;
-    min-height: 100%;
+    width: 100%;
+    height: auto;
     display: flex;
     align-items: center;
     justify-content: center;
-    align-self: stretch;
-    justify-self: center;
     max-width: none;
   }
   canvas {
-    width: min(calc(100vw - 264px), calc((100vh - 12px) * 1.4705), calc((100dvh - 12px) * 1.4705));
-    max-height: calc(100vh - 12px);
-    max-height: calc(100dvh - 12px);
-    max-width: 860px;
+    height: calc(100% - 4px);
+    width: auto;
+    max-height: calc(100% - 4px);
+    max-width: calc(100% - 6px);
+    aspect-ratio: 1000 / 680;
     border-radius: 12px;
     border-width: 2px;
   }
-  /* Columna Derecha independiente: height: 0 + min-height: 100% evita inflar las filas de la columna 1 */
+  /* Columna Derecha: position: absolute en columna 3 de arriba a abajo de la pantalla */
   .top-bar {
+    position: absolute;
+    inset: 3px 6px 3px 0;
     grid-column: 3;
     grid-row: 1 / 6;
     display: flex;
     flex-direction: column;
     align-items: stretch;
     justify-content: flex-start;
-    height: 0;
-    min-height: 100%;
-    align-self: stretch;
-    width: 100%;
-    gap: 3px;
+    width: auto;
+    height: auto;
+    gap: 2px;
     margin: 0;
     padding: 0;
   }
   #btn-shop {
     order: 1;
     width: 100%;
-    padding: 3px 6px;
-    font-size: 9.5px;
+    padding: 2px 5px;
+    font-size: 9px;
+    line-height: 1.15;
     text-align: center;
   }
   .top-bar .btn-ui:not(#btn-shop) {
     order: 2;
     width: 100%;
-    padding: 3px 6px;
-    font-size: 9.5px;
+    padding: 2px 5px;
+    font-size: 9px;
+    line-height: 1.15;
     text-align: center;
   }
   .stats:last-of-type {
@@ -1261,10 +1267,10 @@ body.light-theme .shop-buy:disabled {
     flex-direction: column;
     align-items: stretch;
     width: 100%;
-    padding: 3px 7px;
-    gap: 1px;
-    font-size: 8.8px;
-    border-radius: 10px;
+    padding: 2.5px 6px;
+    gap: 0.5px;
+    font-size: 8.2px;
+    border-radius: 8px;
   }
   .stats span {
     display: flex;
@@ -1272,7 +1278,7 @@ body.light-theme .shop-buy:disabled {
     align-items: center;
     width: 100%;
     white-space: nowrap;
-    line-height: 1.14;
+    line-height: 1.1;
   }
   #cards-left,
   #cards-right {
