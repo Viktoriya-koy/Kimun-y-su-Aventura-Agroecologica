@@ -8,6 +8,27 @@ let canvasScaleX = 1;
 let canvasScaleY = 1;
 
 function resizeCanvas() {
+  const wrapper = canvas.parentElement;
+  if (
+    wrapper &&
+    window.innerHeight <= 560 &&
+    window.innerWidth > window.innerHeight
+  ) {
+    const availW = Math.max(100, wrapper.clientWidth - 6);
+    const availH = Math.max(100, wrapper.clientHeight - 4);
+    const fitW = Math.floor(Math.min(availW, availH * (W / H)));
+    const fitH = Math.floor(fitW * (H / W));
+    const targetW = `${fitW}px`;
+    const targetH = `${fitH}px`;
+    if (canvas.style.width !== targetW || canvas.style.height !== targetH) {
+      canvas.style.width = targetW;
+      canvas.style.height = targetH;
+    }
+  } else if (canvas.style.width !== "" || canvas.style.height !== "") {
+    canvas.style.width = "";
+    canvas.style.height = "";
+  }
+
   // Usamos clientWidth / clientHeight (content-box real sin bordes) para evitar reescalado borroso
   const cssW = canvas.clientWidth;
   const cssH = canvas.clientHeight;
@@ -2886,8 +2907,13 @@ document.addEventListener("visibilitychange", () => {
   }
 });
 window.addEventListener("resize", resizeCanvas);
+if (window.visualViewport) {
+  window.visualViewport.addEventListener("resize", resizeCanvas);
+}
 if (typeof ResizeObserver !== "undefined") {
-  new ResizeObserver(() => resizeCanvas()).observe(canvas);
+  const ro = new ResizeObserver(() => resizeCanvas());
+  ro.observe(canvas);
+  if (canvas.parentElement) ro.observe(canvas.parentElement);
 }
 function posicion(e) {
   const r = canvas.getBoundingClientRect();
