@@ -1,1328 +1,646 @@
-@font-face {
-  font-family: 'Outfit';
-  src: url('../fonts/Outfit-Regular.ttf') format('truetype');
-  font-weight: 400;
-  font-style: normal;
-}
-@font-face {
-  font-family: 'Outfit';
-  src: url('../fonts/Outfit-Bold.ttf') format('truetype');
-  font-weight: 700;
-  font-style: normal;
-}
-@font-face {
-  font-family: 'Outfit';
-  src: url('../fonts/Outfit-Black.ttf') format('truetype');
-  font-weight: 900;
-  font-style: normal;
-}
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#1e1e2e" />
+    <meta
+      name="description"
+      content="Juego educativo sobre agroecología, reciclaje y circuitos productivos."
+    />
+    <link rel="icon" href="data:," />
+    <title>Kimün 🦉 - Aventura Agroecológica</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Color+Emoji&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body class="light-theme">
+    <div id="toast-container"></div>
 
-:root {
-  --bg-body: #1e1e2e;
-  --text-main: #ffffff;
-  --text-sub: #cccccc;
-  --panel-bg: #2b2b3d;
-  --panel-border: #3d3d55;
-  --stats-bg: #3d3d55;
-  --stats-border: #555577;
-  --btn-bg: #3d3d55;
-  --btn-hover: #555577;
-  --canvas-border: #3d3d55;
-  --canvas-shadow: #0008;
-  --accent: #f0e68c;
-  --highlight: #9be08a;
-  --font-size-base: 14px;
-  --btn-primary: #388e3c;
-  --btn-primary-hover: #2e7d32;
-  --stat-frutas: #ff9f40;
-  --stat-verduras: #7ec850;
-  --stat-compost: #66bb6a;
-  --stat-humus: #d4a877;
-  --stat-lana: #b0b0c0;
-  --stat-material: #a0b8c8;
-  --stat-monedas: #ffb040;
-  --stat-puntos: #ffd760;
-}
-body.light-theme {
-  --bg-body: #f4f4f9;
-  --text-main: #1e1e2e;
-  --text-sub: #4a4a5a;
-  --panel-bg: #ffffff;
-  --panel-border: #d1d1e0;
-  --stats-bg: #ffffff;
-  --stats-border: #d1d1e0;
-  --btn-bg: #ffffff;
-  --btn-hover: #e0e0e0;
-  --canvas-border: #d1d1e0;
-  --canvas-shadow: rgba(0, 0, 0, 0.1);
-  --accent: #b8860b;
-  --highlight: #2e7d32;
-  --stat-frutas: #994f00;
-  --stat-verduras: #2e7d32;
-  --stat-compost: #2e7d32;
-  --stat-humus: #6d451f;
-  --stat-lana: #4a4a5a;
-  --stat-material: #455a64;
-  --stat-monedas: #994f00;
-  --stat-puntos: #7a6000;
-}
-body.large-text {
-  --font-size-base: 17px;
-}
-body.xlarge-text {
-  --font-size-base: 20px;
-}
-body.grayscale {
-  filter: grayscale(100%);
-}
-body.highlight-zones .info-card,
-body.highlight-zones .stats,
-body.highlight-zones #msg {
-  border: 4px solid #00ffcc !important;
-  box-shadow: 0 0 15px #00ffcc !important;
-}
-body.big-cursor,
-body.big-cursor canvas,
-body.big-cursor button {
-  cursor:
-    url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path d="M0,0 L0,24 L6,18 L10,28 L14,26 L10,16 L18,16 Z" fill="black" stroke="white" stroke-width="2"/></svg>'),
-    auto !important;
-}
-* {
-  box-sizing: border-box;
-}
-body {
-  margin: 0;
-  min-height: 100vh;
-  min-height: 100dvh;
-  background: var(--bg-body);
-  color: var(--text-main);
-  font-family: 'Outfit', 'Noto Color Emoji', 'Apple Color Emoji', 'Segoe UI Emoji', Arial, system-ui, -apple-system, sans-serif;
-  font-size: var(--font-size-base);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 8px 14px;
-  gap: 8px;
-  overflow-x: hidden;
-  transition:
-    background-color 0.3s,
-    color 0.3s;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+    <!-- AVISO DE GIRAR PANTALLA EN DISPOSITIVOS VERTICALES -->
+    <div id="rotate-notice" aria-live="polite">
+      <div class="rotate-card">
+        <div class="rotate-owl">🦉</div>
+        <div class="rotate-phone">📱</div>
+        <h2>¡Girá tu pantalla!</h2>
+        <p>
+          Kimün te espera: poné tu celular o tablet en <b>horizontal</b> para
+          participar cómodamente de esta Aventura Agroecológica. 🌱🌱
+        </p>
+      </div>
+    </div>
 
-/* Aviso para girar la pantalla en celulares y tablets en vertical */
-#rotate-notice {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: var(--bg-body);
-  z-index: 9999;
-  align-items: center;
-  justify-content: center;
-  padding: 24px;
-  text-align: center;
-}
-.rotate-card {
-  background: var(--panel-bg);
-  border: 4px solid #e8b923;
-  border-radius: 24px;
-  padding: 28px 24px;
-  max-width: 380px;
-  width: 100%;
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.35);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-}
-.rotate-owl {
-  font-size: 56px;
-  line-height: 1;
-}
-.rotate-phone {
-  font-size: 52px;
-  line-height: 1;
-  margin: 6px 0;
-  animation: rotatePhoneAnim 2.2s ease-in-out infinite;
-}
-.rotate-card h2 {
-  margin: 4px 0 0 0;
-  color: var(--highlight);
-  font-size: 26px;
-}
-.rotate-card p {
-  margin: 0;
-  color: var(--text-sub);
-  font-size: 16px;
-  line-height: 1.5;
-}
-@keyframes rotatePhoneAnim {
-  0%,
-  15% {
-    transform: rotate(0deg);
-  }
-  50%,
-  80% {
-    transform: rotate(-90deg);
-  }
-  100% {
-    transform: rotate(0deg);
-  }
-}
+    <!-- PANTALLA DE INICIO -->
+    <div id="start-screen">
+      <img src="logo-ministerio-azul.png" alt="Logo Oficial" class="logo-oficial">
+      <h1>🌻 ¡Te damos la bienvenida!</h1>
+      <div class="start-tabs">
+        <button class="start-tab active" onclick="switchStartTab(0)">
+          🏞️ Naturaleza
+        </button>
+        <button class="start-tab" onclick="switchStartTab(1)">
+          🌻 Granja
+        </button>
+        <button class="start-tab" onclick="switchStartTab(2)">
+          🏭 Circuito Productivo
+        </button>
+      </div>
+      <div class="start-content active" id="start-tab-0">
+        <p>
+          Todo ecosistema empieza en la <b>Naturaleza</b>: cuidá el agua del río
+          y del dique, protegé el bosque de los incendios y ayudá a los
+          insectos polinizadores.
+        </p>
+        <div class="sectors-grid">
+          <div class="sector-card">
+            <h3>🌊 El Río</h3>
+            <p>
+              Sacá los residuos que flotan en el agua y guardalos en tu
+              <b>bolsa de clasificación</b> para reciclarlos en la granja.
+            </p>
+          </div>
+          <div class="sector-card">
+            <h3>🐟 El Dique</h3>
+            <p>
+              Pescá con cuidado para vender en el mercado. ¡Mantené el balance
+              de peces para no dañar la oxigenación del agua!
+            </p>
+          </div>
+          <div class="sector-card">
+            <h3>🌲 El Bosque</h3>
+            <p>
+              Apagá los focos de incendio a tiempo y levantá los residuos para
+              llevarlos a la bolsa de reciclaje.
+            </p>
+          </div>
+          <div class="sector-card">
+            <h3>🐝 Polinizadores</h3>
+            <p>
+              Tocá a las abejas, mariposas y escarabajos para que polinicen las
+              flores y produzcan frutas y semillas.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="start-content" id="start-tab-1">
+        <p>
+          ¡Bienvenidos a la granja educativa! Acá vas a aprender cómo funciona
+          un ecosistema real: cuidando animales, cultivando alimentos,
+          reciclando y produciendo abono.
+        </p>
+        <div class="sectors-grid">
+          <div class="sector-card">
+            <h3>🐑Corral</h3>
+            <p>
+              Cuidá a los animales dándoles comida, agua y cepillándolos. ¡No te
+              olvides de juntar el estiércol para el compost!
+            </p>
+          </div>
+          <div class="sector-card">
+            <h3>🥕 Huerta</h3>
+            <p>
+              Cosechá <b>frutas</b> 🍎, <b>verduras</b> 🥕 y <b>cereales</b> 🌾.
+              Cada uno tiene su uso: mermeladas, conservas, harina y alimento
+              para el corral.
+            </p>
+          </div>
+          <div class="sector-card">
+            <h3>♻️ Reciclaje</h3>
+            <p>
+              Clasificá los residuos de tu bolsa en el tacho correcto. ¡Lo que
+              recicles también ayuda a mantener limpio el río!
+            </p>
+          </div>
+          <div class="sector-card">
+            <h3>🪱 Lombrices</h3>
+            <p>
+              Alimentá a las lombrices con restos orgánicos para conseguir humus.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="start-content" id="start-tab-2">
+        <p>
+          En el <b>Circuito Productivo</b> transformás lo que juntás en la
+          granja y lo vendés en el mercado. ¡Sin apuro! Los clientes esperan a
+          que estés listo.
+        </p>
+        <div class="sectors-grid">
+          <div class="sector-card">
+            <h3>🧶 Telar</h3>
+            <p>
+              Hacé click en la rueda para hilar la lana. Con 5 clicks hacés un
+              hilo, con 2 hilos tejés un abrigo.
+            </p>
+          </div>
+          <div class="sector-card">
+            <h3>🍯 Procesados</h3>
+            <p>
+              Cortá frutas 🍎 para hacer <b>mermeladas</b>, verduras 🥕 para
+              <b>conservas</b> y cereales 🌾 para moler <b>harina</b>.
+            </p>
+          </div>
+          <div class="sector-card">
+            <h3>🎨 Reciclaje Creativo</h3>
+            <p>
+              Usá 3 materiales reciclados con clicks para crear una manualidad
+              única.
+            </p>
+          </div>
+          <div class="sector-card">
+            <h3>🏪 Mercado</h3>
+            <p>
+              Los clientes vienen solos a comprar lo que producís. Servilos
+              cuando quieras y ganá monedas para comprar más semillas.
+            </p>
+          </div>
+        </div>
+      </div>
+      <button class="btn-start" onclick="startGame()">
+        ¡Empezar a Jugar! 🚀
+      </button>
+    </div>
 
-@media (max-width: 1100px) and (orientation: portrait) {
-  #rotate-notice {
-    display: flex;
-  }
-}
+    <!-- MODAL ACERCA DE -->
+    <div
+      id="about-modal"
+      class="modal-overlay"
+      onclick="if (event.target === this) this.style.display = 'none';"
+    >
+      <div class="modal-content">
+        <button
+          class="btn-close"
+          onclick="document.getElementById('about-modal').style.display = 'none'"
+        >
+          Cerrar ✖
+        </button>
+        <div class="tabs-container">
+          <button class="tab-btn active" onclick="switchAboutTab(0)">
+            📚 Para Docentes
+          </button>
+          <button class="tab-btn" onclick="switchAboutTab(1)">
+            🌱 La Granja Real
+          </button>
+          <button class="tab-btn" onclick="switchAboutTab(2)">
+            🏭 Circuito Productivo
+          </button>
+        </div>
 
-.top-bar {
-  display: flex;
-  gap: 6px;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  width: 100%;
-  max-width: 1760px;
-  z-index: 20;
-}
-.stats {
-  display: flex;
-  gap: 4px 10px;
-  font-size: calc(var(--font-size-base) - 1px);
-  background: var(--stats-bg);
-  padding: 5px 13px;
-  border-radius: 999px;
-  box-shadow: 0 4px 15px var(--canvas-shadow);
-  border: 2px solid var(--stats-border);
-  font-weight: 800;
-  letter-spacing: 0.2px;
-  color: var(--text-main);
-  transition: 0.2s;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-}
-.stats span {
-  white-space: nowrap;
-  display: inline-flex;
-  align-items: center;
-  gap: 3px;
-}
-.btn-ui {
-  background: var(--btn-bg);
-  color: var(--text-main);
-  border: 2px solid var(--stats-border);
-  padding: 5px 13px;
-  border-radius: 999px;
-  font-size: calc(var(--font-size-base) - 1px);
-  font-weight: 800;
-  cursor: pointer;
-  transition: 0.2s;
-  font-family: inherit;
-  white-space: nowrap;
-}
-.btn-ui:hover {
-  background: var(--btn-hover);
-  transform: scale(1.04);
-}
-#btn-shop {
-  background: #e8b923;
-  color: #2b1e00;
-  border-color: #b8951a;
-}
-#btn-shop:hover {
-  background: #f0c534;
-}
-.view-tabs {
-  display: flex;
-  gap: 0;
-  background: var(--panel-bg);
-  border-radius: 999px;
-  padding: 3px;
-  border: 2px solid var(--stats-border);
-  box-shadow: 0 4px 15px var(--canvas-shadow);
-  max-width: 100%;
-}
-.view-tab {
-  background: transparent;
-  color: var(--text-sub);
-  border: none;
-  padding: 6px 20px;
-  border-radius: 999px;
-  font-size: var(--font-size-base);
-  font-weight: 800;
-  cursor: pointer;
-  transition: 0.2s;
-  font-family: inherit;
-  white-space: nowrap;
-}
-.view-tab.active {
-  background: var(--btn-primary);
-  color: #fff;
-}
-.view-tab:hover:not(.active) {
-  color: var(--text-main);
-}
-.game-container {
-  display: flex;
-  gap: 14px;
-  align-items: stretch;
-  justify-content: center;
-  width: 100%;
-  max-width: 1760px;
-  flex: 1;
-  min-height: 0;
-}
-.side-panel {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  width: clamp(242px, 18.5vw, 268px);
-  flex-shrink: 0;
-}
-.side-panel-cards {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-/* Kimün arriba y pegada al borde izquierdo del canvas */
-.panel-top-left {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  padding-right: 4px;
-  padding-bottom: 2px;
-}
-/* Engranaje arriba y pegado al borde derecho del canvas */
-.panel-top-right {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  gap: 10px;
-  padding-left: 4px;
-  padding-bottom: 2px;
-}
-/* Logo Oficial justo debajo de las tarjetas de la columna izquierda */
-.panel-bottom-left {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 8px;
-  padding-top: 4px;
-}
-.info-card {
-  background: var(--panel-bg);
-  border: 2px solid var(--panel-border);
-  border-radius: 16px;
-  padding: 11px 12px;
-  line-height: 1.4;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  box-shadow: 0 8px 24px var(--canvas-shadow);
-  flex: 0 0 auto;
-  transition: 0.2s;
-  font-size: var(--font-size-base);
-}
-.info-card h3 {
-  margin: 0;
-  font-size: calc(var(--font-size-base) + 2px);
-  border-bottom: 2px solid var(--panel-border);
-  padding-bottom: 4px;
-  color: var(--accent);
-}
-.info-card p {
-  margin: 0;
-  color: var(--text-sub);
-}
-.info-card .highlight {
-  color: var(--highlight);
-  font-weight: 800;
-}
-.seed-box {
-  background: var(--bg-body);
-  padding: 8px 10px;
-  border-radius: 10px;
-  margin-top: 4px;
-  border: 1px solid var(--panel-border);
-}
-.seed-box h4 {
-  margin: 0 0 6px 0;
-  font-size: calc(var(--font-size-base) - 0.5px);
-  color: var(--text-main);
-  border-bottom: 1px solid var(--panel-border);
-  padding-bottom: 4px;
-}
-#seed-inventory,
-#seed-inventory-modal {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 4px 8px;
-}
-.seed-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: calc(var(--font-size-base) - 2px);
-  font-weight: 700;
-  color: var(--text-main);
-  padding: 1px 0;
-  white-space: nowrap;
-}
-.seed-item span:last-child {
-  color: var(--accent);
-  margin-left: 4px;
-}
-.canvas-wrapper {
-  flex: 0 1 auto;
-  min-width: 0;
-  max-width: 1180px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-}
-canvas {
-  border-radius: 20px;
-  width: min(
-    calc(100vw - 2 * clamp(242px, 18.5vw, 268px) - 60px),
-    calc((100dvh - 150px) * (1000 / 680))
-  );
-  max-width: 1180px;
-  aspect-ratio: 1000 / 680;
-  height: auto;
-  box-shadow: 0 12px 35px var(--canvas-shadow);
-  cursor: pointer;
-  touch-action: manipulation;
-  user-select: none;
-  -webkit-user-select: none;
-  -webkit-tap-highlight-color: transparent;
-  border: 4px solid var(--canvas-border);
-  display: block;
-}
-#msg {
-  font-size: calc(var(--font-size-base) + 1px);
-  min-height: 24px;
-  line-height: 1.35;
-  text-align: center;
-  font-weight: 800;
-  color: var(--highlight);
-  transition: color 0.2s;
-  text-shadow: 0 2px 4px var(--canvas-shadow);
-  margin: 4px 0 0 0;
-  padding: 4px 8px;
-  background: transparent;
-  border: none;
-  width: 100%;
-}
-#start-screen {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  height: 100dvh;
-  background: var(--bg-body);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: safe center;
-  z-index: 400;
-  padding: clamp(12px, 2.5vh, 24px) 16px;
-  text-align: center;
-  transition: opacity 0.5s;
-  overflow-y: auto;
-}
-.logo-oficial {
-  margin-top: auto;
-  max-height: clamp(65px, 14vh, 145px);
-  max-width: min(80%, 340px);
-  object-fit: contain;
-  margin-bottom: 4px;
-  flex-shrink: 0;
-}
-#start-screen h1 {
-  font-size: clamp(24px, 4.2vh, 40px);
-  margin: 4px 0 12px 0;
-  color: var(--highlight);
-  text-shadow: 0 4px 10px var(--canvas-shadow);
-  flex-shrink: 0;
-}
-.start-tabs {
-  display: flex;
-  gap: 6px;
-  background: var(--panel-bg);
-  border-radius: 999px;
-  padding: 4px;
-  border: 2px solid var(--panel-border);
-  margin-bottom: 14px;
-  flex-shrink: 0;
-  max-width: 100%;
-}
-.start-tab {
-  background: transparent;
-  color: var(--text-sub);
-  border: none;
-  padding: 8px 20px;
-  border-radius: 999px;
-  font-weight: 800;
-  font-size: clamp(14px, 2vh, 16px);
-  cursor: pointer;
-  transition: 0.2s;
-  font-family: inherit;
-}
-.start-tab.active {
-  background: var(--btn-primary);
-  color: #fff;
-}
-.start-tab:hover:not(.active) {
-  color: var(--text-main);
-}
-.start-content {
-  display: none;
-  width: 100%;
-}
-.start-content.active {
-  display: block;
-  animation: fadeIn 0.3s;
-}
-.start-content > p {
-  font-size: clamp(14px, 2vh, 16px);
-  max-width: 700px;
-  margin: 0 auto 14px;
-  color: var(--text-sub);
-  line-height: 1.45;
-}
-.sectors-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  max-width: 700px;
-  margin: 0 auto 16px;
-}
-.sector-card {
-  background: var(--panel-bg);
-  padding: clamp(10px, 1.6vh, 14px);
-  border-radius: 12px;
-  text-align: left;
-  border: 2px solid var(--panel-border);
-  color: var(--text-main);
-}
-.sector-card h3 {
-  margin: 0 0 4px 0;
-  color: var(--accent);
-  font-size: clamp(15px, 2.1vh, 17px);
-}
-.sector-card p {
-  font-size: clamp(12.5px, 1.8vh, 14px);
-  margin: 0;
-  color: var(--text-sub);
-  line-height: 1.38;
-}
-.btn-start {
-  background: var(--btn-primary);
-  color: #fff;
-  border: none;
-  padding: clamp(11px, 2vh, 16px) clamp(32px, 5vw, 46px);
-  font-size: clamp(18px, 2.8vh, 22px);
-  font-weight: 700;
-  border-radius: 999px;
-  cursor: pointer;
-  box-shadow: 0 10px 20px var(--canvas-shadow);
-  transition: transform 0.2s;
-  font-family: inherit;
-  flex-shrink: 0;
-  margin-bottom: auto;
-}
-.btn-start:hover {
-  transform: scale(1.05);
-  background: var(--btn-primary-hover);
-}
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  height: 100dvh;
-  background: rgba(0, 0, 0, 0.7);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 350;
-  padding: 16px;
-}
-.modal-content {
-  background: var(--panel-bg);
-  padding: 24px;
-  border-radius: 20px;
-  max-width: 800px;
-  width: 100%;
-  max-height: 90vh;
-  max-height: 90dvh;
-  overflow-y: auto;
-  border: 4px solid var(--btn-primary);
-  text-align: left;
-  color: var(--text-main);
-  position: relative;
-}
-.modal-content h2 {
-  color: var(--highlight);
-  margin-top: 0;
-}
-.modal-content h3 {
-  color: var(--accent);
-  margin-top: 20px;
-}
-.modal-content p,
-.modal-content li {
-  color: var(--text-sub);
-  line-height: 1.6;
-  font-size: 15px;
-}
-.btn-close {
-  background: #e74c3c;
-  color: #fff;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 8px;
-  font-weight: 800;
-  cursor: pointer;
-  float: right;
-  margin-left: 12px;
-  margin-bottom: 8px;
-  font-family: inherit;
-}
-.tabs-container {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 18px;
-  border-bottom: 2px solid var(--panel-border);
-  padding-bottom: 12px;
-  flex-wrap: wrap;
-  clear: both;
-}
-.tab-btn {
-  background: var(--bg-body);
-  border: 2px solid var(--panel-border);
-  color: var(--text-main);
-  font-weight: 800;
-  font-size: 14px;
-  cursor: pointer;
-  padding: 8px 14px;
-  border-radius: 12px;
-  transition: 0.2s;
-  font-family: inherit;
-}
-.tab-btn.active {
-  background: var(--btn-primary);
-  color: #fff;
-  border-color: var(--btn-primary);
-}
-.tab-content {
-  display: none;
-}
-.tab-content.active {
-  display: block;
-  animation: fadeIn 0.3s;
-}
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(5px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-.acc-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin-top: 20px;
-}
-.acc-btn {
-  background: var(--bg-body);
-  border: 2px solid var(--panel-border);
-  padding: 14px;
-  border-radius: 12px;
-  color: var(--text-main);
-  font-weight: 800;
-  font-size: 15px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  transition: 0.2s;
-  font-family: inherit;
-}
-.acc-btn:hover {
-  border-color: var(--btn-primary);
-  transform: scale(1.02);
-}
-.acc-btn.active {
-  background: var(--btn-primary);
-  color: #fff;
-  border-color: var(--btn-primary);
-}
-.acc-btn.reset {
-  grid-column: span 2;
-  justify-content: center;
-  background: #e74c3c;
-  color: white;
-  border-color: #c0392b;
-}
-.acc-btn.reset:hover {
-  background: #c0392b;
-}
-.acc-divider {
-  grid-column: span 2;
-  border-top: 2px solid var(--panel-border);
-  margin: 8px 0;
-  padding-top: 12px;
-  font-size: 13px;
-  color: var(--text-sub);
-  font-weight: 800;
-}
+        <!-- TAB 1: PARA DOCENTES -->
+        <div id="tab-content-0" class="tab-content active">
+          <h2>📚 Acerca del juego (para docentes)</h2>
+          <p>
+            <b>Kimün 🦉 - Aventura Agroecológica</b> es un simulador educativo digital, accesible
+            desde el navegador, diseñado para niños y niñas de 6 a 12 años e
+            inspirado en la granja agroecológica de Av. Pringles S/N°, Ciudad de
+            Juana Koslay, San Luis. Su propósito es complementar la visita
+            física al predio con una experiencia lúdica que refuerza los
+            contenidos del recorrido: a través de cinco espacios interconectados
+            —el corral, la huerta, el reciclaje, la lombricompostera y el circuito
+            productivo—, los chicos y chicas cuidan animales, cultivan
+            alimentos, clasifican residuos, producen abono con lombrices
+            y transforman lo producido en nuevos productos, aprendiendo
+            que cada acción tiene consecuencias dentro del ecosistema.
+          </p>
 
-/* Botones de Kimün, Engranaje y Logo Oficial */
-.floating-gear {
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  background: var(--panel-bg);
-  border: 3px solid var(--btn-primary);
-  color: var(--text-main);
-  font-size: 26px;
-  cursor: pointer;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: 0.25s;
-  padding: 0;
-  flex-shrink: 0;
-}
-.floating-kimun {
-  width: 66px;
-  height: 66px;
-  border-radius: 50%;
-  background: #e8b923;
-  border: 4px solid #b8951a;
-  font-size: 35px;
-  cursor: pointer;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: 0.25s;
-  padding: 0;
-  animation: float 3s ease-in-out infinite;
-  flex-shrink: 0;
-}
-.floating-kimun:hover {
-  background: #f0c534;
-  animation-play-state: paused;
-}
-.logo-flotante {
-  height: clamp(65px, 8.5vh, 95px);
-  width: auto;
-  max-width: 100%;
-  object-fit: contain;
-  pointer-events: none;
-  opacity: 0.95;
-}
-.logo-side-mobile {
-  display: none;
-}
+          <h3>Objetivos de Aprendizaje</h3>
+          <p>
+            Al finalizar la experiencia, se espera que los chicos y chicas
+            puedan:
+          </p>
+          <ul>
+            <li>
+              <b>Comprender el ciclo de nutrientes:</b> explicar cómo el
+              estiércol de los animales y los residuos orgánicos se transforman
+              en compost, y cómo las lombices en la lombricompostera producen humus, ambos abonos que
+              alimentan la huerta y cierran el ciclo de la materia.
+            </li>
+            <li>
+              <b>Reconocer el bienestar animal y los recursos renovables:</b>
+              identificar las necesidades de los animales del corral (alimento,
+              agua, higiene) y entender que la lana puede obtenerse
+              periódicamente sin dañarlos.
+            </li>
+            <li>
+              <b>Valorar la soberanía alimentaria:</b> fundamentar por qué es
+              importante guardar semillas de la propia cosecha para las próximas
+              siembras.
+            </li>
+            <li>
+              <b>Gestionar los residuos en origen:</b> clasificar residuos en
+              orgánico, plástico, papel, vidrio y tecnología, y explicar por qué
+              pilas y celulares requieren un tratamiento especial.
+            </li>
+            <li>
+              <b>Comprender el rol de las lombrices y la lombricompostera:</b> identificar
+               a las lombrices como descomponedoras que transforman los restos
+               en humus, y explicar por qué ese humus es un abono fértil
+               que devuelve nutrientes a la huerta, cerrando el ciclo de la materia.
+            </li>
+            <li>
+              <b>Comprender el circuito productivo y el valor agregado:</b>
+              explicar cómo una materia prima (lana, frutas, verduras, cereales,
+              materiales reciclables) se transforma en un producto elaborado,
+              reconociendo que cada eslabón agrega valor.
+            </li>
+            <li>
+              <b>Planificar y tomar decisiones estratégicas:</b> elegir qué
+              cultivar según el tiempo de crecimiento y el rendimiento, decidir
+              qué transformar o vender, y reinvertir las monedas obtenidas en
+              nuevas semillas.
+            </li>
+          </ul>
 
-@keyframes float {
-  0% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-6px);
-  }
-  100% {
-    transform: translateY(0px);
-  }
-}
+          <h3>Consejos para el Aula</h3>
+          <p>
+            Recomendamos jugar en parejas o tríos para fomentar el diálogo y la
+            argumentación. El mercado avanza sin apuro —los clientes llegan
+            solos—, lo que permite jugar sin presión de tiempo y acompañar
+            distintos ritmos de aprendizaje. Preguntas guía:
+            <i
+              >¿Qué pasa si no limpiamos el corral? ¿De dónde sale el compost
+              que usa la huerta? ¿Qué diferencia hay entre el compost y el humus
+              de la lombricompostera? ¿Por qué las manzanas tardan más que las
+              frutillas? ¿Dónde va una pila usada y por qué?
+              ¿Qué pasa con la lana si no la tejemos? ¿Conviene vender la fruta
+              fresca o hacer mermelada? ¿En qué conviene gastar las monedas que
+              ganamos?</i
+            >
+          </p>
+        </div>
 
-.floating-gear:hover {
-  transform: scale(1.08) rotate(45deg);
-  border-color: #4caf50;
-}
-/* Botón de inventario de semillas para pantallas más chicas que PC */
-.floating-seeds {
-  display: none;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background: var(--panel-bg);
-  border: 3px solid var(--btn-primary);
-  color: var(--text-main);
-  font-size: 24px;
-  cursor: pointer;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
-  align-items: center;
-  justify-content: center;
-  transition: 0.25s;
-  padding: 0;
-  flex-shrink: 0;
-}
-.floating-seeds:hover {
-  transform: scale(1.08);
-  border-color: #4caf50;
-}
-#shop-modal .modal-content {
-  max-width: 760px;
-}
-.shop-coins {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: #f0e68c;
-  padding: 8px 20px;
-  border-radius: 999px;
-  border: 2px solid #b8951a;
-  font-weight: 700;
-  font-size: 20px;
-  color: #3d2c00;
-  margin-bottom: 5px;
-}
-#shop-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin-top: 15px;
-}
-.shop-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  background: var(--bg-body);
-  border: 2px solid var(--panel-border);
-  border-radius: 12px;
-  padding: 10px 12px;
-}
-.shop-emoji {
-  font-size: 30px;
-  flex-shrink: 0;
-}
-.shop-info {
-  flex: 1;
-  min-width: 0;
-}
-.shop-name {
-  font-weight: 700;
-  font-size: 15px;
-  color: var(--text-main);
-}
-.shop-meta {
-  font-size: 12px;
-  color: var(--text-sub);
-  margin-top: 2px;
-}
-.shop-buy {
-  background: var(--btn-primary);
-  color: #fff;
-  border: none;
-  padding: 8px 14px;
-  border-radius: 8px;
-  font-weight: 800;
-  cursor: pointer;
-  font-size: 14px;
-  flex-shrink: 0;
-  transition: 0.2s;
-  font-family: inherit;
-}
-.shop-buy:hover:not(:disabled) {
-  background: var(--btn-primary-hover);
-  transform: scale(1.05);
-}
-.shop-buy:disabled {
-  background: #666;
-  color: #ccc;
-  cursor: not-allowed;
-  opacity: 1;
-}
-body.light-theme .shop-buy:disabled {
-  background: #ccc;
-  color: #666;
-}
-#toast-container {
-  position: fixed;
-  top: 80px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 450;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  pointer-events: none;
-  align-items: center;
-  width: 90%;
-  max-width: 420px;
-}
-.toast {
-  background: linear-gradient(135deg, #f0e68c, #e8b923);
-  color: #2b1e00;
-  padding: 12px 24px;
-  border-radius: 999px;
-  font-weight: 900;
-  font-size: clamp(14px, 2vw, 18px);
-  text-align: center;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
-  animation:
-    toastIn 0.4s,
-    toastOut 0.4s 2.6s forwards;
-}
-@keyframes toastIn {
-  from {
-    opacity: 0;
-    transform: translateY(-20px) scale(0.8);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-@keyframes toastOut {
-  to {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-}
+        <!-- TAB 2: LA GRANJA REAL -->
+        <div id="tab-content-1" class="tab-content">
+          <h2>🌱 La granja real: Juana Koslay, San Luis</h2>
+          <p>
+            <b>Kimün 🦉 - Aventura Agroecológica</b> se inspira en una granja educativa real de 3
+            hectáreas, ubicada en Av. Pringles S/N°, Ciudad de Juana Koslay, San
+            Luis, diseñada bajo un enfoque sostenible y agroecológico. Su
+            objetivo es promover el aprendizaje práctico, la soberanía
+            alimentaria, el trabajo en equipo y la conciencia ambiental a través
+            de visitas guiadas y de la articulación con instituciones
+            educativas.
+          </p>
 
-/* Notebooks y pantallas anchas de poca altura (ej. 1280x800, 1366x768, 1280x720) */
-@media (min-width: 1151px) and (max-height: 820px) {
-  body {
-    padding: 5px 10px;
-    gap: 5px;
-  }
-  .view-tab {
-    padding: 4px 15px;
-    font-size: 13px;
-  }
-  .stats {
-    padding: 4px 11px;
-    gap: 4px 9px;
-    font-size: 12.5px;
-  }
-  .btn-ui {
-    padding: 4px 12px;
-    font-size: 12.5px;
-  }
-  .side-panel {
-    width: clamp(236px, 18vw, 255px);
-    gap: 8px;
-  }
-  .side-panel-cards {
-    gap: 8px;
-  }
-  .info-card {
-    padding: 8px 10px;
-    gap: 4px;
-    line-height: 1.3;
-    font-size: 13px;
-  }
-  .seed-item {
-    font-size: 11.5px;
-  }
-  canvas {
-    width: min(
-      calc(100vw - 2 * clamp(236px, 18vw, 255px) - 52px),
-      calc((100dvh - 125px) * (1000 / 680))
-    );
-  }
-  .logo-flotante {
-    height: clamp(52px, 7.5vh, 74px);
-  }
-  .floating-kimun {
-    width: 54px;
-    height: 54px;
-    font-size: 28px;
-  }
-  .floating-gear {
-    width: 48px;
-    height: 48px;
-    font-size: 22px;
-  }
-}
+          <h3>Sectores y actividades del predio</h3>
+          <ul>
+            <li>
+              <b>Huerta agroecológica:</b> espacios de cultivo, cosecha de
+              vegetales y prácticas de siembra directa.
+            </li>
+            <li>
+              <b>Compostaje y lombricompostaje:</b> módulos demostrativos para
+              la elaboración de abonos orgánicos y humus.
+            </li>
+            <li>
+              <b>Producción animal:</b> caballos, ovejas, cabras, aves (como
+              crías de gansos) y una llama incorporada recientemente a los
+              recorridos educativos.
+            </li>
+            <li>
+              <b>Producción vegetal:</b> sectores de plantas aromáticas, cultivo
+              de rosas y sistemas de riego eficiente.
+            </li>
+            <li>
+              <b>Visitas guiadas:</b> recorridos gratuitos orientados a
+              escuelas, centros de día y organizaciones comunitarias.
+            </li>
+          </ul>
 
-/* Tablets, Netbooks y Pantallas medianas (<= 1150px) */
-@media (max-width: 1150px) {
-  body {
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-content: flex-start;
-    padding: 4px 8px 12px 8px;
-    gap: 4px 6px;
-  }
-  /* Cabecera en 2 filas (Fila 1: Pestañas + Monedas/Puntos + Tienda + Acerca de | Fila 2: Recursos) */
-  .top-bar {
-    display: contents;
-  }
-  .view-tabs {
-    order: -4;
-    padding: 2px;
-  }
-  .view-tab {
-    padding: 4px 12px;
-    font-size: 12px;
-  }
-  .stats:last-of-type {
-    order: -3;
-  }
-  #btn-shop {
-    order: -2;
-  }
-  .btn-ui {
-    order: -1;
-    padding: 4px 11px;
-    font-size: 12px;
-  }
-  .stats:first-of-type {
-    order: 0;
-  }
-  .stats {
-    padding: 4px 10px;
-    gap: 3px 8px;
-    font-size: 11.5px;
-  }
-  /* Grilla de 3 columnas fijas para que NUNCA se caigan los botones a los lados */
-  .game-container {
-    width: 100%;
-    display: grid;
-    grid-template-columns: 115px auto 54px;
-    grid-template-rows: auto auto 1fr auto auto;
-    align-items: start;
-    justify-content: center;
-    gap: 8px 10px;
-  }
-  .side-panel {
-    display: contents;
-  }
-  /* Columna Izquierda: 1) Kimün, 2) Logo Ministerial, 3) Carteles de acción (#msg) */
-  .panel-top-left {
-    grid-column: 1;
-    grid-row: 1;
-    justify-content: center;
-    padding: 4px 0 0 0;
-    width: 100%;
-  }
-  .panel-bottom-left {
-    grid-column: 1;
-    grid-row: 2;
-    display: flex;
-    justify-content: center;
-    margin: 0;
-    padding: 0;
-    width: 100%;
-  }
-  #msg {
-    grid-column: 1;
-    grid-row: 3;
-    width: 100%;
-    font-size: 12px;
-    line-height: 1.3;
-    padding: 2px 4px;
-    margin: 0;
-  }
-  /* Columna Central: Tablero */
-  .canvas-wrapper {
-    grid-column: 2;
-    grid-row: 1 / 4;
-  }
-  canvas {
-    width: min(calc(100vw - 205px), calc((100dvh - 105px) * (1000 / 680)));
-    max-width: 920px;
-    border-radius: 16px;
-  }
-  /* Columna Derecha: Engranaje + Semillas */
-  .panel-top-right {
-    grid-column: 3;
-    grid-row: 1 / 4;
-    padding: 4px 0 0 0;
-    align-items: center;
-    width: 100%;
-  }
-  .floating-seeds {
-    display: flex;
-  }
-  /* Ocultamos el contador de semillas repetido en la tarjeta */
-  .seed-inventory-box,
-  #cards-right .info-card:first-child .seed-box {
-    display: none;
-  }
-  #cards-left {
-    grid-column: 1 / -1;
-    grid-row: 4;
-    width: 100%;
-    max-width: 960px;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: stretch;
-  }
-  #cards-right {
-    grid-column: 1 / -1;
-    grid-row: 5;
-    width: 100%;
-    max-width: 960px;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: stretch;
-  }
-  .info-card {
-    flex: 1 1 280px;
-  }
-  .logo-flotante {
-    height: auto;
-    width: 110px;
-    max-height: 56px;
-  }
-  .floating-kimun {
-    width: 54px;
-    height: 54px;
-    font-size: 28px;
-  }
-  .floating-gear,
-  .floating-seeds {
-    width: 48px;
-    height: 48px;
-    font-size: 22px;
-  }
-}
+          <h3>Del predio a la pantalla</h3>
+          <p>
+            El juego retoma algunos de estos sectores y los traduce en
+            mecánicas: el corral, la huerta, el reciclaje, la lombricompostera y la
+            polinización. El circuito productivo es un espacio propio del juego:
+            muestra qué ocurre con lo producido y cómo se reinvierte lo
+            obtenido. La visita a la granja sigue siendo la experiencia directa,
+            y el juego funciona como antesala o como cierre de esa visita.
+          </p>
+        </div>
 
-/* Celulares en horizontal (<= 560px de alto): Sin barra superior para que el tablero ocupe el 100% del alto.
-   Izquierda: Pestañas, Kimün, Logo, Cartel (#msg) y abajo Engranaje + Semillas.
-   Derecha: Tienda, Acerca de y abajo la tabla de Recursos/Monedas/Puntos. */
-@media (max-height: 560px) and (orientation: landscape) {
-  body {
-    display: grid;
-    grid-template-columns: 118px auto 122px;
-    grid-template-rows: auto auto auto 1fr auto;
-    align-items: start;
-    justify-items: center;
-    justify-content: center;
-    padding: 3px 6px;
-    gap: 3px 6px;
-    height: 100dvh;
-    overflow: hidden;
-  }
-  .top-bar,
-  .game-container,
-  .side-panel {
-    display: contents;
-  }
-  /* Columna Izquierda:
-     Fila 1: Pestañas (Naturaleza / Granja / Circuito Productivo)
-     Fila 2: Kimün 🦉
-     Fila 3: Logo Ministerial
-     Fila 4: Cartel de acciones (#msg)
-     Fila 5 (abajo a la izquierda): Engranaje ⚙️ + Semillas 🌱 */
-  .view-tabs {
-    grid-column: 1;
-    grid-row: 1;
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    border-radius: 11px;
-    padding: 2px;
-    gap: 2px;
-  }
-  .view-tab {
-    padding: 3px 4px;
-    font-size: 9.5px;
-    border-radius: 8px;
-    text-align: center;
-    white-space: normal;
-    line-height: 1.15;
-  }
-  .panel-top-left {
-    grid-column: 1;
-    grid-row: 2;
-    justify-content: center;
-    padding: 0;
-    width: 100%;
-  }
-  .panel-bottom-left {
-    grid-column: 1;
-    grid-row: 3;
-    display: flex;
-    justify-content: center;
-    margin: 0;
-    padding: 0;
-    width: 100%;
-  }
-  .logo-flotante {
-    display: block;
-    width: 108px;
-    height: auto;
-    max-height: 40px;
-  }
-  #msg {
-    grid-column: 1;
-    grid-row: 4;
-    align-self: center;
-    width: 100%;
-    font-size: 9.5px;
-    line-height: 1.18;
-    min-height: 0;
-    margin: 0;
-    padding: 1px 2px;
-    text-align: center;
-  }
-  .panel-top-right {
-    grid-column: 1;
-    grid-row: 5;
-    align-self: end;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    padding: 0 0 2px 0;
-    width: 100%;
-  }
-  /* Columna Central: El tablero ocupa TODO el alto de la pantalla del celular (filas 1 a 5) */
-  .canvas-wrapper {
-    grid-column: 2;
-    grid-row: 1 / 6;
-    align-self: center;
-    justify-self: center;
-    max-width: none;
-  }
-  canvas {
-    width: min(calc(100vw - 264px), calc((100dvh - 8px) * (1000 / 680)));
-    max-width: 860px;
-    border-radius: 12px;
-    border-width: 2px;
-  }
-  /* Columna Derecha:
-     Fila 1: Tienda
-     Fila 2: Acerca de
-     Fila 3: Monedas y Puntos
-     Fila 4-5 (abajo a la derecha): Barra de recursos vertical */
-  #btn-shop {
-    grid-column: 3;
-    grid-row: 1;
-    width: 100%;
-    padding: 4px 6px;
-    font-size: 10px;
-    text-align: center;
-  }
-  .top-bar .btn-ui:not(#btn-shop) {
-    grid-column: 3;
-    grid-row: 2;
-    width: 100%;
-    padding: 4px 6px;
-    font-size: 10px;
-    text-align: center;
-  }
-  .stats:last-of-type {
-    grid-column: 3;
-    grid-row: 3;
-    align-self: end;
-  }
-  .stats:first-of-type {
-    grid-column: 3;
-    grid-row: 4 / 6;
-    align-self: end;
-  }
-  .stats {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    width: 100%;
-    padding: 4px 8px;
-    gap: 1.5px;
-    font-size: 9.5px;
-    border-radius: 11px;
-  }
-  .stats span {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    white-space: nowrap;
-    line-height: 1.22;
-  }
-  #cards-left,
-  #cards-right {
-    display: none;
-  }
-  .floating-seeds {
-    display: flex;
-    width: 36px;
-    height: 36px;
-    font-size: 17px;
-    border-width: 2px;
-  }
-  .floating-kimun {
-    width: 40px;
-    height: 40px;
-    font-size: 21px;
-    border-width: 3px;
-  }
-  .floating-gear {
-    width: 36px;
-    height: 36px;
-    font-size: 17px;
-    border-width: 2px;
-  }
-  /* Pantalla de inicio compacta en celulares horizontales (sin scroll) */
-  #start-screen {
-    padding: 6px 12px;
-  }
-  .logo-oficial {
-    max-height: 34px;
-    margin-bottom: 2px;
-  }
-  #start-screen h1 {
-    font-size: 18px;
-    margin: 0 0 4px 0;
-  }
-  .start-tabs {
-    padding: 2px;
-    margin-bottom: 6px;
-  }
-  .start-tab {
-    padding: 3px 12px;
-    font-size: 11.5px;
-  }
-  .start-content > p {
-    font-size: 11.5px;
-    margin: 0 auto 6px;
-    line-height: 1.25;
-    max-width: 740px;
-  }
-  .sectors-grid {
-    grid-template-columns: repeat(4, 1fr);
-    gap: 6px;
-    max-width: 760px;
-    margin: 0 auto 8px;
-  }
-  .sector-card {
-    padding: 6px 8px;
-    border-radius: 8px;
-  }
-  .sector-card h3 {
-    font-size: 12px;
-    margin-bottom: 2px;
-  }
-  .sector-card p {
-    font-size: 10.5px;
-    line-height: 1.2;
-  }
-  .btn-start {
-    padding: 6px 24px;
-    font-size: 14px;
-  }
-}
+        <!-- TAB 3: CIRCUITO PRODUCTIVO -->
+        <div id="tab-content-2" class="tab-content">
+          <h2>🏭 El Circuito Productivo</h2>
+          <p>
+            El Circuito Productivo es el espacio donde lo que se produce en la
+            granja se transforma y se pone en valor. La lana se convierte en
+            hilo y luego en tejido; las frutas, verduras y cereales se procesan
+            en mermeladas, conservas y harina; los materiales reciclables se
+            transforman en manualidades; y lo producido se ofrece en el mercado
+            local. A lo largo del recorrido, los chicos y chicas deciden qué
+            transformar, qué vender y cuánto reinvertir, y descubren que cada
+            eslabón agrega valor y que lo obtenido puede volver a la granja como
+            nuevas semillas.
+          </p>
+
+          <p>
+            El mercado avanza sin apuro —los clientes llegan solos—, lo que
+            permite jugar sin presión de tiempo y acompañar distintos ritmos de
+            aprendizaje. El circuito también propone metas de largo plazo que
+            invitan a planificar y a sostener decisiones en el tiempo.
+          </p>
+
+          <h3>
+            Al recorrer el circuito, se espera que los chicos y chicas puedan:
+          </h3>
+          <ul>
+            <li>
+              <b>Reconocer el valor agregado:</b> explicar cómo una materia
+              prima se transforma en un producto elaborado y por qué eso le da
+              más valor.
+            </li>
+            <li>
+              <b>Planificar y reinvertir:</b> decidir qué transformar, qué
+              vender y en qué gastar las monedas, entendiendo que la reinversión
+              en semillas permite seguir produciendo.
+            </li>
+            <li>
+              <b>Cerrar el ciclo:</b> relacionar el circuito con la huerta y el
+              reciclaje, reconociendo que los materiales pueden volver al
+              sistema como nuevos productos o insumos.
+            </li>
+            <li>
+              <b>Sostener metas a largo plazo:</b> organizar sus decisiones en
+              función de objetivos que se alcanzan con el tiempo, y no solo de
+              resultados inmediatos.
+            </li>
+          </ul>
+
+          <h3>Consejos para el Aula</h3>
+          <p>
+            El circuito funciona bien como cierre de la experiencia, después de
+            haber producido lana, frutas y verduras. Preguntas guía:
+            <i
+              >¿Qué pasa con la lana si no la tejemos? ¿Conviene vender la fruta
+              fresca o hacer mermelada? ¿Qué materiales usamos para la
+              manualidad y de dónde salieron? ¿En qué conviene gastar las
+              monedas? ¿Qué te gustaría lograr más adelante y qué decisiones
+              tomarías para conseguirlo?</i
+            >
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL DE ACCESIBILIDAD Y AJUSTES -->
+    <div
+      id="access-modal"
+      class="modal-overlay"
+      onclick="if (event.target === this) this.style.display = 'none';"
+    >
+      <div class="modal-content" style="max-width: 620px">
+        <button
+          class="btn-close"
+          onclick="document.getElementById('access-modal').style.display = 'none'"
+        >
+          Cerrar ✖
+        </button>
+        <h2>⚙️ Ajustes</h2>
+        <p>Personalizá el juego a tu medida.</p>
+        <div class="acc-grid">
+          <button class="acc-btn" onclick="toggleTheme()" id="btn-theme">
+            <span>☀️</span> Tema Claro
+          </button>
+          <button class="acc-btn" onclick="toggleSound()" id="btn-sound">
+            <span>🔊</span> Sonido ON
+          </button>
+          <div class="acc-divider">Accesibilidad</div>
+          <button class="acc-btn" onclick="changeFontSize(1)">
+            <span>🔍</span> Texto más grande (A+)
+          </button>
+          <button class="acc-btn" onclick="changeFontSize(-1)">
+            <span>🔍</span> Texto más chico (A-)
+          </button>
+          <button
+            class="acc-btn"
+            onclick="toggleGrayscale()"
+            id="btn-grayscale"
+          >
+            <span>🎨</span> Escala de Grises
+          </button>
+          <button
+            class="acc-btn"
+            onclick="toggleHighlight()"
+            id="btn-highlight"
+          >
+            <span>✨</span> Resaltar Zonas
+          </button>
+          <button class="acc-btn" onclick="toggleCursor()" id="btn-cursor">
+            <span>🖱️</span> Cursor Grande
+          </button>
+          <button class="acc-btn reset" onclick="resetAccessibility()">
+            <span>🔄</span> Restablecer Ajustes
+          </button>
+        </div>
+      </div>
+    </div>
+  <!-- MODAL DE KIMÜN -->
+    <div
+      id="kimun-modal"
+      class="modal-overlay"
+      onclick="if (event.target === this) this.style.display = 'none';"
+    >
+      <div class="modal-content" style="max-width: 500px; text-align: center; border-color: #e8b923;">
+        <button
+          class="btn-close"
+          onclick="document.getElementById('kimun-modal').style.display = 'none'"
+        >
+          Cerrar ✖
+        </button>
+
+        <div style="font-size: clamp(48px, 8vh, 70px); margin-bottom: 10px; clear: both;">🦉</div>
+
+        <h2 style="color: var(--accent); margin-top: 0;">Kimün, la lechuza sabia</h2>
+
+        <div style="background: var(--bg-body); padding: 16px; border-radius: 16px; border: 2px solid var(--panel-border); position: relative; margin-top: 16px;">
+          <p style="font-size: clamp(15px, 2.2vh, 18px); color: var(--text-main); font-weight: 700; margin: 0;">
+            "¡Mari mari! (¡Hola!) Soy Kimün 🦉, la lechuza sabia. Juntos vamos a aprender a cuidar la naturaleza, proteger a los animales y vivir una gran Aventura Agroecológica."
+          </p>
+        </div>
+
+        <button class="btn-start" style="margin-top: 25px; font-size: 18px; padding: 10px 30px;" onclick="document.getElementById('kimun-modal').style.display = 'none'">
+          ¡Vamos a jugar! 🚀
+        </button>
+      </div>
+    </div>
+    
+    <!-- MODAL TIENDA DE SEMILLAS -->
+    <div
+      id="shop-modal"
+      class="modal-overlay"
+      onclick="if (event.target === this) this.style.display = 'none';"
+    >
+      <div class="modal-content">
+        <button
+          class="btn-close"
+          onclick="document.getElementById('shop-modal').style.display = 'none'"
+        >
+          Cerrar ✖
+        </button>
+        <h2>🛒 Tienda de Semillas</h2>
+        <p>Comprá semillas con las monedas que ganás en el mercado.</p>
+        <div class="shop-coins">🪙 <span id="shop-coins">0</span></div>
+        <div id="shop-grid"></div>
+      </div>
+    </div>
+
+    <!-- MODAL INVENTARIO DE SEMILLAS (PANTALLAS CHICAS) -->
+    <div
+      id="seeds-modal"
+      class="modal-overlay"
+      onclick="if (event.target === this) this.style.display = 'none';"
+    >
+      <div class="modal-content" style="max-width: 440px;">
+        <button
+          class="btn-close"
+          onclick="document.getElementById('seeds-modal').style.display = 'none'"
+        >
+          Cerrar ✖
+        </button>
+        <h2>🌱 Tus semillas guardadas</h2>
+        <p>Estas son las semillas que tenés listas para plantar en la huerta:</p>
+        <div class="seed-box" style="margin-top: 12px;">
+          <div id="seed-inventory-modal"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="view-tabs">
+      <button
+        class="view-tab active"
+        data-view="nature"
+        onclick="switchView('nature')"
+      >
+        🏞️ Naturaleza
+      </button>
+      <button
+        class="view-tab"
+        data-view="farm"
+        onclick="switchView('farm')"
+      >
+        🌾 Granja
+      </button>
+      <button
+        class="view-tab"
+        data-view="workshop"
+        onclick="switchView('workshop')"
+      >
+        🏭 Circuito Productivo
+      </button>
+    </div>
+
+    <div class="top-bar">
+      <div class="stats">
+        <span
+          >🍎 Frutas:
+          <b id="s-frutas" style="color: var(--stat-frutas)">0</b></span
+        >
+        <span
+          >🥕 Verduras:
+          <b id="s-verduras" style="color: var(--stat-verduras)">0</b></span
+        >
+        <span
+          >🌾 Cereales:
+          <b id="s-cereales" style="color: var(--stat-frutas)">0</b></span
+        >
+        <span
+          >🥖 Harina: <b id="s-harina" style="color: var(--accent)">0</b></span
+        >
+        <span
+          >♻️ Compost:
+          <b id="s-compost" style="color: var(--stat-compost)">3</b></span
+        >
+        <span
+          >🪱 Humus:
+          <b id="s-humus" style="color: var(--stat-humus)">0</b></span
+        >
+        <span
+          >🧶 Lana: <b id="s-lana" style="color: var(--stat-lana)">0</b></span
+        >
+        <span
+          >🥚 Huevos:
+          <b id="s-huevos" style="color: var(--stat-humus)">0</b></span
+        >
+        <span
+          >🐟 Peces:
+          <b id="s-peces" style="color: var(--stat-material)">0</b></span
+        >
+        <span
+          >📦 Material:
+          <b id="s-material" style="color: var(--stat-material)">0</b></span
+        >
+      </div>
+      <div class="stats">
+        <span
+          >🪙 Monedas:
+          <b id="s-monedas" style="color: var(--stat-monedas)">0</b></span
+        >
+        <span
+          >⭐ Puntos:
+          <b id="s-puntos" style="color: var(--stat-puntos)">0</b></span
+        >
+      </div>
+      <button class="btn-ui" id="btn-shop" onclick="openShop()">
+        🛒 Tienda
+      </button>
+      <button
+        class="btn-ui"
+        onclick="document.getElementById('about-modal').style.display = 'flex'"
+      >
+        📚 Acerca de
+      </button>
+    </div>
+
+    <div class="game-container">
+      <div class="side-panel" id="panel-left">
+        <div class="panel-top-left">
+          <button
+            id="btn-kimun"
+            class="floating-kimun"
+            onclick="document.getElementById('kimun-modal').style.display = 'flex'"
+            title="Hablar con Kimün"
+            aria-label="Hablar con Kimün"
+          >
+            🦉
+          </button>
+        </div>
+        <div class="side-panel-cards" id="cards-left"></div>
+        <div class="panel-bottom-left">
+          <img src="logo-ministerio-azul.png" alt="Logo Oficial" class="logo-flotante">
+        </div>
+        <p id="msg" aria-live="polite"></p>
+      </div>
+      <div class="canvas-wrapper">
+        <canvas id="game" width="1000" height="680"></canvas>
+      </div>
+      <div class="side-panel" id="panel-right">
+        <div class="panel-top-right">
+          <button
+            class="floating-gear"
+            onclick="document.getElementById('access-modal').style.display = 'flex'"
+            title="Ajustes"
+            aria-label="Abrir ajustes"
+          >
+            ⚙️
+          </button>
+          <button
+            id="btn-seeds"
+            class="floating-seeds"
+            onclick="openSeedsModal()"
+            title="Mis Semillas"
+            aria-label="Ver inventario de semillas"
+          >
+            🌱
+          </button>
+        </div>
+        <div class="side-panel-cards" id="cards-right"></div>
+      </div>
+    </div>
+
+    <script src="js/script.js"></script>
+  </body>
+</html>
