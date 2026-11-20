@@ -1200,15 +1200,18 @@ body.light-theme .shop-buy:disabled {
     padding: 0;
     width: 100%;
   }
-  /* Columna Central: position: absolute en columna 2 para NO afectar jamás la altura de las 5 filas.
-     Usamos 100% del contenedor fixed (y NO 100vh) para que la barra de direcciones de Chrome Android no desborde. */
+  /* Columna Central: grid-column/row: auto para que tome todo el body como referencia, entre 126px (izq) y 132px (der) */
   .canvas-wrapper {
     position: absolute;
-    inset: 3px 0;
-    grid-column: 2;
-    grid-row: 1 / 6;
-    width: 100%;
+    grid-column: auto;
+    grid-row: auto;
+    top: 3px;
+    bottom: 3px;
+    left: 126px;
+    right: 132px;
+    width: auto;
     height: auto;
+    margin: 0;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1218,23 +1221,26 @@ body.light-theme .shop-buy:disabled {
     height: calc(100% - 4px);
     width: auto;
     max-height: calc(100% - 4px);
-    max-width: calc(100% - 6px);
+    max-width: calc(100% - 4px);
     aspect-ratio: 1000 / 680;
     border-radius: 12px;
     border-width: 2px;
   }
-  /* Columna Derecha: position: absolute en columna 3 de arriba a abajo de la pantalla */
+  /* Columna Derecha: clavada a la derecha (120px de ancho) de arriba a abajo */
   .top-bar {
     position: absolute;
-    inset: 3px 6px 3px 0;
-    grid-column: 3;
-    grid-row: 1 / 6;
+    grid-column: auto;
+    grid-row: auto;
+    top: 3px;
+    bottom: 3px;
+    right: 6px;
+    left: auto;
+    width: 120px;
+    height: auto;
     display: flex;
     flex-direction: column;
     align-items: stretch;
     justify-content: flex-start;
-    width: auto;
-    height: auto;
     gap: 2px;
     margin: 0;
     padding: 0;
