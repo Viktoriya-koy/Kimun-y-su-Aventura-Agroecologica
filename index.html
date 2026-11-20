@@ -40,17 +40,57 @@
       <h1>🌻 ¡Te damos la bienvenida!</h1>
       <div class="start-tabs">
         <button class="start-tab active" onclick="switchStartTab(0)">
-          🌻Granja
+          🏞️ Naturaleza
         </button>
         <button class="start-tab" onclick="switchStartTab(1)">
+          🌻 Granja
+        </button>
+        <button class="start-tab" onclick="switchStartTab(2)">
           🏭 Circuito Productivo
         </button>
       </div>
       <div class="start-content active" id="start-tab-0">
         <p>
+          Todo ecosistema empieza en la <b>Naturaleza</b>: cuidá el agua del río
+          y del dique, protegé el bosque de los incendios y ayudá a los
+          insectos polinizadores.
+        </p>
+        <div class="sectors-grid">
+          <div class="sector-card">
+            <h3>🌊 El Río</h3>
+            <p>
+              Sacá los residuos que flotan en el agua y guardalos en tu
+              <b>bolsa de clasificación</b> para reciclarlos en la granja.
+            </p>
+          </div>
+          <div class="sector-card">
+            <h3>🐟 El Dique</h3>
+            <p>
+              Pescá con cuidado para vender en el mercado. ¡Mantené el balance
+              de peces para no dañar la oxigenación del agua!
+            </p>
+          </div>
+          <div class="sector-card">
+            <h3>🌲 El Bosque</h3>
+            <p>
+              Apagá los focos de incendio a tiempo y levantá los residuos para
+              llevarlos a la bolsa de reciclaje.
+            </p>
+          </div>
+          <div class="sector-card">
+            <h3>🐝 Polinizadores</h3>
+            <p>
+              Tocá a las abejas, mariposas y escarabajos para que polinicen las
+              flores y produzcan frutas y semillas.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="start-content" id="start-tab-1">
+        <p>
           ¡Bienvenidos a la granja educativa! Acá vas a aprender cómo funciona
           un ecosistema real: cuidando animales, cultivando alimentos,
-          reciclando y protegiendo a los insectos benéficos.
+          reciclando y produciendo abono.
         </p>
         <div class="sectors-grid">
           <div class="sector-card">
@@ -71,8 +111,8 @@
           <div class="sector-card">
             <h3>♻️ Reciclaje</h3>
             <p>
-              Separá los residuos correctamente. ¡Ojo con las pilas y celulares
-              viejos, son residuos tecnológicos!
+              Clasificá los residuos de tu bolsa en el tacho correcto. ¡Lo que
+              recicles también ayuda a mantener limpio el río!
             </p>
           </div>
           <div class="sector-card">
@@ -83,7 +123,7 @@
           </div>
         </div>
       </div>
-      <div class="start-content" id="start-tab-1">
+      <div class="start-content" id="start-tab-2">
         <p>
           En el <b>Circuito Productivo</b> transformás lo que juntás en la
           granja y lo vendés en el mercado. ¡Sin apuro! Los clientes esperan a
@@ -472,6 +512,13 @@
     <div class="view-tabs">
       <button
         class="view-tab active"
+        data-view="nature"
+        onclick="switchView('nature')"
+      >
+        🏞️ Naturaleza
+      </button>
+      <button
+        class="view-tab"
         data-view="farm"
         onclick="switchView('farm')"
       >
@@ -517,6 +564,10 @@
         <span
           >🥚 Huevos:
           <b id="s-huevos" style="color: var(--stat-humus)">0</b></span
+        >
+        <span
+          >🐟 Peces:
+          <b id="s-peces" style="color: var(--stat-material)">0</b></span
         >
         <span
           >📦 Material:
