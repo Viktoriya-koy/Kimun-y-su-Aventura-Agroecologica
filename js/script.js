@@ -4,21 +4,29 @@ const ctx = canvas.getContext("2d", { alpha: false });
 const W = 1000,
   H = 680;
 let canvasScale = 1;
+let canvasScaleX = 1;
+let canvasScaleY = 1;
 
 function resizeCanvas() {
-  const rect = canvas.getBoundingClientRect();
-  if (rect.width === 0 || rect.height === 0) return;
+  // Usamos clientWidth / clientHeight (content-box real sin bordes) para evitar reescalado borroso
+  const cssW = canvas.clientWidth;
+  const cssH = canvas.clientHeight;
+  if (cssW === 0 || cssH === 0) return;
 
-  const dpr = Math.min(window.devicePixelRatio || 1, 2);
-  const displayW = Math.round(rect.width * dpr);
-  const displayH = Math.round(displayW * (H / W));
+  const rawDpr = window.devicePixelRatio || 1;
+  // En monitores de PC (DPR < 2) renderizamos a 2x del DPR nativo para nitidez HiDPI perfecta
+  const dpr = rawDpr < 2 ? rawDpr * 2 : Math.min(rawDpr, 3);
+  const displayW = Math.round(cssW * dpr);
+  const displayH = Math.round(cssH * dpr);
 
   if (canvas.width !== displayW || canvas.height !== displayH) {
     canvas.width = displayW;
     canvas.height = displayH;
   }
 
-  canvasScale = canvas.width / W;
+  canvasScaleX = canvas.width / W;
+  canvasScaleY = canvas.height / H;
+  canvasScale = canvasScaleX;
 }
 const EMOJI_FONT =
   '"Noto Color Emoji","Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol",sans-serif';
@@ -212,7 +220,9 @@ function texto(t, x, y, size, color, align = "left", weight = "800") {
   ctx.fillStyle = color;
   ctx.textAlign = align;
   ctx.textBaseline = "alphabetic";
-  ctx.fillText(t, Math.round(x), Math.round(y));
+  const sx = Math.round(x * canvasScaleX) / canvasScaleX;
+  const sy = Math.round(y * canvasScaleY) / canvasScaleY;
+  ctx.fillText(t, sx, sy);
 }
 function emoji(ch, x, y, size) {
   ctx.save();
@@ -220,7 +230,9 @@ function emoji(ch, x, y, size) {
   ctx.font = `${size}px "Noto Color Emoji", "Apple Color Emoji", "Segoe UI Emoji", sans-serif`;
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
-  ctx.fillText(ch, Math.round(x), Math.round(y));
+  const sx = Math.round(x * canvasScaleX) / canvasScaleX;
+  const sy = Math.round(y * canvasScaleY) / canvasScaleY;
+  ctx.fillText(ch, sx, sy);
   ctx.restore();
 }
 function barra(x, y, w, h, val, color) {
@@ -2838,7 +2850,7 @@ function loop(now) {
   last = now;
   update(dt);
 
-  ctx.setTransform(canvasScale, 0, 0, canvasScale, 0, 0);
+  ctx.setTransform(canvasScaleX, 0, 0, canvasScaleY, 0, 0);
   ctx.imageSmoothingEnabled = true;
   ctx.imageSmoothingQuality = "high";
 
