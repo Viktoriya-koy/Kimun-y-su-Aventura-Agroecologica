@@ -267,6 +267,9 @@ const ACHIEVEMENTS = {
   first_conserva: { icon: "🥫", name: "Primera conserva" },
   first_harina: { icon: "🥖", name: "Primera harina" },
   first_manualidad: { icon: "🎨", name: "Primera manualidad" },
+  first_fish: { icon: "🐟", name: "Pesca responsable" },
+  fire_hero: { icon: "🚒", name: "Guardián del bosque" },
+  river_clean: { icon: "🌊", name: "Río cristalino" },
   first_sale: { icon: "💰", name: "Primera venta" },
   five_sales: { icon: "🛒", name: "5 ventas" },
   ten_sales: { icon: "🏪", name: "10 ventas" },
@@ -284,6 +287,7 @@ const state = {
   humus: 0,
   lana: 0,
   huevos: 0,
+  peces: 0,
   monedas: 0,
   puntos: 0,
   materialReciclado: 0,
@@ -369,21 +373,67 @@ const state = {
   })),
   binShake: [0, 0, 0, 0, 0],
   trash: null,
+  trashBag: [],
   trashTimer: 0,
   particles: [],
   time: 0,
   selectingSeedFor: null,
   flowers: [
-    { x: 0, y: 0, emoji: "🌻", estado: "cerrada", timer: 0 },
-    { x: 0, y: 0, emoji: "🌸", estado: "cerrada", timer: 0 },
-    { x: 0, y: 0, emoji: "🌼", estado: "cerrada", timer: 0 },
-    { x: 0, y: 0, emoji: "🌺", estado: "cerrada", timer: 0 },
+    { x: 565, y: 530, emoji: "🌻", estado: "cerrada", timer: 0 },
+    { x: 675, y: 520, emoji: "🌸", estado: "cerrada", timer: 0 },
+    { x: 795, y: 530, emoji: "🌼", estado: "cerrada", timer: 0 },
+    { x: 910, y: 520, emoji: "🌺", estado: "cerrada", timer: 0 },
+    { x: 615, y: 598, emoji: "🌷", estado: "cerrada", timer: 0 },
+    { x: 735, y: 592, emoji: "🌹", estado: "cerrada", timer: 0 },
+    { x: 855, y: 598, emoji: "🪷", estado: "cerrada", timer: 0 },
+    { x: 935, y: 590, emoji: "🌻", estado: "cerrada", timer: 0 },
   ],
   pollinators: [
-    { x: 0, y: 0, emoji: "🐝", speed: 80, angle: 0, target: null },
-    { x: 0, y: 0, emoji: "🦋", speed: 50, angle: 3, target: null },
-    { x: 0, y: 0, emoji: "🪲", speed: 30, angle: 1.5, target: null },
+    { x: 590, y: 462, emoji: "🐝", speed: 120, angle: 0.4, target: null },
+    { x: 695, y: 482, emoji: "🦋", speed: 95, angle: 2.3, target: null },
+    { x: 795, y: 468, emoji: "🐝", speed: 112, angle: 1.1, target: null },
+    { x: 880, y: 486, emoji: "🦋", speed: 92, angle: 3.5, target: null },
+    { x: 745, y: 458, emoji: "🪲", speed: 85, angle: 1.8, target: null },
   ],
+  nature: {
+    riverPurity: 80,
+    riverTrash: [],
+    riverSpawnTimer: 1.2,
+    oxygen: 88,
+    fishes: [
+      { x: 575, y: 135, vx: 30, nombre: "Pejerrey", emoji: "🐟", filter: "none", sx: 1.16, sy: 0.84, size: 28, phase: 0 },
+      { x: 650, y: 185, vx: -25, nombre: "Trucha serrana", emoji: "🐟", filter: "hue-rotate(305deg) saturate(1.25)", sx: 1.04, sy: 0.96, size: 30, phase: 1.2 },
+      { x: 740, y: 145, vx: 22, nombre: "Carpa", emoji: "🐟", filter: "hue-rotate(155deg) saturate(1.45)", sx: 0.96, sy: 1.12, size: 33, phase: 2.4 },
+      { x: 835, y: 205, vx: -28, nombre: "Pejerrey", emoji: "🐟", filter: "none", sx: 1.16, sy: 0.84, size: 31, phase: 3.6 },
+      { x: 610, y: 225, vx: 26, nombre: "Trucha serrana", emoji: "🐟", filter: "hue-rotate(305deg) saturate(1.25)", sx: 1.04, sy: 0.96, size: 27, phase: 4.8 },
+      { x: 785, y: 170, vx: -22, nombre: "Carpa", emoji: "🐟", filter: "hue-rotate(155deg) saturate(1.45)", sx: 0.96, sy: 1.12, size: 32, phase: 5.5 },
+      { x: 885, y: 145, vx: -26, nombre: "Pejerrey", emoji: "🐟", filter: "none", sx: 1.16, sy: 0.84, size: 29, phase: 6.2 },
+    ],
+    fishSpawnProgress: 0,
+    trees: [
+      // Fila superior del bosque (7 árboles frondosos)
+      { x: 64, y: 450, emoji: "🌲", size: 54, estado: "sano", fireTimer: 0 },
+      { x: 118, y: 445, emoji: "🌳", size: 58, estado: "sano", fireTimer: 0 },
+      { x: 176, y: 452, emoji: "🌲", size: 54, estado: "sano", fireTimer: 0 },
+      { x: 235, y: 446, emoji: "🌳", size: 58, estado: "sano", fireTimer: 0 },
+      { x: 295, y: 452, emoji: "🌲", size: 54, estado: "sano", fireTimer: 0 },
+      { x: 355, y: 445, emoji: "🌳", size: 58, estado: "sano", fireTimer: 0 },
+      { x: 418, y: 450, emoji: "🌲", size: 54, estado: "sano", fireTimer: 0 },
+      // Fila media con claros de césped entre arboledas (5 árboles)
+      { x: 62, y: 514, emoji: "🌳", size: 56, estado: "sano", fireTimer: 0 },
+      { x: 120, y: 510, emoji: "🌲", size: 54, estado: "sano", fireTimer: 0 },
+      { x: 252, y: 512, emoji: "🌳", size: 58, estado: "sano", fireTimer: 0 },
+      { x: 388, y: 510, emoji: "🌲", size: 54, estado: "sano", fireTimer: 0 },
+      { x: 442, y: 516, emoji: "🌳", size: 56, estado: "sano", fireTimer: 0 },
+      // Fila inferior con claros de pasto al frente (3 árboles)
+      { x: 76, y: 576, emoji: "🌲", size: 56, estado: "sano", fireTimer: 0 },
+      { x: 214, y: 574, emoji: "🌳", size: 58, estado: "sano", fireTimer: 0 },
+      { x: 358, y: 576, emoji: "🌲", size: 56, estado: "sano", fireTimer: 0 },
+    ],
+    fireSpawnTimer: 9,
+    forestTrash: [],
+    forestSpawnTimer: 1.8,
+  },
   worms: Array.from({ length: 7 }, () => ({
     x: 0,
     y: 0,
@@ -398,6 +448,8 @@ const state = {
     { emoji: "🍂", x: 0.3, y: 0.8, rot: -0.2, timer: 6 },
     { emoji: "🥬", x: 0.9, y: 0.4, rot: 0.5, timer: 3 },
   ],
+  currentView: "nature",
+  natureMode: true,
   workshopMode: false,
   telar: { hilo: 0, tejido: 0, spin: 0, wheelAngle: 0 },
   conservas: {
@@ -451,6 +503,16 @@ const BASURA = [
   { icon: "🖨️", tipo: "tecnologico" },
   { icon: "🖱️", tipo: "tecnologico" },
   { icon: "💻", tipo: "tecnologico" },
+];
+// En el Río y el Bosque solo aparecen residuos no-orgánicos habituales al aire libre
+const BASURA_INORGANICA = BASURA.filter(
+  (b) => b.tipo !== "organico" && !["⌨️", "💾", "🖨️", "🖱️", "💻"].includes(b.icon),
+);
+// Especies de agua dulce típicas de los diques de San Luis (Pejerrey, Trucha serrana y Carpa)
+const FISH_SPECIES = [
+  { nombre: "Pejerrey", emoji: "🐟", filter: "none", sx: 1.16, sy: 0.84, baseSize: 28 },
+  { nombre: "Trucha serrana", emoji: "🐟", filter: "hue-rotate(305deg) saturate(1.25)", sx: 1.04, sy: 0.96, baseSize: 30 },
+  { nombre: "Carpa", emoji: "🐟", filter: "hue-rotate(155deg) saturate(1.45)", sx: 0.96, sy: 1.12, baseSize: 33 },
 ];
 const BINS = [
   { tipo: "organico", nombre: "Orgánico", color: "#5aa832", icon: "🍃" },
@@ -575,6 +637,7 @@ const STAT_FIELDS = [
   ["materialReciclado", "s-material"],
   ["monedas", "s-monedas"],
   ["huevos", "s-huevos"],
+  ["peces", "s-peces"],
   ["puntos", "s-puntos"],
 ].map(([key, id]) => [key, document.getElementById(id)]);
 
@@ -590,8 +653,21 @@ function stats() {
   const invModalEl = document.getElementById("seed-inventory-modal");
   if (invModalEl) invModalEl.innerHTML = seedsHTML;
 }
+function collectToTrashBag(item) {
+  const copy = { icon: item.icon, tipo: item.tipo };
+  if (!state.trash && state.trashBag.length === 0) {
+    state.trash = copy;
+    state.trashTimer = 0;
+  } else {
+    state.trashBag.push(copy);
+  }
+}
 function nuevoResiduo() {
-  state.trash = BASURA[Math.floor(Math.random() * BASURA.length)];
+  if (state.trashBag.length > 0) {
+    state.trash = state.trashBag.shift();
+  } else {
+    state.trash = null;
+  }
   state.trashTimer = 0;
 }
 function spawnParticles(x, y, n, emojis) {
@@ -730,6 +806,204 @@ function updateParticles(dt) {
   }
 }
 
+function updateNature(dt) {
+  const n = state.nature;
+  const isLookingAtNature = state.currentView === "nature";
+
+  // 1. Río: aparición y movimiento de residuos flotantes (solo inorgánicos)
+  n.riverSpawnTimer -= dt;
+  if (n.riverSpawnTimer <= 0 && n.riverTrash.length < 4) {
+    const b = BASURA_INORGANICA[Math.floor(Math.random() * BASURA_INORGANICA.length)];
+    n.riverTrash.push({
+      icon: b.icon,
+      tipo: b.tipo,
+      x: W1.x + 42,
+      y: W1.y + 135 + Math.random() * 75,
+      vx: 22 + Math.random() * 14,
+      phase: Math.random() * Math.PI * 2,
+    });
+    n.riverSpawnTimer = 3.2 + Math.random() * 2.5;
+  }
+
+  for (let i = n.riverTrash.length - 1; i >= 0; i--) {
+    const item = n.riverTrash[i];
+    item.x += item.vx * dt;
+    if (item.x > W1.x + W1.w - 42) {
+      item.x = W1.x + 42;
+      if (isLookingAtNature) {
+        n.riverPurity = Math.max(10, n.riverPurity - 3);
+      }
+    }
+  }
+
+  if (n.riverTrash.length > 0) {
+    n.riverPurity = Math.max(
+      15,
+      n.riverPurity - n.riverTrash.length * (isLookingAtNature ? 0.55 : 0.15) * dt,
+    );
+  } else {
+    n.riverPurity = Math.min(100, n.riverPurity + 1.2 * dt);
+  }
+
+  // 2. Dique: nado de peces, balance de oxígeno y reproducción
+  const minX = W2.x + 42,
+    maxX = W2.x + W2.w - 42;
+  n.fishes.forEach((f) => {
+    f.x += f.vx * dt;
+    if (f.x < minX) {
+      f.x = minX;
+      f.vx = Math.abs(f.vx);
+    } else if (f.x > maxX) {
+      f.x = maxX;
+      f.vx = -Math.abs(f.vx);
+    }
+  });
+
+  const targetOxygen = Math.min(
+    100,
+    Math.max(15, (n.fishes.length / 7) * 55 + (n.riverPurity / 100) * 45),
+  );
+  n.oxygen += (targetOxygen - n.oxygen) * Math.min(1, dt * 1.5);
+
+  if (n.fishes.length < 10 && n.fishes.length >= 1) {
+    const reproSpeed = n.riverPurity >= 65 ? 0.15 : n.riverPurity >= 40 ? 0.08 : 0.04;
+    n.fishSpawnProgress += reproSpeed * dt;
+    if (n.fishSpawnProgress >= 1) {
+      n.fishSpawnProgress = 0;
+      const dir = Math.random() < 0.5 ? 1 : -1;
+      const sp = FISH_SPECIES[Math.floor(Math.random() * FISH_SPECIES.length)];
+      n.fishes.push({
+        x: W2.x + 65 + Math.random() * (W2.w - 130),
+        y: W2.y + 125 + Math.random() * 105,
+        vx: dir * (20 + Math.random() * 15),
+        nombre: sp.nombre,
+        emoji: sp.emoji,
+        filter: sp.filter,
+        sx: sp.sx,
+        sy: sp.sy,
+        size: sp.baseSize + Math.floor(Math.random() * 4) - 1,
+        phase: Math.random() * Math.PI * 2,
+      });
+    }
+  } else {
+    n.fishSpawnProgress = 0;
+  }
+
+  // 3. Bosque: incendios (SOLO aparecen y avanzan cuando estás mirando Naturaleza) y residuos
+  if (isLookingAtNature) {
+    const burningCount = n.trees.filter((t) => t.estado === "fuego").length;
+    const healthyTrees = n.trees.filter((t) => t.estado === "sano");
+    n.fireSpawnTimer -= dt;
+    if (n.fireSpawnTimer <= 0) {
+      if (burningCount === 0 && healthyTrees.length > 0) {
+        const chosen = healthyTrees[Math.floor(Math.random() * healthyTrees.length)];
+        chosen.estado = "fuego";
+        chosen.fireTimer = 14;
+        decir("🔥 ¡Cuidado! Apareció un foco de incendio en el bosque. ¡Tocalo para apagarlo!", "#ffb040");
+      }
+      n.fireSpawnTimer = 11 + Math.random() * 6;
+    }
+
+    n.trees.forEach((t) => {
+      if (t.estado === "fuego") {
+        t.fireTimer -= dt;
+        if (t.fireTimer <= 0) {
+          t.estado = "quemado";
+          t.fireTimer = 0;
+          state.puntos = Math.max(0, state.puntos - 5);
+          playSound("error");
+          decir("🪵 Un árbol se quemó… Tocalo para replantarlo con Compost ♻️ o Humus 🪱.", "#ff6b6b");
+          stats();
+        }
+      }
+    });
+  }
+
+  // Claros de césped entre las arboledas (nunca encima de los árboles)
+  const FOREST_SPOTS = [
+    { x: 186, y: 520 },
+    { x: 320, y: 520 },
+    { x: 145, y: 584 },
+    { x: 286, y: 584 },
+    { x: 422, y: 584 },
+  ];
+  n.forestSpawnTimer -= dt;
+  if (n.forestSpawnTimer <= 0 && n.forestTrash.length < 3) {
+    const freeSpots = FOREST_SPOTS.filter(
+      (sp) =>
+        !n.forestTrash.some((ft) => Math.hypot(ft.x - sp.x, ft.y - sp.y) < 25) &&
+        !n.trees.some((t) => Math.hypot(t.x - sp.x, t.y - sp.y) < 38),
+    );
+    if (freeSpots.length > 0) {
+      const sp = freeSpots[Math.floor(Math.random() * freeSpots.length)];
+      const b = BASURA_INORGANICA[Math.floor(Math.random() * BASURA_INORGANICA.length)];
+      n.forestTrash.push({
+        icon: b.icon,
+        tipo: b.tipo,
+        x: sp.x,
+        y: sp.y,
+      });
+    }
+    n.forestSpawnTimer = 4 + Math.random() * 3;
+  }
+
+  // 4. Polinizadores y Flores (en cuadrante N4 = W4)
+  state.flowers.forEach((f) => {
+    if (f.estado === "fruto") {
+      f.timer -= dt;
+      if (f.timer <= 0) f.estado = "cerrada";
+    }
+  });
+
+  const pMinX = W4.x + 35,
+    pMaxX = W4.x + W4.w - 35,
+    pMinY = W4.y + 85,
+    pMaxY = W4.y + W4.h - 40;
+
+  state.pollinators.forEach((p) => {
+    if (p.target !== null) {
+      const f = state.flowers[p.target];
+      if (!f || f.estado !== "cerrada") {
+        p.target = null;
+        return;
+      }
+      const tx = f.x,
+        ty = f.y - 22;
+      const dx = tx - p.x,
+        dy = ty - p.y;
+      const dist = Math.hypot(dx, dy);
+      if (dist < 16) {
+        f.estado = "fruto";
+        f.timer = 10;
+        p.target = null;
+        state.frutas += 1;
+        state.puntos += 10;
+        spawnParticles(f.x, f.y - 24, 8, [f.emoji, "🍎", "✨", "🐝"]);
+        playSound("success");
+        if (Math.random() < 0.45) {
+          const rc = CROPS[Math.floor(Math.random() * CROPS.length)];
+          state.seeds[rc.name] = (state.seeds[rc.name] || 0) + 1;
+          decir(`🐝 ¡Flor polinizada! +1 🍎 Fruta y +1 semilla de ${rc.name} ${rc.emoji}`);
+        } else {
+          decir("🐝 ¡Flor polinizada! +1 🍎 Fruta silvestre para la Granja o el Taller.");
+        }
+        stats();
+      } else {
+        p.x += (dx / dist) * p.speed * 1.45 * dt;
+        p.y += (dy / dist) * p.speed * 1.45 * dt;
+      }
+    } else {
+      p.angle += (Math.random() - 0.5) * 1.4 * dt;
+      p.x += Math.cos(p.angle) * p.speed * 0.45 * dt;
+      p.y += Math.sin(p.angle) * p.speed * 0.45 * dt;
+      if (p.x < pMinX) { p.x = pMinX; p.angle = Math.PI - p.angle; }
+      if (p.x > pMaxX) { p.x = pMaxX; p.angle = Math.PI - p.angle; }
+      if (p.y < pMinY) { p.y = pMinY; p.angle = -p.angle; }
+      if (p.y > pMaxY) { p.y = pMaxY; p.angle = -p.angle; }
+    }
+  });
+}
+
 function update(dt) {
   if (!isPlaying || document.hidden) return;
   state.time += dt;
@@ -739,6 +1013,8 @@ function update(dt) {
     state.hints[i].y -= 15 * dt;
     if (state.hints[i].life <= 0) state.hints.splice(i, 1);
   }
+
+  updateNature(dt);
 
   if (state.workshopMode) {
     updateWorkshop(dt);
@@ -835,6 +1111,7 @@ const CUSTOMER_EMOJIS = [
 const PRODUCT_INFO = {
   tejido: { emoji: "🧣", basePrice: 30, label: "Tejido" },
   huevo: { emoji: "🥚", basePrice: 20, label: "Huevos" },
+  pescado: { emoji: "🐟", basePrice: 24, label: "Pescado" },
   mermelada: { emoji: "🍯", basePrice: 25, label: "Mermelada" },
   conserva: { emoji: "🥫", basePrice: 25, label: "Conserva" },
   harina: { emoji: "🥖", basePrice: 40, label: "Harina" },
@@ -844,6 +1121,7 @@ const PRODUCT_INFO = {
 const MARKET_ITEMS = [
   { key: "tejido", emoji: "🧣", label: "Tejidos" },
   { key: "huevo", emoji: "🥚", label: "Huevos" },
+  { key: "pescado", emoji: "🐟", label: "Pescados" },
   { key: "mermelada", emoji: "🍯", label: "Mermeladas" },
   { key: "conserva", emoji: "🥫", label: "Conservas" },
   { key: "harina", emoji: "🥖", label: "Harina" },
@@ -853,6 +1131,8 @@ const MARKET_ITEMS = [
 
 function getInventory(type) {
   if (type === "tejido") return state.telar.tejido;
+  if (type === "huevo") return state.huevos;
+  if (type === "pescado") return state.peces;
   if (type === "mermelada") return state.conservas.mermelada;
   if (type === "conserva") return state.conservas.conserva;
   if (type === "harina") return state.harina;
@@ -862,6 +1142,8 @@ function getInventory(type) {
 }
 function decInventory(type) {
   if (type === "tejido") state.telar.tejido--;
+  if (type === "huevo") state.huevos--;
+  if (type === "pescado") state.peces--;
   if (type === "mermelada") state.conservas.mermelada--;
   if (type === "conserva") state.conservas.conserva--;
   if (type === "harina") state.harina--;
@@ -878,6 +1160,8 @@ function updateMarket(dt) {
 
   availableProducts.length = 0;
   if (state.telar.tejido > 0) availableProducts.push("tejido");
+  if (state.huevos > 0) availableProducts.push("huevo");
+  if (state.peces > 0) availableProducts.push("pescado");
   if (state.conservas.mermelada > 0) availableProducts.push("mermelada");
   if (state.conservas.conserva > 0) availableProducts.push("conserva");
   if (state.harina > 0) availableProducts.push("harina");
@@ -972,9 +1256,17 @@ function serveCustomer(customer) {
   stats();
 }
 
+const naturePanelLeft = `
+  <div class="info-card"><h3>🌊 El Río (Arriba izq.)</h3><p>El agua limpia da vida a todo el ecosistema. Tocá los <span class="highlight">residuos que flotan</span> para sacarlos del río.</p><p>Van a tu <span class="highlight">bolsa de clasificación 🎒</span> para que los separes en el <b>Reciclaje de la Granja</b>.</p></div>
+  <div class="info-card"><h3>🌲 El Bosque (Abajo izq.)</h3><p>Tocá rápido los <span class="highlight">focos de incendio 🔥</span> para apagarlos con agua 💧. Si un árbol se quema, podés replantarlo con <b>Compost ♻️ o Humus 🪱</b>.</p><p>También juntá la basura del bosque para tu bolsa 🎒.</p></div>
+`;
+const naturePanelRight = `
+  <div class="info-card"><h3>🐟 El Dique (Arriba der.)</h3><p>Tocá un pez para pescarlo (<span class="highlight">+1 🐟</span>) y venderlo en el <b>Mercado</b>.</p><p><b>¡Cuidá el balance!</b> Dejá siempre al menos <span class="highlight">3 peces</span> para mantener el oxígeno 🫧 y que puedan reproducirse.</p></div>
+  <div class="info-card"><h3>🐝 Polinizadores (Abajo der.)</h3><p>Las abejas 🐝, mariposas 🦋 y escarabajos 🪲 polinizan las flores.</p><p>Tocalos para guiarlos hacia una flor y obtener <span class="highlight">frutas 🍎 y semillas 🌱</span>.</p></div>
+`;
 const farmPanelLeft = `
   <div class="info-card"><h3>🐑 El Corral</h3><p>Los animales grandes comen <span class="highlight">cereales y forraje</span> (maíz, trigo, hierbas). Los conejos comen <span class="highlight">verduras</span>. Si no les das, se ponen tristes.</p><p>También juntá su <span class="highlight">estiércol 💩</span> para el compost y esquilá ovejas/llamas para <span class="highlight">lana 🧶</span>.</p></div>
-  <div class="info-card"><h3>♻️ Reciclaje</h3><p>Separar la basura <span class="highlight">ahorra energía y protege el agua</span>.</p><p>Los materiales no-orgánicos van al <span class="highlight">taller creativo</span>.</p></div>
+  <div class="info-card"><h3>♻️ Reciclaje</h3><p>Clasificá los residuos que juntaste en tu <span class="highlight">bolsa 🎒</span> en el río y el bosque.</p><p>Separar la basura <span class="highlight">limpia el río</span> y te da materiales para el <b>taller creativo</b>.</p></div>
 `;
 const farmPanelRight = `
   <div class="info-card"><h3>🌱 La Huerta Dividida</h3><p>Arriba: 🍎 Frutas y 🥕 Verduras (para conservas y conejos).<br>Abajo: 🌾 Cereales y Forraje (para animales y harina).</p><div class="seed-box seed-inventory-box"><h4>🌱 Tus semillas guardadas:</h4><div id="seed-inventory"></div></div></div>
@@ -986,10 +1278,12 @@ const workshopPanelLeft = `
 `;
 const workshopPanelRight = `
   <div class="info-card"><h3>🍯 Procesados (Arriba der.)</h3><p>Las <span class="highlight">frutas</span> se hacen mermelada. Las <span class="highlight">verduras</span>, conserva. Los <span class="highlight">cereales</span> se muelen para hacer <b>harina 🥖</b>.</p><p><b>Recetas:</b> 3 frutas → 🍯 · 3 verduras → 🥫 · 2 cereales → 🥖</p></div>
-  <div class="info-card"><h3>🏪 El Mercado (Abajo der.)</h3><p>Los clientes aparecen solos. ¡Vendé todo lo que produzcas!</p><div class="seed-box"><h4>🔁 El ciclo completo:</h4><p style="font-size: 13px; line-height: 1.5; margin: 0;">Granja → Cosecha → Taller → Productos → Mercado → Monedas → Semillas → Granja</p></div></div>
+  <div class="info-card"><h3>🏪 El Mercado (Abajo der.)</h3><p>Los clientes aparecen solos. ¡Vendé todo lo que produzcas!</p><div class="seed-box"><h4>🔁 El ciclo completo:</h4><p style="font-size: 13px; line-height: 1.5; margin: 0;">Naturaleza → Granja → Taller → Mercado → Monedas → Semillas</p></div></div>
 `;
 
 function switchView(view) {
+  state.currentView = view;
+  state.natureMode = view === "nature";
   state.workshopMode = view === "workshop";
   state.selectingSeedFor = null;
   state.hints = [];
@@ -1000,7 +1294,13 @@ function switchView(view) {
   const leftCards = document.getElementById("cards-left");
   const rightCards = document.getElementById("cards-right");
 
-  if (view === "workshop") {
+  if (view === "nature") {
+    if (leftCards) leftCards.innerHTML = naturePanelLeft;
+    if (rightCards) rightCards.innerHTML = naturePanelRight;
+    state.mercado.customers = [];
+    stats();
+    decir("🏞️ ¡Cuidemos la naturaleza! Limpiá el río y el bosque, pescá con equilibrio y polinizá.");
+  } else if (view === "workshop") {
     if (leftCards) leftCards.innerHTML = workshopPanelLeft;
     if (rightCards) rightCards.innerHTML = workshopPanelRight;
     state.mercado.customers = [];
@@ -1009,6 +1309,7 @@ function switchView(view) {
   } else {
     if (leftCards) leftCards.innerHTML = farmPanelLeft;
     if (rightCards) rightCards.innerHTML = farmPanelRight;
+    if (!state.trash && state.trashBag.length > 0) nuevoResiduo();
     state.mercado.customers = [];
     stats();
     decir("🌱 ¡A cuidar la granja agroecológica!");
@@ -1420,28 +1721,25 @@ function renderMercado() {
   texto(`${rank.icon} ${rank.name}`, P.x + P.w - 80, P.y + 64, 14, "#2b2b3d", "center", "700");
   texto(`${m.totalSold} ventas`, P.x + P.w - 80, P.y + 80, 12, "#2b2b3d", "center", "700");
 
-         // 1. Título del inventario (Más ancho y con más espacio)
+        // 1. Título del inventario (Más ancho y con más espacio)
         ctx.fillStyle = "#fff";
-        rrect(P.x + 20, P.y + 46, 140, 26, 8); 
+        rrect(P.x + 20, P.y + 44, 140, 24, 8); 
         ctx.fill();
-        texto("📦 Inventario", P.x + 90, P.y + 64, 16, "#2b2b3d", "center", "800"); // Fuente más grande (16)
+        texto("📦 Inventario", P.x + 90, P.y + 61, 15, "#2b2b3d", "center", "800");
 
-        // 2. Los ítems de adentro
-        let iy = P.y + 88;
+        // 2. Los ítems de adentro (8 productos incluyendo Pescados y Huevos)
+        let iy = P.y + 83;
         MARKET_ITEMS.forEach((item) => {
           const count = getInventory(item.key);
           ctx.fillStyle = "rgba(255,255,255,0.95)";
-          // Hacemos la cajita más ancha (190) y más alta (26)
-          rrect(P.x + 20, iy - 13, 190, 26, 8); 
+          rrect(P.x + 20, iy - 11, 190, 22, 7); 
           ctx.fill();
           
-          emoji(item.emoji, P.x + 38, iy, 20); // Emoji un poquito más grande
-          // Texto más grande (15px) y un poquito más a la derecha
-          texto(item.label, P.x + 55, iy + 5, 15, "#2b2b3d", "left", "700"); 
-          // La "x" también un poquito más grande
-          texto(`x${count}`, P.x + 195, iy + 5, 15, count > 0 ? "#2e7d32" : "#888", "right", "700"); 
+          emoji(item.emoji, P.x + 38, iy, 18);
+          texto(item.label, P.x + 55, iy + 5, 14, "#2b2b3d", "left", "700"); 
+          texto(`x${count}`, P.x + 195, iy + 5, 14, count > 0 ? "#2e7d32" : "#888", "right", "700"); 
           
-          iy += 28; // Más espacio entre filas (antes era 24)
+          iy += 24.5;
         });
 
 
@@ -1560,6 +1858,7 @@ function createCheckerPattern(colors) {
   }
   return ctx.createPattern(tile, "repeat");
 }
+const NATURE_PATTERN = createCheckerPattern(["#5eb54e", "#68c258"]);
 const FARM_PATTERN = createCheckerPattern(["#74bd48", "#7ec850"]);
 const WORKSHOP_PATTERN = createCheckerPattern(["#4AACC4", "#354393"]);
 function paintChecker(pattern) {
@@ -1568,6 +1867,513 @@ function paintChecker(pattern) {
 }
 function grass() {
   paintChecker(FARM_PATTERN);
+}
+
+function getTrashBagCount() {
+  return state.trashBag.length + (state.trash ? 1 : 0);
+}
+
+function renderRio() {
+  const P = W1,
+    n = state.nature;
+  drawPanel(P, "El Río", "🌊");
+
+  const purity = Math.round(n.riverPurity);
+  const pColor = purity >= 70 ? "#29b6f6" : purity >= 40 ? "#ffb300" : "#e53935";
+
+  ctx.fillStyle = "rgba(255,255,255,0.95)";
+  rrect(P.x + 14, P.y + 42, 276, 38, 10);
+  ctx.fill();
+  texto(`💧 Pureza del agua: ${purity}%`, P.x + 24, P.y + 58, 13, "#2b2b3d", "left", "900");
+  barra(P.x + 24, P.y + 65, 256, 9, n.riverPurity / 100, pColor);
+
+  ctx.fillStyle = "rgba(255,255,255,0.95)";
+  rrect(P.x + 300, P.y + 42, 156, 38, 10);
+  ctx.fill();
+  texto(`🎒 Bolsa: ${getTrashBagCount()}`, P.x + 378, P.y + 66, 14, "#2e7d32", "center", "900");
+
+  // Orillas y cauce del río
+  const rx = P.x + 14,
+    ry = P.y + 90,
+    rw = P.w - 28,
+    rh = 172;
+  ctx.fillStyle = "#558b2f";
+  rrect(rx, ry, rw, rh, 14);
+  ctx.fill();
+
+  const waterColor =
+    purity >= 70
+      ? "#29b6f6"
+      : purity >= 45
+        ? "#26a69a"
+        : "#7e784f";
+  ctx.fillStyle = waterColor;
+  rrect(rx, ry + 18, rw, rh - 36, 10);
+  ctx.fill();
+
+  // Piedras y vegetación decorativa en las orillas del río
+  const bankDeco = [
+    { e: "🪨", x: rx + 26, y: ry + 11, s: 17 },
+    { e: "🌿", x: rx + 85, y: ry + 10, s: 16 },
+    { e: "🪨", x: rx + 165, y: ry + 12, s: 15 },
+    { e: "🪨", x: rx + 275, y: ry + 11, s: 18 },
+    { e: "🌿", x: rx + 355, y: ry + 10, s: 16 },
+    { e: "🪨", x: rx + 415, y: ry + 11, s: 16 },
+    { e: "🌿", x: rx + 45, y: ry + rh - 8, s: 16 },
+    { e: "🪨", x: rx + 125, y: ry + rh - 8, s: 18 },
+    { e: "🪨", x: rx + 230, y: ry + rh - 7, s: 15 },
+    { e: "🌿", x: rx + 315, y: ry + rh - 8, s: 16 },
+    { e: "🪨", x: rx + 395, y: ry + rh - 8, s: 17 },
+  ];
+  bankDeco.forEach((d) => emoji(d.e, d.x, d.y, d.s));
+
+  // Piedras decorativas dentro del cauce con espuma de agua
+  const riverRocks = [
+    { x: rx + 78, y: ry + 52, s: 24 },
+    { x: rx + 235, y: ry + 122, s: 27 },
+    { x: rx + 372, y: ry + 64, s: 23 },
+  ];
+  riverRocks.forEach((rk) => {
+    ctx.strokeStyle = "rgba(255, 255, 255, 0.45)";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.ellipse(rk.x + 3, rk.y + 3, rk.s * 0.65, rk.s * 0.35, 0, 0, Math.PI * 2);
+    ctx.stroke();
+    emoji("🪨", rk.x, rk.y, rk.s);
+  });
+
+  // Olas animadas de la corriente
+  ctx.strokeStyle = "rgba(255, 255, 255, 0.35)";
+  ctx.lineWidth = 2;
+  for (let row = 0; row < 3; row++) {
+    const wy = ry + 45 + row * 40;
+    const offset = ((state.time * 35 + row * 50) % 90) - 45;
+    for (let col = 0; col < 5; col++) {
+      const wx = rx + 25 + col * 85 + offset;
+      if (wx > rx + 10 && wx + 40 < rx + rw - 10) {
+        ctx.beginPath();
+        ctx.moveTo(wx, wy);
+        ctx.quadraticCurveTo(wx + 10, wy - 5, wx + 20, wy);
+        ctx.quadraticCurveTo(wx + 30, wy + 5, wx + 40, wy);
+        ctx.stroke();
+      }
+    }
+  }
+
+  // Pececitos de fondo si el río está limpio
+  if (purity >= 65) {
+    ctx.save();
+    ctx.globalAlpha = 0.45;
+    const fx1 = rx + 60 + ((state.time * 28) % (rw - 120));
+    const fx2 = rx + rw - 60 - ((state.time * 22) % (rw - 120));
+    emoji("🐟", fx1, ry + 65, 17);
+    emoji("🐟", fx2, ry + 115, 15);
+    ctx.restore();
+  }
+
+  // Residuos flotando en el río (proporcionados al cauce)
+  n.riverTrash.forEach((item, idx) => {
+    const bob = prefersReducedMotion ? 0 : Math.sin(state.time * 3.5 + item.phase) * 3.5;
+    const iy = item.y + bob;
+
+    ctx.fillStyle = "rgba(255, 255, 255, 0.9)";
+    ctx.beginPath();
+    ctx.arc(item.x, iy, 16, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = "#e53935";
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    emoji(item.icon, item.x, iy, 19);
+
+    addClickable({ x: item.x - 24, y: iy - 24, w: 48, h: 48 }, () => {
+      collectToTrashBag(item);
+      n.riverTrash.splice(idx, 1);
+      n.riverPurity = Math.min(100, n.riverPurity + 10);
+      state.puntos += 5;
+      if (n.riverPurity >= 95) unlockAchievement("river_clean");
+      playSound("water");
+      spawnParticles(item.x, iy, 6, ["💧", "🎒", "✨"]);
+      decir(`🌊 ¡Sacaste ${item.icon} del río! Guardado en tu 🎒 bolsa para reciclar en la Granja.`);
+      stats();
+    });
+  });
+
+  if (n.riverTrash.length === 0) {
+    ctx.fillStyle = "rgba(255, 255, 255, 0.9)";
+    rrect(P.x + P.w / 2 - 135, ry + rh / 2 - 16, 270, 32, 10);
+    ctx.fill();
+    texto("✨ ¡El río está limpio y cristalino!", P.x + P.w / 2, ry + rh / 2 + 5, 14, "#0277bd", "center", "900");
+  }
+
+  ctx.fillStyle = "rgba(255,255,255,0.95)";
+  rrect(P.x + 14, P.y + P.h - 38, P.w - 28, 26, 8);
+  ctx.fill();
+  texto(
+    "Tocá los residuos del agua para guardarlos en la 🎒 bolsa de clasificación",
+    P.x + P.w / 2,
+    P.y + P.h - 20,
+    12,
+    "#2b2b3d",
+    "center",
+    "800",
+  );
+}
+
+function renderDique() {
+  const P = W2,
+    n = state.nature;
+  drawPanel(P, "El Dique", "🐟");
+
+  const ox = Math.round(n.oxygen);
+  const oxColor = ox >= 65 ? "#29b6f6" : ox >= 40 ? "#ffb300" : "#e53935";
+  const count = n.fishes.length;
+  const canFish = count > 3;
+
+  ctx.fillStyle = "rgba(255,255,255,0.95)";
+  rrect(P.x + 14, P.y + 42, 246, 38, 10);
+  ctx.fill();
+  texto(`🫧 Oxígeno: ${ox}%`, P.x + 24, P.y + 58, 13, "#2b2b3d", "left", "900");
+  barra(P.x + 24, P.y + 65, 226, 9, n.oxygen / 100, oxColor);
+
+  ctx.fillStyle = canFish ? "rgba(255,255,255,0.95)" : "#fff3e0";
+  rrect(P.x + 270, P.y + 42, 186, 38, 10);
+  ctx.fill();
+  texto(
+    `🐟 Cardumen: ${count}/10`,
+    P.x + 363,
+    P.y + 66,
+    14,
+    canFish ? "#0277bd" : "#e65100",
+    "center",
+    "900",
+  );
+
+  // Espejo de agua del dique con costa natural (sin la barra gris extraña)
+  const dx = P.x + 14,
+    dy = P.y + 90,
+    dw = P.w - 28,
+    dh = 172;
+  // Borde de costa natural de tierra y piedras
+  ctx.fillStyle = "#8d6e63";
+  rrect(dx, dy, dw, dh, 18);
+  ctx.fill();
+
+  // Orilla de agua baja turquesa
+  ctx.fillStyle = ox >= 50 ? "#29b6f6" : "#546e7a";
+  rrect(dx + 6, dy + 6, dw - 12, dh - 12, 14);
+  ctx.fill();
+
+  // Agua profunda en el centro del dique
+  ctx.fillStyle = ox >= 50 ? "#0288d1" : "#455a64";
+  rrect(dx + 14, dy + 14, dw - 28, dh - 28, 12);
+  ctx.fill();
+
+  // Piedras y juncos decorativos en el contorno del dique
+  const shoreDeco = [
+    { e: "🪨", x: dx + 18, y: dy + 14, s: 17 },
+    { e: "🌿", x: dx + 42, y: dy + 12, s: 16 },
+    { e: "🪨", x: dx + dw - 20, y: dy + 14, s: 18 },
+    { e: "🌿", x: dx + dw - 44, y: dy + 12, s: 16 },
+    { e: "🌿", x: dx + 20, y: dy + dh - 10, s: 16 },
+    { e: "🪨", x: dx + 44, y: dy + dh - 10, s: 17 },
+    { e: "🪨", x: dx + dw - 22, y: dy + dh - 10, s: 17 },
+    { e: "🌿", x: dx + dw - 46, y: dy + dh - 10, s: 16 },
+  ];
+  shoreDeco.forEach((d) => emoji(d.e, d.x, d.y, d.s));
+
+  // Burbujas de oxígeno
+  if (ox >= 45) {
+    for (let b = 0; b < 4; b++) {
+      const bx = dx + 65 + b * 95;
+      const by = dy + dh - 22 - (((state.time * 25 + b * 35) % (dh - 44)));
+      emoji("🫧", bx, by, 15);
+    }
+  }
+
+  // Peces de agua dulce de San Luis (Pejerrey, Trucha serrana y Carpa)
+  n.fishes.forEach((f, idx) => {
+    const bob = prefersReducedMotion ? 0 : Math.sin(state.time * 4 + f.phase) * 3.5;
+    const fy = f.y + bob;
+    const fSize = f.size || 29;
+    const dirScale = f.vx > 0 ? -1 : 1;
+
+    ctx.save();
+    ctx.translate(f.x, fy);
+    ctx.scale(dirScale * (f.sx || 1), f.sy || 1);
+    if (f.filter && f.filter !== "none") ctx.filter = f.filter;
+    emoji(f.emoji, 0, 0, fSize);
+    ctx.restore();
+
+    addClickable({ x: f.x - 25, y: fy - 22, w: 50, h: 44 }, () => {
+      if (n.fishes.length <= 3) {
+        showHint(f.x, fy, "⚠️ ¡Dejá al menos 3 peces para cuidar el oxígeno!");
+        decir(
+          "⚠️ ¡Cuidemos el equilibrio del dique! Esperá a que se reproduzcan antes de pescar más.",
+          "#ffb040",
+        );
+        return;
+      }
+      const spName = f.nombre || "Pez";
+      n.fishes.splice(idx, 1);
+      state.peces += 1;
+      state.puntos += 10;
+      n.oxygen = Math.max(25, n.oxygen - 10);
+      unlockAchievement("first_fish");
+      playSound("water");
+      spawnParticles(f.x, fy, 7, ["🐟", "💧", "✨"]);
+      decir(
+        `🎣 ¡Pescaste 1 ${spName}! (+1 🐟 para el Mercado). Quedan ${n.fishes.length} en el dique.`,
+      );
+      stats();
+    });
+  });
+
+  ctx.fillStyle = "rgba(255,255,255,0.95)";
+  rrect(P.x + 14, P.y + P.h - 38, P.w - 28, 26, 8);
+  ctx.fill();
+  const footerMsg =
+    count <= 3
+      ? `⚠️ Población mínima (3): reproduciéndose (${Math.round(n.fishSpawnProgress * 100)}%)`
+      : count < 10
+        ? `Pejerrey, Trucha y Carpa (+1🐟) · Reproducción: ${Math.round(n.fishSpawnProgress * 100)}%`
+        : "Tocá un pez (Pejerrey, Trucha o Carpa) para pescar cuidando el equilibrio";
+  texto(
+    footerMsg,
+    P.x + P.w / 2,
+    P.y + P.h - 20,
+    12,
+    count <= 3 ? "#e65100" : "#2b2b3d",
+    "center",
+    "800",
+  );
+}
+
+function renderBosque() {
+  const P = W3,
+    n = state.nature;
+  drawPanel(P, "El Bosque Nativo", "🌲");
+
+  ctx.fillStyle = "rgba(255,255,255,0.95)";
+  rrect(P.x + 14, P.y + 42, P.w - 28, 26, 8);
+  ctx.fill();
+  texto(
+    "🔥 Apagá incendios, limpiá el césped y conocé la fauna autóctona de San Luis",
+    P.x + P.w / 2,
+    P.y + 59,
+    11.5,
+    "#2b2b3d",
+    "center",
+    "800",
+  );
+
+  // Suelo del bosque con césped y claros naturales
+  const fx = P.x + 14,
+    fy = P.y + 74,
+    fw = P.w - 28,
+    fh = 192;
+  ctx.fillStyle = "rgba(46, 125, 50, 0.42)";
+  rrect(fx, fy, fw, fh, 14);
+  ctx.fill();
+
+  // Claros de césped más claros en el suelo donde puede caer basura
+  ctx.fillStyle = "rgba(129, 199, 132, 0.35)";
+  [
+    { x: 186, y: 520, rx: 32, ry: 15 },
+    { x: 320, y: 520, rx: 32, ry: 15 },
+    { x: 145, y: 584, rx: 34, ry: 15 },
+    { x: 286, y: 584, rx: 34, ry: 15 },
+    { x: 422, y: 584, rx: 30, ry: 15 },
+  ].forEach((cl) => {
+    ctx.beginPath();
+    ctx.ellipse(cl.x, cl.y, cl.rx, cl.ry, 0, 0, Math.PI * 2);
+    ctx.fill();
+  });
+
+  // Sotobosque abundante: plantas nativas, pastizales, helechos y hongos
+  const forestPlants = [
+    { e: "🌿", x: 48, y: 480, s: 17 },
+    { e: "🌾", x: 92, y: 476, s: 16 },
+    { e: "🌱", x: 148, y: 468, s: 15 },
+    { e: "🌿", x: 206, y: 474, s: 17 },
+    { e: "🌾", x: 268, y: 472, s: 16 },
+    { e: "🌿", x: 326, y: 474, s: 17 },
+    { e: "🌱", x: 386, y: 476, s: 15 },
+    { e: "🌿", x: 448, y: 482, s: 17 },
+    { e: "🍄", x: 88, y: 538, s: 14 },
+    { e: "🌿", x: 222, y: 536, s: 17 },
+    { e: "🌾", x: 284, y: 540, s: 16 },
+    { e: "🍄", x: 416, y: 544, s: 14 },
+    { e: "🌿", x: 48, y: 598, s: 18 },
+    { e: "🌾", x: 112, y: 596, s: 16 },
+    { e: "🌿", x: 180, y: 598, s: 17 },
+    { e: "🌱", x: 250, y: 598, s: 16 },
+    { e: "🌿", x: 324, y: 596, s: 17 },
+    { e: "🌾", x: 392, y: 598, s: 16 },
+  ];
+  forestPlants.forEach((d) => emoji(d.e, d.x, d.y, d.s));
+
+  // Árboles grandes y frondosos del bosque (15 árboles)
+  n.trees.forEach((t) => {
+    const tSize = t.size || 56;
+    ctx.fillStyle = "rgba(0,0,0,0.2)";
+    ctx.beginPath();
+    ctx.ellipse(t.x, t.y + 23, 25, 9, 0, 0, Math.PI * 2);
+    ctx.fill();
+
+    if (t.estado === "sano") {
+      emoji(t.emoji, t.x, t.y, tSize);
+    } else if (t.estado === "fuego") {
+      const pulse = 0.55 + 0.35 * Math.sin(state.time * 8);
+      ctx.fillStyle = `rgba(255, 87, 34, ${pulse})`;
+      ctx.beginPath();
+      ctx.arc(t.x, t.y, 32, 0, Math.PI * 2);
+      ctx.fill();
+
+      emoji(t.emoji, t.x, t.y, tSize - 2);
+      const flameBob = prefersReducedMotion ? 0 : Math.sin(state.time * 14) * 3;
+      emoji("🔥", t.x + 4, t.y + 4 + flameBob, 34);
+
+      barra(t.x - 28, t.y - 36, 56, 6, t.fireTimer / 14, "#ff3d00");
+
+      ctx.fillStyle = "#0288d1";
+      rrect(t.x - 34, t.y + 18, 68, 18, 6);
+      ctx.fill();
+      texto("💧 ¡Apagar!", t.x, t.y + 31, 10.5, "#fff", "center", "900");
+
+      addClickable({ x: t.x - 38, y: t.y - 38, w: 76, h: 76 }, () => {
+        t.estado = "sano";
+        t.fireTimer = 0;
+        state.puntos += 12;
+        unlockAchievement("fire_hero");
+        playSound("water");
+        spawnParticles(t.x, t.y, 8, ["💧", "✨", "🌲"]);
+        decir("🚒 ¡Apagaste el foco de incendio a tiempo! Salvaste el árbol y el hogar de Kimün.");
+        stats();
+      });
+    } else if (t.estado === "quemado") {
+      emoji("🪵", t.x, t.y + 6, 36);
+      ctx.fillStyle = state.compost > 0 || state.humus > 0 ? "#4caf50" : "#757575";
+      rrect(t.x - 38, t.y + 18, 76, 18, 6);
+      ctx.fill();
+      texto("🌱 Replantar", t.x, t.y + 31, 10.5, "#fff", "center", "900");
+
+      addClickable({ x: t.x - 38, y: t.y - 26, w: 76, h: 68 }, () => {
+        if (state.compost > 0 || state.humus > 0) {
+          if (state.compost > 0) state.compost--;
+          else state.humus--;
+          t.estado = "sano";
+          state.puntos += 10;
+          playSound("success");
+          spawnParticles(t.x, t.y, 7, ["🌱", "🌲", "✨"]);
+          decir("🌱 ¡Replantaste un árbol nativo usando abono de la Granja!");
+          stats();
+        } else {
+          showHint(t.x, t.y, "Necesitás 1 Compost ♻️ o Humus 🪱");
+        }
+      });
+    }
+  });
+
+  // Fauna autóctona de San Luis (hábitat natural de Kimün)
+  const faunaSanLuis = [
+    {
+      emoji: "🦌",
+      nombre: "Venado de las Pampas",
+      x: 154,
+      y: 486,
+      size: 25,
+      phase: 0.5,
+      msg: "🦌 Venado de las Pampas: Monumento Natural de San Luis que habita nuestros pastizales y montes.",
+    },
+    {
+      emoji: "🦉",
+      nombre: "Lechucita serrana",
+      x: 235,
+      y: 428,
+      size: 21,
+      phase: 1.8,
+      msg: "🦉 Lechucita serrana: ¡Familia de Kimün! Vigila el bosque nativo desde las copas.",
+    },
+    {
+      emoji: "🦊",
+      nombre: "Zorro gris serrano",
+      x: 348,
+      y: 544,
+      size: 23,
+      phase: 3.1,
+      msg: "🦊 Zorro gris serrano: Habitante autóctono muy curioso de los montes y sierras de San Luis.",
+    },
+    {
+      emoji: "🐢",
+      nombre: "Tortuga terrestre",
+      x: 108,
+      y: 552,
+      size: 21,
+      phase: 4.4,
+      msg: "🐢 Tortuga terrestre argentina: Especie autóctona de nuestro monte que debemos proteger.",
+    },
+  ];
+  faunaSanLuis.forEach((an) => {
+    const bob = prefersReducedMotion ? 0 : Math.sin(state.time * 2.6 + an.phase) * 1.8;
+    emoji(an.emoji, an.x, an.y + bob, an.size);
+    addClickable({ x: an.x - 16, y: an.y - 16, w: 32, h: 32 }, () => {
+      playSound("pop");
+      spawnParticles(an.x, an.y, 4, ["✨", "🍃", an.emoji]);
+      showHint(an.x, an.y - 12, `${an.emoji} ${an.nombre}`);
+      decir(an.msg);
+    });
+  });
+
+  // Residuos tirados en los claros de césped (pequeños y proporcionados respecto a los árboles)
+  n.forestTrash.forEach((ft, idx) => {
+    ctx.fillStyle = "rgba(255, 255, 255, 0.88)";
+    ctx.beginPath();
+    ctx.arc(ft.x, ft.y, 13, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = "#e53935";
+    ctx.lineWidth = 1.8;
+    ctx.stroke();
+
+    emoji(ft.icon, ft.x, ft.y, 17);
+
+    addClickable({ x: ft.x - 19, y: ft.y - 19, w: 38, h: 38 }, () => {
+      collectToTrashBag(ft);
+      n.forestTrash.splice(idx, 1);
+      state.puntos += 5;
+      playSound("pop");
+      spawnParticles(ft.x, ft.y, 6, ["🎒", "🍃", "✨"]);
+      decir(`🌲 ¡Levantaste ${ft.icon} del césped! Guardado en tu 🎒 bolsa de reciclaje.`);
+      stats();
+    });
+  });
+
+  const healthyCount = n.trees.filter((t) => t.estado === "sano").length;
+  ctx.fillStyle = "rgba(255,255,255,0.95)";
+  rrect(P.x + 14, P.y + P.h - 38, P.w - 28, 26, 8);
+  ctx.fill();
+  texto(
+    `🌲 Árboles sanos: ${healthyCount}/${n.trees.length}  ·  🦌 Fauna protegida  ·  🎒 Bolsa: ${getTrashBagCount()}`,
+    P.x + P.w / 2,
+    P.y + P.h - 20,
+    12,
+    "#2b2b3d",
+    "center",
+    "800",
+  );
+}
+
+function renderNature() {
+  stationButtons.length = 0;
+  clickableAreas.length = 0;
+  paintChecker(NATURE_PATTERN);
+  ctx.fillStyle = "rgba(255, 255, 255, 0.18)";
+  ctx.fillRect(0, 0, W, H);
+
+  renderRio();
+  renderDique();
+  renderBosque();
+  renderPolinizadores();
 }
 
 function renderCorral() {
@@ -1676,9 +2482,23 @@ function renderHuerta() {
 
 function renderReciclaje() {
   drawPanel(P3_rec, "Reciclaje", "♻️");
+  const totalBag = getTrashBagCount();
+  ctx.fillStyle = "rgba(255, 255, 255, 0.92)";
+  rrect(P3_rec.x + P3_rec.w - 155, P3_rec.y - 15, 140, 34, 17);
+  ctx.fill();
+  texto(
+    `🎒 Bolsa: ${totalBag}`,
+    P3_rec.x + P3_rec.w - 85,
+    P3_rec.y + 8,
+    14,
+    totalBag > 0 ? "#2e7d32" : "#757575",
+    "center",
+    "900",
+  );
+
   if (state.trash) {
     texto(
-      "Tocá el tacho correcto:",
+      "Tocá el tacho correcto para clasificar:",
       P3_rec.x + P3_rec.w / 2, P3_rec.y + 152,
       15, "#2b2b3d", "center", "900",
     );
@@ -1689,11 +2509,25 @@ function renderReciclaje() {
     ctx.lineWidth = 3;
     ctx.stroke();
     emoji(state.trash.icon, TRASH_X + 45, TRASH_Y + 42, 48);
-  } else {
+  } else if (state.trashBag.length > 0) {
     texto(
-      "¡Excelente! Preparando próximo residuo...",
+      "¡Excelente! Sacando próximo residuo de la bolsa...",
       P3_rec.x + P3_rec.w / 2, P3_rec.y + 152,
-      15, "#2b2b3d", "center", "900",
+      14, "#2b2b3d", "center", "900",
+    );
+  } else {
+    ctx.fillStyle = "rgba(255, 255, 255, 0.92)";
+    rrect(P3_rec.x + 24, P3_rec.y + 62, P3_rec.w - 48, 66, 12);
+    ctx.fill();
+    texto(
+      "🎒 ¡Tu bolsa de clasificación está vacía!",
+      P3_rec.x + P3_rec.w / 2, P3_rec.y + 89,
+      14, "#2e7d32", "center", "900",
+    );
+    texto(
+      "Juntá más residuos en el Río 🌊 o el Bosque 🌲 (🏞️ Naturaleza)",
+      P3_rec.x + P3_rec.w / 2, P3_rec.y + 112,
+      12.5, "#2b2b3d", "center", "800",
     );
   }
   BINS.forEach((b, i) => {
@@ -1784,46 +2618,112 @@ function renderLumbricario() {
   }
 }
 
+function assignPollinatorToFlower(pollinator, preferredFlowerIdx = null) {
+  const closedIndices = state.flowers
+    .map((f, idx) => (f.estado === "cerrada" ? idx : -1))
+    .filter((idx) => idx !== -1);
+  if (closedIndices.length === 0) {
+    showHint(pollinator.x, pollinator.y, "¡Todas las flores ya están polinizadas! 🌸");
+    return;
+  }
+  const targetIdx =
+    preferredFlowerIdx !== null && state.flowers[preferredFlowerIdx].estado === "cerrada"
+      ? preferredFlowerIdx
+      : closedIndices[Math.floor(Math.random() * closedIndices.length)];
+  pollinator.target = targetIdx;
+  playSound("buzz");
+  spawnParticles(pollinator.x, pollinator.y, 4, ["✨", pollinator.emoji]);
+  decir(`${pollinator.emoji} ¡Volando a polinizar la flor!`);
+}
+
 function renderPolinizadores() {
-  drawPanel(P4_pol, "Polinizadores", "🐝");
-  ctx.fillStyle = isLightTheme ? "rgba(0,0,0,0.08)" : "rgba(0,0,0,0.3)";
-  rrect(P4_pol.x + 15, P4_pol.y + 46, P4_pol.w - 30, 24, 6);
+  const P = W4;
+  drawPanel(P, "Polinizadores", "🐝");
+  ctx.fillStyle = "rgba(255,255,255,0.95)";
+  rrect(P.x + 14, P.y + 42, P.w - 28, 26, 8);
   ctx.fill();
   texto(
-    "Tocá a los insectos (🐝 🦋 🪲) para que polinicen las flores",
-    P4_pol.x + P4_pol.w / 2, P4_pol.y + 62,
-    12, getTextColor(), "center", "800",
+    "Tocá a los insectos (🐝 🦋 🪲) o a las flores para polinizar",
+    P.x + P.w / 2,
+    P.y + 59,
+    12,
+    "#2b2b3d",
+    "center",
+    "800",
   );
 
-  state.flowers.forEach((f) => {
+  // Pradera de flores
+  ctx.fillStyle = "rgba(255, 255, 255, 0.22)";
+  rrect(P.x + 14, P.y + 74, P.w - 28, 192, 14);
+  ctx.fill();
+
+  state.flowers.forEach((f, idx) => {
     ctx.fillStyle = "#6d451f";
     ctx.beginPath();
-    ctx.ellipse(f.x, f.y, 25, 10, 0, 0, Math.PI * 2);
+    ctx.ellipse(f.x, f.y, 24, 8, 0, 0, Math.PI * 2);
     ctx.fill();
-    if (f.estado === "cerrada") emoji("🌱", f.x, f.y - 18, 26);
-    else {
-      emoji(f.emoji, f.x, f.y - 22, 32);
-      emoji("🍎", f.x + 15, f.y - 35, 20);
+
+    if (f.estado === "cerrada") {
+      emoji("🌱", f.x, f.y - 18, 28);
+      addClickable({ x: f.x - 26, y: f.y - 42, w: 52, h: 50 }, () => {
+        const freePol =
+          state.pollinators.find((p) => p.target === null) || state.pollinators[0];
+        assignPollinatorToFlower(freePol, idx);
+      });
+    } else {
+      emoji(f.emoji, f.x, f.y - 22, 34);
+      emoji("🍎", f.x + 15, f.y - 34, 20);
+      addClickable({ x: f.x - 26, y: f.y - 44, w: 52, h: 52 }, () => {
+        f.estado = "cerrada";
+        f.timer = 0;
+        state.frutas += 1;
+        state.puntos += 5;
+        playSound("pop");
+        spawnParticles(f.x, f.y - 22, 6, ["🍎", "✨", f.emoji]);
+        decir("🍎 ¡Cosechaste un fruto silvestre de la flor polinizada!");
+        stats();
+      });
     }
   });
 
   state.pollinators.forEach((p) => {
-    if (p.target !== null) {
+    if (p.target !== null && state.flowers[p.target]) {
       ctx.beginPath();
       ctx.setLineDash([6, 4]);
-      ctx.strokeStyle = isLightTheme ? "rgba(0,0,0,0.5)" : "rgba(255,255,255,0.9)";
-      ctx.lineWidth = 2;
+      ctx.strokeStyle = "rgba(255, 255, 255, 0.85)";
+      ctx.lineWidth = 2.5;
       ctx.moveTo(p.x, p.y);
-      ctx.lineTo(state.flowers[p.target].x, state.flowers[p.target].y - 20);
+      ctx.lineTo(state.flowers[p.target].x, state.flowers[p.target].y - 22);
       ctx.stroke();
       ctx.setLineDash([]);
     }
-    const bobY = prefersReducedMotion ? 0 : Math.sin(state.time * 8 + p.angle) * 2;
+    const bobY = prefersReducedMotion ? 0 : Math.sin(state.time * 8 + p.angle) * 3;
     ctx.save();
     ctx.translate(p.x, p.y + bobY);
-    emoji(p.emoji, 0, 0, 26);
+    ctx.fillStyle = "rgba(255, 255, 255, 0.75)";
+    ctx.beginPath();
+    ctx.arc(0, 0, 22, 0, Math.PI * 2);
+    ctx.fill();
+    emoji(p.emoji, 0, 0, 30);
     ctx.restore();
+
+    addClickable({ x: p.x - 26, y: p.y - 26, w: 52, h: 52 }, () => {
+      assignPollinatorToFlower(p);
+    });
   });
+
+  ctx.fillStyle = "rgba(255,255,255,0.95)";
+  rrect(P.x + 14, P.y + P.h - 38, P.w - 28, 26, 8);
+  ctx.fill();
+  texto(
+    "🌺 Cada flor polinizada produce +1 🍎 Fruta y puede darte semillas 🌱",
+    P.x + P.w / 2,
+    P.y + P.h - 20,
+    12,
+    "#2b2b3d",
+    "center",
+    "800",
+  );
 }
 
 const SEED_MENU = {
@@ -1943,7 +2843,9 @@ function loop(now) {
   ctx.imageSmoothingQuality = "high";
 
   if (isPlaying) {
-    if (state.workshopMode) {
+    if (state.natureMode) {
+      renderNature();
+    } else if (state.workshopMode) {
       renderWorkshop();
     } else {
       clickableAreas.length = 0;
@@ -1990,7 +2892,7 @@ canvas.addEventListener("click", (e) => {
   if (!isPlaying) return;
   if (!audioCtx) initAudio();
   const { x, y } = posicion(e);
-  if (state.workshopMode) {
+  if (state.natureMode || state.workshopMode) {
     handleWorkshopClick(x, y);
     return;
   }
@@ -2186,27 +3088,28 @@ canvas.addEventListener("click", (e) => {
         if (b.tipo === state.trash.tipo) {
           state.puntos += 10;
           state.compost += 1;
+          state.nature.riverPurity = Math.min(100, state.nature.riverPurity + 4);
           if (state.trash.tipo === "organico") {
             addWormFood(25);
-            decir("✅ ¡Correcto! Al la lombricompostera.");
+            decir("✅ ¡Correcto! A la lombricompostera y ayudás a cuidar el río 🌊.");
           } else {
             state.materialReciclado += 1;
             if (Math.random() < 0.3) {
               const rc = CROPS[Math.floor(Math.random() * CROPS.length)];
               state.seeds[rc.name]++;
               decir(`✅ ¡Correcto! +1 Material y semilla de ${rc.name} ${rc.emoji}`);
-            } else decir("✅ ¡Correcto! +1 Material.");
+            } else decir("✅ ¡Correcto! +1 Material reciclado y río más limpio 🌊.");
           }
           spawnParticles(r.x + r.w / 2, r.y + 40, 8, ["✨", "⭐", "🌟"]);
           playSound("success");
+          state.trash = null;
+          state.trashTimer = 0.7;
           stats();
         } else {
           if (!state.binShake) state.binShake = [0, 0, 0, 0, 0];
           state.binShake[i] = 0.5;
           showHint(r.x + r.w / 2, r.y + r.h / 2, `Casi… el ${state.trash.icon} no va en ${b.nombre}`);
         }
-        state.trash = null;
-        state.trashTimer = 1.2;
       }
     });
   }
@@ -2214,8 +3117,10 @@ canvas.addEventListener("click", (e) => {
   if (!interacted) playSound("pop");
 });
 
+// Inicializamos la bolsa con 2 residuos inorgánicos para clasificar
+collectToTrashBag(BASURA_INORGANICA[Math.floor(Math.random() * BASURA_INORGANICA.length)]);
+collectToTrashBag(BASURA_INORGANICA[Math.floor(Math.random() * BASURA_INORGANICA.length)]);
 stats();
-nuevoResiduo();
 resizeCanvas();
 requestAnimationFrame(loop);
-switchView("farm");
+switchView("nature");
